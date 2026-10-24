@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1000,
+  "updatedAt": 1792816413113,
   "adminAuth": {
     "username": "admin",
     "password": "123456"
@@ -7,9 +7,9 @@
   "brand": {
     "name": "TUẤN KHẢI",
     "tagline": "NỘI THẤT NHỰA CAO CẤP",
-    "logoUrl": "",
-    "accentColor": "#2C5E6E",
+    "accentColor": "#2c5e6e",
     "topbarPromo": "✨ Miễn phí khảo sát đo đạc tận nơi & thiết kế 3D cho Tủ quần áo, Tủ bếp, Giường, Tủ Tivi, Kệ nhựa cao cấp",
+    "logoUrl": "",
     "heroBg": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
     "heroBadge": "CATALOG NỘI THẤT NHỰA CAO CẤP 2026",
     "heroTitle": "Giải Pháp Nội Thất Nhựa Cao Cấp — Chống Nước, Bền Đẹp Vượt Thời Gian",
