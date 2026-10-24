@@ -7,9 +7,104 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261024_anim1" />
+  <style>
+    /* Critical Inline Animated Background Styles (Cache-Proof & 60FPS GPU Accelerated) */
+    .ambient-bg-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: radial-gradient(circle at 15% 15%, rgba(44, 94, 110, 0.12), transparent 45%),
+                  radial-gradient(circle at 85% 25%, rgba(200, 155, 101, 0.14), transparent 50%),
+                  radial-gradient(circle at 50% 85%, rgba(58, 148, 168, 0.12), transparent 55%),
+                  linear-gradient(180deg, #F4F8FB 0%, #E8F1F6 50%, #F6F3EC 100%);
+    }
+    .ambient-grid-pattern {
+      position: absolute;
+      inset: -120px;
+      background-image:
+        linear-gradient(to right, rgba(44, 94, 110, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(44, 94, 110, 0.06) 1px, transparent 1px);
+      background-size: 56px 56px;
+      animation: ambientGridPan 26s linear infinite;
+    }
+    @keyframes ambientGridPan {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(56px, 56px, 0); }
+    }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(65px);
+      opacity: 0.6;
+      will-change: transform;
+    }
+    .ambient-orb.orb-1 {
+      width: 480px; height: 480px; top: -8%; left: -6%;
+      background: radial-gradient(circle, rgba(44, 94, 110, 0.45) 0%, rgba(44, 94, 110, 0) 70%);
+      animation: floatOrb1 20s ease-in-out infinite alternate;
+    }
+    .ambient-orb.orb-2 {
+      width: 520px; height: 520px; top: 30%; right: -10%;
+      background: radial-gradient(circle, rgba(200, 155, 101, 0.42) 0%, rgba(200, 155, 101, 0) 70%);
+      animation: floatOrb2 24s ease-in-out infinite alternate;
+    }
+    .ambient-orb.orb-3 {
+      width: 460px; height: 460px; bottom: -10%; left: 22%;
+      background: radial-gradient(circle, rgba(52, 142, 162, 0.38) 0%, rgba(52, 142, 162, 0) 70%);
+      animation: floatOrb3 22s ease-in-out infinite alternate;
+    }
+    @keyframes floatOrb1 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(130px, 85px, 0) scale(1.15); }
+      100% { transform: translate3d(45px, 160px, 0) scale(0.95); }
+    }
+    @keyframes floatOrb2 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-140px, 95px, 0) scale(1.12); }
+      100% { transform: translate3d(-60px, -90px, 0) scale(0.92); }
+    }
+    @keyframes floatOrb3 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(110px, -110px, 0) scale(1.18); }
+      100% { transform: translate3d(-90px, -40px, 0) scale(0.96); }
+    }
+    #ambientParticleCanvas, #heroParticleCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #heroParticleCanvas { z-index: 1; }
+    .hero-content { position: relative; z-index: 2; }
+    .topbar, .header, .hero, .features-strip, .section, .footer { position: relative; z-index: 1; }
+    .section { background: transparent !important; }
+    .section-alt { background: rgba(235, 243, 249, 0.62) !important; backdrop-filter: blur(6px); }
+    .features-strip { background: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(12px); }
+    .hero-badge { animation: badgeFloat 3.4s ease-in-out infinite; box-shadow: 0 0 22px rgba(200, 155, 101, 0.4); }
+    @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .btn-primary { position: relative; overflow: hidden; }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -120%; width: 65%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+      transform: skewX(-22deg); animation: btnShimmerSweep 4s infinite; pointer-events: none;
+    }
+    @keyframes btnShimmerSweep { 0% { left: -120%; } 30%, 100% { left: 160%; } }
+  </style>
 </head>
 <body>
+
+  <!-- Dynamic Animated Showroom Background -->
+  <div class="ambient-bg-wrapper" aria-hidden="true">
+    <div class="ambient-grid-pattern"></div>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <canvas id="ambientParticleCanvas"></canvas>
+  </div>
 
   <!-- Admin Quick Control Bar (Visible when logged into Admin on this browser) -->
   <div class="admin-Control-bar" id="adminQuickBar" style="display: none;">
@@ -67,6 +162,7 @@
   <!-- Hero Section -->
   <section class="hero" id="home">
     <div class="hero-overlay"></div>
+    <canvas id="heroParticleCanvas" aria-hidden="true"></canvas>
     <div class="container hero-content">
       <span class="hero-badge" id="heroBadge">CATALOG NỘI THẤT NHỰA CAO CẤP 2026</span>
       <h1 id="heroTitle">Giải Pháp Nội Thất Nhựa Cao Cấp — Chống Nước, Bền Đẹp Vượt Thời Gian</h1>
@@ -365,6 +461,123 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast">Thông báo</div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261024_anim1"></script>
+  <script>
+    // 60FPS GPU-Friendly Interactive Particle & Light Network Engine
+    (function initShowroomAnimations() {
+      function setupParticleCanvas(canvasId, opts) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = 0, height = 0;
+        const isMobile = window.innerWidth < 768;
+        const count = isMobile ? opts.mobileCount : opts.desktopCount;
+        const particles = [];
+        const mouse = { x: -9999, y: -9999 };
+
+        function resize() {
+          const rect = canvas.parentElement.getBoundingClientRect();
+          width = canvas.width = opts.fixedFullscreen ? window.innerWidth : rect.width;
+          height = canvas.height = opts.fixedFullscreen ? window.innerHeight : rect.height;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        window.addEventListener('mousemove', e => {
+          if (opts.fixedFullscreen) {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+          } else {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+          }
+        });
+
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * (width || window.innerWidth),
+            y: Math.random() * (height || window.innerHeight),
+            vx: (Math.random() - 0.5) * opts.speed,
+            vy: (Math.random() - 0.5) * opts.speed,
+            r: Math.random() * 2.4 + 1.2,
+            gold: Math.random() > 0.45
+          });
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            // Subtle mouse interaction
+            const dxM = mouse.x - p.x;
+            const dyM = mouse.y - p.y;
+            const distM = Math.hypot(dxM, dyM);
+            if (distM < 130 && distM > 0) {
+              p.x -= (dxM / distM) * 0.45;
+              p.y -= (dyM / distM) * 0.45;
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.gold ? opts.goldColor : opts.tealColor;
+            ctx.fill();
+
+            // Connect nearby particles with delicate architectural lines
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const dx = p.x - p2.x;
+              const dy = p.y - p2.y;
+              const dist = Math.hypot(dx, dy);
+              if (dist < opts.linkDist) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                const alpha = (1 - dist / opts.linkDist) * opts.lineAlpha;
+                ctx.strokeStyle = opts.lineColor.replace('ALPHA', alpha.toFixed(3));
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }
+            }
+          }
+          requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+      }
+
+      // 1. Hero Banner Glowing Gold & Aqua Constellation
+      setupParticleCanvas('heroParticleCanvas', {
+        fixedFullscreen: false,
+        desktopCount: 38,
+        mobileCount: 18,
+        speed: 0.45,
+        linkDist: 135,
+        lineAlpha: 0.26,
+        goldColor: 'rgba(225, 182, 122, 0.78)',
+        tealColor: 'rgba(130, 215, 235, 0.65)',
+        lineColor: 'rgba(215, 175, 120, ALPHA)'
+      });
+
+      // 2. Full-Page Ambient Architectural Floating Network
+      setupParticleCanvas('ambientParticleCanvas', {
+        fixedFullscreen: true,
+        desktopCount: 42,
+        mobileCount: 20,
+        speed: 0.38,
+        linkDist: 145,
+        lineAlpha: 0.18,
+        goldColor: 'rgba(200, 155, 101, 0.55)',
+        tealColor: 'rgba(44, 94, 110, 0.42)',
+        lineColor: 'rgba(44, 94, 110, ALPHA)'
+      });
+    })();
+  </script>
 </body>
 </html>
