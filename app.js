@@ -175,28 +175,7 @@ async function fetchRemoteCatalogData() {
     if (cfg.token) token = cfg.token;
   } catch (e) {}
 
-  // 1. If token is available locally, use authenticated GitHub API (5000 req/hr, 0s delay)
-  if (token) {
-    try {
-      const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json'
-        }
-      });
-      if (apiRes.ok) {
-        const info = await apiRes.json();
-        if (info && info.content) {
-          const cleanB64 = info.content.replace(/\s/g, '');
-          const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
-          return JSON.parse(jsonStr);
-        }
-      }
-    } catch (e) {}
-  }
-
-  // 2. Fetch from raw.githubusercontent.com (no 60-req/hr API limit)
+  // 1. Fetch from raw.githubusercontent.com (no 1MB limit and no 60-req/hr API limit)
   try {
     const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data.json?t=${Date.now()}`, {
       cache: 'no-store'
@@ -206,7 +185,7 @@ async function fetchRemoteCatalogData() {
     }
   } catch (e) {}
 
-  // 3. Fallback to local/static data.json
+  // 2. Fallback to local/static data.json
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {

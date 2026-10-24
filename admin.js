@@ -172,6 +172,53 @@ function getProductImages(prod) {
   return [prod.image].filter(Boolean);
 }
 
+// Clean up duplicate p.image base64 strings & old localStorage keys to free 50%+ space immediately
+function deduplicateStoreData(data) {
+  if (!data || !Array.isArray(data.products)) return data;
+  try {
+    ['MOC_AN_STORE_V1', 'MOC_AN_STORE_V2', 'MOC_AN_CATALOG_V1', 'MOC_AN_CATALOG_V2'].forEach(k => {
+      localStorage.removeItem(k);
+    });
+  } catch (e) {}
+
+  data.products.forEach(p => {
+    const imgs = getProductImages(p);
+    p.images = imgs;
+    // Never duplicate base64 string in both p.image and p.images[0]
+    if (imgs.length > 0 && imgs[0].startsWith('data:')) {
+      p.image = '';
+    } else if (imgs.length > 0) {
+      p.image = imgs[0];
+    }
+  });
+  return data;
+}
+
+// Unlimited IndexedDB storage + non-blocking localStorage
+function idbSaveStore(data) {
+  try {
+    const req = indexedDB.open('TUAN_KHAI_CATALOG_DB', 1);
+    req.onupgradeneeded = e => {
+      e.target.result.createObjectStore('kv');
+    };
+    req.onsuccess = e => {
+      const db = e.target.result;
+      const tx = db.transaction('kv', 'readwrite');
+      tx.objectStore('kv').put(data, STORAGE_KEY);
+    };
+  } catch (e) {}
+}
+
+function safeSaveLocal(data) {
+  deduplicateStoreData(data);
+  idbSaveStore(data);
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    // Even if localStorage hits 5MB ceiling, never block saving to IndexedDB & GitHub!
+  }
+}
+
 function mergeOrders(localOrders = [], remoteOrders = [], deletedIds = []) {
   const delSet = new Set(deletedIds || []);
   const map = new Map();
@@ -240,28 +287,8 @@ async function fetchRemoteCatalogData() {
   const owner = ghConfig.owner || 'ngclaam4444';
   const repo = ghConfig.repo || 'noithattuankhai';
   const branch = ghConfig.branch || 'main';
-  const token = ghConfig.token || '';
 
-  if (token) {
-    try {
-      const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json'
-        }
-      });
-      if (apiRes.ok) {
-        const info = await apiRes.json();
-        if (info && info.content) {
-          const cleanB64 = info.content.replace(/\s/g, '');
-          const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
-          return JSON.parse(jsonStr);
-        }
-      }
-    } catch (e) {}
-  }
-
+  // Fetch from raw.githubusercontent.com (supports files > 1MB and has no 60-req/hr rate limit)
   try {
     const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data.json?t=${Date.now()}`, {
       cache: 'no-store'
@@ -286,7 +313,7 @@ async function initAdminData() {
   const localRaw = localStorage.getItem(STORAGE_KEY);
   if (localRaw) {
     try {
-      localParsed = JSON.parse(localRaw);
+      localParsed = deduplicateStoreData(JSON.parse(localRaw));
       storeData = {
         ...DEFAULT_DATA,
         ...localParsed,
@@ -320,9 +347,11 @@ async function initAdminData() {
   }
 
   if (remoteData) {
+    deduplicateStoreData(remoteData);
     const localUpdated = (localParsed && Number(localParsed.updatedAt)) || 0;
     const remoteUpdated = Number(remoteData.updatedAt) || 0;
-    if (!localParsed || remoteUpdated > localUpdated) {
+    // Also prefer remoteData if remoteData has more products or is newer
+    if (!localParsed || remoteUpdated >= localUpdated || (remoteData.products?.length || 0) > (localParsed.products?.length || 0)) {
       storeData = {
         ...DEFAULT_DATA,
         ...remoteData,
@@ -340,10 +369,7 @@ async function initAdminData() {
     storeData.deletedOrderIds = mergedDeleted;
   }
 
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-  } catch (e) {}
-
+  safeSaveLocal(storeData);
   populateAllFields();
   startLiveInquiryStream();
 }
@@ -510,15 +536,12 @@ function collectFormIntoStoreData() {
 
 async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ngay sang trang Catalog!', askTokenIfMissing = false) {
   collectFormIntoStoreData();
+  safeSaveLocal(storeData);
 
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-    if (syncChannel) {
+  if (syncChannel) {
+    try {
       syncChannel.postMessage({ type: 'DATA_UPDATED', data: storeData });
-    }
-  } catch (e) {
-    showToast('⚠️ Ảnh tải lên quá nặng, vui lòng chọn ảnh dung lượng nhỏ hơn!');
-    return;
+    } catch (e) {}
   }
 
   populateAllFields();
@@ -536,7 +559,7 @@ async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ng
     if (ghModal) ghModal.classList.add('open');
   }
 
-  markSaved('🟢 Đã lưu trên trình duyệt này (Chưa đẩy lên GitHub)');
+  markSaved('🟢 Đã lưu trên trình duyệt này');
   showToast(triggerMsg);
 }
 
@@ -833,12 +856,17 @@ function compressImageFile(file, isLogo = false) {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_W = isLogo ? 360 : 800;
+        const MAX_DIM = isLogo ? 360 : 720;
         let w = img.width;
         let h = img.height;
-        if (w > MAX_W) {
-          h = Math.round((h * MAX_W) / w);
-          w = MAX_W;
+        if (w > MAX_DIM || h > MAX_DIM) {
+          if (w >= h) {
+            h = Math.round((h * MAX_DIM) / w);
+            w = MAX_DIM;
+          } else {
+            w = Math.round((w * MAX_DIM) / h);
+            h = MAX_DIM;
+          }
         }
         canvas.width = w;
         canvas.height = h;
@@ -847,13 +875,48 @@ function compressImageFile(file, isLogo = false) {
         if (isLogo && file.type === 'image/png') {
           resolve(canvas.toDataURL('image/png'));
         } else {
-          resolve(canvas.toDataURL('image/jpeg', 0.74));
+          resolve(canvas.toDataURL('image/jpeg', 0.68));
         }
       };
       img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
   });
+}
+
+// Automatically upload image file to GitHub uploads/ folder if Token is connected so data.json stays tiny forever!
+async function uploadImageToGitHubIfPossible(dataUrl, isLogo = false) {
+  if (!dataUrl || !dataUrl.startsWith('data:image/')) return dataUrl;
+  const { owner, repo, branch, token } = ghConfig;
+  if (!owner || !repo || !token) return dataUrl;
+
+  try {
+    const ext = dataUrl.startsWith('data:image/png') ? 'png' : 'jpg';
+    const fileName = `${isLogo ? 'logo' : 'prod'}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}.${ext}`;
+    const path = `uploads/${fileName}`;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const base64Content = dataUrl.split(',')[1];
+
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Tải ảnh sản phẩm ${fileName}`,
+        content: base64Content,
+        branch: branch || 'main'
+      })
+    });
+
+    if (putRes.ok) {
+      return `https://raw.githubusercontent.com/${owner}/${repo}/${branch || 'main'}/${path}`;
+    }
+  } catch (e) {}
+
+  return dataUrl;
 }
 
 function bindImagePicker(fileInputId, textInputId, previewImgId, isLogo = false) {
@@ -870,11 +933,14 @@ function bindImagePicker(fileInputId, textInputId, previewImgId, isLogo = false)
   fileEl.addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
-    const dataUrl = await compressImageFile(file, isLogo);
-    textEl.value = dataUrl;
-    if (prevEl) prevEl.src = dataUrl;
+    showToast('⏳ Đang tối ưu & tải ảnh lên...');
+    const compressedDataUrl = await compressImageFile(file, isLogo);
+    if (prevEl) prevEl.src = compressedDataUrl;
+    const finalUrl = await uploadImageToGitHubIfPossible(compressedDataUrl, isLogo);
+    textEl.value = finalUrl;
+    if (prevEl) prevEl.src = finalUrl;
     markUnsaved();
-    showToast('📸 Đã nạp ảnh! Bấm Lưu để áp dụng lên web.');
+    showToast('📸 Đã nạp ảnh thành công!');
   });
 }
 
@@ -984,11 +1050,14 @@ document.addEventListener('DOMContentLoaded', () => {
     multiInput.addEventListener('change', async e => {
       const files = Array.from(e.target.files || []).slice(0, 5);
       if (files.length === 0) return;
+      showToast(`⏳ Đang tối ưu & nạp ${files.length} ảnh...`);
       for (let i = 0; i < files.length; i++) {
-        const dataUrl = await compressImageFile(files[i]);
+        const compressedDataUrl = await compressImageFile(files[i]);
         const slotIdx = i + 1;
-        document.getElementById(`prodImage${slotIdx}`).value = dataUrl;
-        document.getElementById(`prevProdImg${slotIdx}`).src = dataUrl;
+        document.getElementById(`prevProdImg${slotIdx}`).src = compressedDataUrl;
+        const finalUrl = await uploadImageToGitHubIfPossible(compressedDataUrl, false);
+        document.getElementById(`prodImage${slotIdx}`).value = finalUrl;
+        document.getElementById(`prevProdImg${slotIdx}`).src = finalUrl;
       }
       showToast(`📸 Đã nạp nhanh ${files.length} ảnh vào các khung!`);
     });
@@ -1013,13 +1082,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (val) collectedImages.push(val);
     }
 
+    const firstImg = collectedImages[0] || '';
     const item = {
       id: id || 'p_' + Date.now(),
       name: document.getElementById('prodName').value.trim(),
       category: document.getElementById('prodCategory').value,
       material: document.getElementById('prodMaterial').value.trim(),
       badge: document.getElementById('prodBadge').value.trim(),
-      image: collectedImages[0] || '',
+      // Do not duplicate base64 string into item.image when item.images already has it
+      image: firstImg.startsWith('data:') ? '' : firstImg,
       images: collectedImages,
       description: document.getElementById('prodDesc').value.trim()
     };

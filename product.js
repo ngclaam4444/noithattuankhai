@@ -177,26 +177,7 @@ async function fetchRemoteCatalogData() {
     if (cfg.token) token = cfg.token;
   } catch (e) {}
 
-  if (token) {
-    try {
-      const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json'
-        }
-      });
-      if (apiRes.ok) {
-        const info = await apiRes.json();
-        if (info && info.content) {
-          const cleanB64 = info.content.replace(/\s/g, '');
-          const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
-          return JSON.parse(jsonStr);
-        }
-      }
-    } catch (e) {}
-  }
-
+  // 1. Fetch from raw.githubusercontent.com (no 1MB limit and no 60-req/hr API limit)
   try {
     const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data.json?t=${Date.now()}`, {
       cache: 'no-store'
@@ -206,6 +187,7 @@ async function fetchRemoteCatalogData() {
     }
   } catch (e) {}
 
+  // 2. Fallback to local/static data.json
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
@@ -390,13 +372,14 @@ function renderRelatedProducts() {
   const others = (storeData.products || []).filter(p => p.id !== currentProduct.id).slice(0, 4);
 
   grid.innerHTML = others.map(prod => {
-    const imgCount = getProductImages(prod).length;
+    const imgs = getProductImages(prod);
+    const imgCount = imgs.length;
     return `
       <article class="product-card">
         <a href="product.html?id=${encodeURIComponent(prod.id)}" class="product-media">
           ${prod.badge ? `<span class="product-badge">${prod.badge}</span>` : ''}
           <span class="photo-count-badge">📷 ${imgCount} ảnh</span>
-          <img src="${prod.image}" alt="${prod.name}" loading="lazy" />
+          <img src="${imgs[0] || prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=80'" />
         </a>
 
         <div class="product-body">
