@@ -818,40 +818,40 @@
         <input type="hidden" id="prodId" />
         <div class="form-grid">
           <div class="form-group">
-            <label>Tên sản phẩm *</label>
-            <input type="text" id="prodName" required placeholder="VD: Sofa Gỗ Óc Chó Kyoto" />
+            <label>Tên mẫu sản phẩm *</label>
+            <input type="text" id="prodName" required placeholder="VD: Tủ Quần Áo Nhựa Ecoplast Kịch Trần Cánh Kính" />
           </div>
           <div class="form-group">
-            <label>Danh mục *</label>
+            <label>Danh mục sản phẩm *</label>
             <select id="prodCategory">
-              <option value="Phòng khách">Phòng khách</option>
-              <option value="Phòng ăn">Phòng ăn</option>
-              <option value="Phòng ngủ">Phòng ngủ</option>
-              <option value="Phòng làm việc">Phòng làm việc</option>
-              <option value="Trang trí">Trang trí</option>
+              <option value="Tủ quần áo">Tủ quần áo</option>
+              <option value="Tủ bếp">Tủ bếp</option>
+              <option value="Giường ngủ">Giường ngủ</option>
+              <option value="Tủ tivi">Tủ tivi</option>
+              <option value="Kệ trang trí">Kệ trang trí</option>
             </select>
           </div>
         </div>
 
         <div class="form-grid">
           <div class="form-group">
-            <label>Giá bán (VNĐ) *</label>
-            <input type="number" id="prodPrice" required min="0" step="10000" placeholder="VD: 18500000" />
+            <label>Giá tham khảo (Nhập 0 để hiện "Liên hệ báo giá")</label>
+            <input type="number" id="prodPrice" min="0" step="10000" value="0" placeholder="VD: 12500000 hoặc nhập 0" />
           </div>
           <div class="form-group">
-            <label>Giá gốc trước giảm (VNĐ - tuỳ chọn)</label>
-            <input type="number" id="prodOldPrice" min="0" step="10000" placeholder="VD: 22000000" />
+            <label>Giá gốc trước ưu đãi (Tuỳ chọn)</label>
+            <input type="number" id="prodOldPrice" min="0" step="10000" placeholder="Để trống nếu không dùng" />
           </div>
         </div>
 
         <div class="form-grid">
           <div class="form-group">
-            <label>Chất liệu & Kích thước</label>
-            <input type="text" id="prodMaterial" placeholder="VD: Gỗ Sồi Nga | 220x90x80cm" />
+            <label>Chất liệu nhựa & Kích thước</label>
+            <input type="text" id="prodMaterial" placeholder="VD: Nhựa Ecoplast / Picomat / ChinHuei | May đo theo phòng" />
           </div>
           <div class="form-group">
             <label>Nhãn nổi bật (Badge)</label>
-            <input type="text" id="prodBadge" placeholder="VD: Bán chạy, Mới, -15%" />
+            <input type="text" id="prodBadge" placeholder="VD: Chống nước 100%, Mẫu Hot 2026..." />
           </div>
         </div>
 

@@ -1,28 +1,27 @@
-const STORAGE_KEY = 'MOC_AN_SHARED_DATA_V2';
-const CART_KEY = 'MOC_AN_CART_V2';
+const STORAGE_KEY = 'MOC_AN_PLASTIC_CATALOG_V3';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
 const FALLBACK_DATA = {
   brand: {
-    name: 'MỘC AN',
-    tagline: 'INTERIOR & LIVING',
+    name: 'TUẤN KHẢI',
+    tagline: 'NỘI THẤT NHỰA CAO CẤP',
     logoUrl: '',
-    accentColor: '#8C583A',
-    topbarPromo: '✨ Miễn phí vận chuyển & lắp đặt nội thành cho đơn hàng từ 10.000.000đ',
-    heroBg: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=85',
-    heroBadge: 'BỘ SƯU TẬP MỚI 2026',
-    heroTitle: 'Kiến Tạo Không Gian Sống Đậm Chất Nghệ Thuật',
-    heroSubtitle: 'Sự giao thoa hoàn hảo giữa gỗ tự nhiên tuyển chọn và phong cách thiết kế đương đại ấm cúng, mang lại cảm giác bình yên cho tổ ấm của bạn.',
-    storyImg: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
-    storyTitle: 'Hành Trình Đưa Sự Ấm Áp Tự Nhiên Vào Từng Ngôi Nhà Việt',
-    storyP1: 'Khởi nguồn từ xưởng mộc thủ công truyền thống, Mộc An Living ra đời với khát vọng tạo nên những sản phẩm nội thất vừa mang nét thanh lịch đương đại, vừa giữ trọn vẹn hơi thở mộc mạc, ấm áp của gỗ tự nhiên.',
-    storyP2: 'Chúng tôi tin rằng ngôi nhà không chỉ là nơi để ở, mà là không gian nuôi dưỡng cảm xúc và gắn kết gia đình. Từng đường vân gỗ, từng mũi khâu da hay lớp đệm êm ái đều được chăm chút tỉ mỉ.'
+    accentColor: '#2C5E6E',
+    topbarPromo: '✨ Miễn phí khảo sát đo đạc tận nơi & thiết kế 3D cho Tủ quần áo, Tủ bếp, Giường, Tủ Tivi, Kệ nhựa cao cấp',
+    heroBg: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85',
+    heroBadge: 'CATALOG NỘI THẤT NHỰA CAO CẤP 2026',
+    heroTitle: 'Giải Pháp Nội Thất Nhựa Cao Cấp — Chống Nước, Bền Đẹp Vượt Thời Gian',
+    heroSubtitle: 'Chuyên thiết kế, sản xuất và thi công theo yêu cầu: Tủ quần áo kịch trần, Tủ bếp chống nước tuyệt đối, Giường ngủ, Tủ tivi và Kệ trang trí từ nhựa Ecoplast, Picomat, ChinHuei chính hãng.',
+    storyImg: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1200&q=80',
+    storyTitle: 'Vì Sao Nội Thất Nhựa Cao Cấp Là Lựa Chọn Hoàn Hảo Cho Ngôi Nhà Hiện Đại?',
+    storyP1: 'Khác biệt hoàn toàn với các dòng nhựa thông thường trước đây, nội thất nhựa cao cấp thế hệ mới (Ecoplast, Picomat, ChinHuei Đài Loan dày 2 lớp) sở hữu kết cấu gân chịu lực siêu cứng cáp, bề mặt phủ vân gỗ hoặc Acrylic bóng gương sang trọng không thua kém gỗ tự nhiên hay gỗ công nghiệp cao cấp.',
+    storyP2: 'Đặc biệt phù hợp với khí hậu Việt Nam: Chống nước 100%, tuyệt đối không ẩm mốc, không mối mọt, không cong vênh và an toàn tuyệt đối cho sức khoẻ gia đình. Mỗi sản phẩm đều được khảo sát, đo đạc và thiết kế may đo riêng cho từng không gian.'
   },
   contact: {
-    address: 'Số 128 Nguyễn Cơ Thạch, Khu đô thị Sala, Quận 2, TP. Hồ Chí Minh',
+    address: 'Xưởng & Showroom: Liên hệ để nhận vị trí chi tiết và xem mẫu ván nhựa thực tế',
     phone: '0909 888 999',
-    email: 'lienhe@mocanliving.vn',
-    hours: '08:30 - 21:00 (T2 - CN)',
+    email: 'lienhe@noithattuankhai.vn',
+    hours: '08:00 - 20:30 (Tất cả các ngày trong tuần)',
     facebook: 'https://facebook.com',
     zalo: 'https://zalo.me/0909888999',
     instagram: 'https://instagram.com'
@@ -30,133 +29,118 @@ const FALLBACK_DATA = {
   products: [
     {
       id: 'p1',
-      name: 'Sofa Văng Gỗ Óc Chó Bắc Mỹ Kyoto',
-      category: 'Phòng khách',
-      price: 28500000,
-      oldPrice: 32000000,
-      material: 'Gỗ Óc Chó & Da Bò Ý | 230x88x78cm',
-      badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
+      name: 'Tủ Quần Áo Nhựa Ecoplast Kịch Trần Cánh Kính Phối Đèn LED',
+      category: 'Tủ quần áo',
+      price: 12500000,
+      oldPrice: 0,
+      material: 'Nhựa Ecoplast Cao Cấp + Cánh Kính Khung Nhôm | May đo theo phòng',
+      badge: 'Mẫu Hot 2026',
+      image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80',
       images: [
-        'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Thiết kế tinh giản lấy cảm hứng từ phong cách Japandi, khung gỗ óc chó Bắc Mỹ nguyên khối kết hợp đệm bọc da bò thật mềm mại, nâng đỡ cột sống tối ưu.'
+      description: 'Mẫu tủ quần áo kịch trần tối ưu diện tích lưu trữ, thi công từ tấm nhựa nội thất Ecoplast cốt đặc dày dặn chống ẩm mốc tuyệt đối. Kết hợp khoang trưng bày túi xách cánh kính cường lực và hệ đèn LED cảm biến sang trọng.'
     },
     {
       id: 'p2',
-      name: 'Bàn Ăn Nguyên Tấm Gỗ Sồi Nga 6 Ghế Oslo',
-      category: 'Phòng ăn',
-      price: 19800000,
-      oldPrice: 23500000,
-      material: 'Gỗ Sồi Nga Tự Nhiên | 180x90x75cm',
-      badge: '-15%',
-      image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
+      name: 'Tủ Bếp Nhựa Đặc Picomat Phủ Acrylic Bóng Gương Chữ L',
+      category: 'Tủ bếp',
+      price: 18500000,
+      oldPrice: 0,
+      material: 'Thùng Nhựa Đặc Picomat Chống Nước 100% + Cánh Acrylic | Thiết kế theo bếp',
+      badge: 'Chống nước 100%',
+      image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80',
       images: [
-        'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Bộ bàn ăn 6 ghế bo góc mềm mại, an toàn cho gia đình có trẻ nhỏ. Bề mặt phủ dầu lau thực vật giữ nguyên vân gỗ tự nhiên và chống thấm nước.'
+      description: 'Giải pháp hoàn hảo nhất cho phòng bếp: Thùng tủ bếp dưới bằng nhựa đặc Picomat/Ecoplast ngâm nước không trương nở, triệt tiêu 100% nỗi lo mối mọt và ẩm mốc. Bề mặt cánh phủ Acrylic bóng gương dễ dàng lau sạch dầu mỡ.'
     },
     {
       id: 'p3',
-      name: 'Giường Ngủ Bọc Nỉ Linen Cao Cấp Cloud',
-      category: 'Phòng ngủ',
-      price: 16500000,
-      oldPrice: 18900000,
-      material: 'Khung Gỗ Tần Bì & Vải Linen Bỉ | 180x200cm',
-      badge: 'Mới 2026',
+      name: 'Giường Ngủ Nhựa Ecoplast Cao Cấp Tích Hợp Ngăn Kéo Đa Năng',
+      category: 'Giường ngủ',
+      price: 5800000,
+      oldPrice: 0,
+      material: 'Nhựa Ecoplast Gân Chịu Lực Dày Dặn | Kích thước 1m6x2m / 1m8x2m',
+      badge: 'Bền bỉ 15 năm',
       image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
       images: [
         'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
         'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1000&q=80',
         'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Tựa đầu giường êm ái như mây, bọc vải Linen Bỉ thoáng khí, kháng khuẩn. Kết cấu giạt giường gỗ tự nhiên chịu lực lên tới 500kg.'
+      description: 'Giường ngủ nhựa cao cấp kết cấu đan xương chịu tải trọng lớn tới 500kg, không phát tiếng kêu cọt kẹt. Tích hợp 2–3 ngăn kéo lớn bên hông giường giúp cất chăn ga gối đệm cực kỳ gọn gàng.'
     },
     {
       id: 'p4',
-      name: 'Ghế Thư Giãn Bọc Da Lounge Armchair',
-      category: 'Phòng khách',
-      price: 7900000,
-      oldPrice: 9200000,
-      material: 'Gỗ Tần Bì Uốn Cong & Da Microfiber | 78x82x80cm',
-      badge: 'Yêu thích',
-      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
+      name: 'Hệ Tủ Tivi Kết Hợp Vách Lam Sóng Nhựa Cao Cấp Phòng Khách',
+      category: 'Tủ tivi',
+      price: 6900000,
+      oldPrice: 0,
+      material: 'Nhựa Ecoplast Vân Gỗ Óc Chó & Lam Sóng PVC | Dài 2m0 - 2m6',
+      badge: 'Sang trọng',
+      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80',
       images: [
-        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Chiếc ghế thư giãn hoàn hảo cho góc đọc sách hoặc phòng khách hiện đại. Độ nghiêng lưng 105 độ chuẩn công thái học giúp thả lỏng cơ thể.'
+      description: 'Biến bức tường phòng khách trở nên đẳng cấp với hệ tủ Tivi treo hoặc đặt sàn kết hợp tủ rượu trang trí và vách lam sóng nhựa giả gỗ/giả đá chống ẩm tường tuyệt đối.'
     },
     {
       id: 'p5',
-      name: 'Bàn Làm Việc Giám Đốc Tại Gia Artisan',
-      category: 'Phòng làm việc',
-      price: 11200000,
+      name: 'Tủ Quần Áo Nhựa ChinHuei Đài Loan 4 Cánh Mở Kèm Bàn Trang Điểm',
+      category: 'Tủ quần áo',
+      price: 8900000,
       oldPrice: 0,
-      material: 'Gỗ Óc Chó & Chân Đồng Thau | 150x70x75cm',
-      badge: 'Cao cấp',
-      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
+      material: 'Nhựa ChinHuei Chính Hãng Dày 2 Lớp | 200x240x55cm',
+      badge: 'Được ưa chuộng',
+      image: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80',
       images: [
-        'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Tích hợp hộc kéo ẩn và khe đi dây điện thông minh, mang lại không gian làm việc gọn gàng, truyền cảm hứng sáng tạo mỗi ngày.'
+      description: 'Thiết kế thông minh 2 trong 1 vừa làm tủ quần áo kịch trần vừa tích hợp bàn trang điểm gọn đẹp. Màu trắng kem phối vân gỗ sồi hiện đại, bản lề giảm chấn inox 304 đóng mở êm ái.'
     },
     {
       id: 'p6',
-      name: 'Đèn Sàn Nghệ Thuật Chụp Vải Lụa WarmGlow',
-      category: 'Trang trí',
-      price: 3450000,
-      oldPrice: 4100000,
-      material: 'Thân Gỗ Sồi & Chụp Lụa Tự Nhiên | Cao 165cm',
-      badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
+      name: 'Hệ Kệ Trang Trí & Tủ Giày Kịch Trần Nhựa Cao Cấp',
+      category: 'Kệ trang trí',
+      price: 4500000,
+      oldPrice: 0,
+      material: 'Nhựa Ecoplast Chống Nước, Dễ Vệ Sinh | Đặt đóng theo kích thước',
+      badge: 'Thiết kế thông minh',
+      image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80',
       images: [
-        'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=1000&q=80'
+        'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1591129841117-3adfd313e34f?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1000&q=80'
       ],
-      description: 'Ánh sáng vàng ấm 2700K dịu nhẹ lan toả qua lớp chụp lụa dệt tay, tạo điểm nhấn ấm cúng cho góc sofa hoặc phòng ngủ.'
+      description: 'Kệ trang trí phòng khách, vách ngăn cầu thang hoặc tủ giày thông minh bằng nhựa cao cấp không bám mùi, dễ dàng lau rửa bằng nước mà không lo bong tróc.'
     }
   ],
   orders: []
 };
 
 let storeData = structuredClone(FALLBACK_DATA);
-let cart = loadCart();
 let activeCategory = 'Tất cả';
 let searchQuery = '';
 let sortMode = 'featured';
-
-function loadCart() {
-  try {
-    const raw = localStorage.getItem(CART_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveCart() {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
-}
 
 function getProductImages(prod) {
   if (Array.isArray(prod.images) && prod.images.filter(Boolean).length > 0) {
@@ -170,15 +154,6 @@ async function initStoreData() {
   if (localRaw) {
     try {
       const parsed = JSON.parse(localRaw);
-      if (Array.isArray(parsed.products)) {
-        parsed.products = parsed.products.map(p => {
-          const defProd = FALLBACK_DATA.products.find(d => d.id === p.id);
-          if ((!p.images || p.images.length <= 1) && defProd && defProd.images) {
-            return { ...p, images: defProd.images };
-          }
-          return p;
-        });
-      }
       storeData = { ...FALLBACK_DATA, ...parsed };
     } catch (e) {}
   }
@@ -207,9 +182,9 @@ async function initStoreData() {
   renderProducts();
 }
 
-function saveCustomerOrder(newOrder) {
+function saveCustomerInquiry(newInquiry) {
   if (!Array.isArray(storeData.orders)) storeData.orders = [];
-  storeData.orders.unshift(newOrder);
+  storeData.orders.unshift(newInquiry);
   storeData.updatedAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
   if (syncChannel) {
@@ -217,8 +192,9 @@ function saveCustomerOrder(newOrder) {
   }
 }
 
-function formatVND(amount) {
+function formatPriceDisplay(amount) {
   const num = Number(amount) || 0;
+  if (num <= 0) return 'Liên hệ báo giá';
   return num.toLocaleString('vi-VN') + 'đ';
 }
 
@@ -235,9 +211,9 @@ function showToast(msg) {
 function renderSiteConfig() {
   const { brand, contact } = storeData;
 
-  document.documentElement.style.setProperty('--accent-primary', brand.accentColor || '#8C583A');
+  document.documentElement.style.setProperty('--accent-primary', brand.accentColor || '#2C5E6E');
 
-  document.getElementById('pageTitle').textContent = `${brand.name} — Nội Thất Hiện Đại & Ấm Cúng`;
+  document.getElementById('pageTitle').textContent = `${brand.name} — ${brand.tagline}`;
   document.getElementById('brandNameText').textContent = brand.name;
   document.getElementById('brandTaglineText').textContent = brand.tagline;
   document.getElementById('topbarPromo').textContent = brand.topbarPromo;
@@ -278,7 +254,7 @@ function renderSiteConfig() {
   document.getElementById('socialZalo').href = contact.zalo || '#';
   document.getElementById('socialInstagram').href = contact.instagram || '#';
 
-  document.getElementById('footerBrandName').textContent = `${brand.name} ${brand.tagline}`;
+  document.getElementById('footerBrandName').textContent = `${brand.name} — ${brand.tagline}`;
   document.getElementById('footerAddress').textContent = contact.address;
   document.getElementById('footerPhone').textContent = contact.phone;
   document.getElementById('footerEmail').textContent = contact.email;
@@ -286,7 +262,7 @@ function renderSiteConfig() {
 }
 
 function renderCategories() {
-  const defaultCats = ['Tất cả', 'Phòng khách', 'Phòng ăn', 'Phòng ngủ', 'Phòng làm việc', 'Trang trí'];
+  const defaultCats = ['Tất cả', 'Tủ quần áo', 'Tủ bếp', 'Giường ngủ', 'Tủ tivi', 'Kệ trang trí'];
   const productCats = (storeData.products || []).map(p => p.category).filter(Boolean);
   const allCats = [...new Set([...defaultCats, ...productCats])];
 
@@ -324,9 +300,9 @@ function renderProducts() {
   }
 
   if (sortMode === 'price-asc') {
-    list.sort((a, b) => a.price - b.price);
+    list.sort((a, b) => (a.price || 0) - (b.price || 0));
   } else if (sortMode === 'price-desc') {
-    list.sort((a, b) => b.price - a.price);
+    list.sort((a, b) => (b.price || 0) - (a.price || 0));
   } else if (sortMode === 'newest') {
     list.reverse();
   }
@@ -334,9 +310,9 @@ function renderProducts() {
   if (list.length === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-        <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Không tìm thấy sản phẩm phù hợp</h3>
+        <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Không tìm thấy mẫu nội thất phù hợp</h3>
         <p style="color: var(--text-secondary); margin-bottom: 16px;">Hãy thử tìm với từ khoá khác hoặc chọn danh mục "Tất cả".</p>
-        <button class="btn btn-secondary btn-sm" id="resetFilterBtn">Xem tất cả sản phẩm</button>
+        <button class="btn btn-secondary btn-sm" id="resetFilterBtn">Xem toàn bộ Catalog</button>
       </div>
     `;
     const resetBtn = document.getElementById('resetFilterBtn');
@@ -359,10 +335,10 @@ function renderProducts() {
       <article class="product-card">
         <a href="${detailUrl}" class="product-media">
           ${prod.badge ? `<span class="product-badge ${prod.oldPrice > prod.price ? 'sale' : ''}">${prod.badge}</span>` : ''}
-          <span class="photo-count-badge">📷 ${imgs.length} ảnh</span>
-          <img src="${imgs[0] || prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80'" />
+          <span class="photo-count-badge">📷 ${imgs.length} ảnh thực tế</span>
+          <img src="${imgs[0] || prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=80'" />
           <div class="product-quick-actions">
-            <span class="quick-btn">👁️ Xem chi tiết (${imgs.length} ảnh)</span>
+            <span class="quick-btn">👁️ Xem trọn bộ ${imgs.length} ảnh</span>
           </div>
         </a>
 
@@ -371,93 +347,20 @@ function renderProducts() {
           <a href="${detailUrl}">
             <h3 class="product-title">${prod.name}</h3>
           </a>
-          <p class="product-meta">${prod.material || 'Gỗ tự nhiên cao cấp'}</p>
+          <p class="product-meta">${prod.material || 'Nhựa cao cấp chống nước 100%'}</p>
 
           <div class="product-footer">
             <div class="price-wrap">
-              <span class="price-current">${formatVND(prod.price)}</span>
-              ${prod.oldPrice && prod.oldPrice > prod.price ? `<span class="price-old">${formatVND(prod.oldPrice)}</span>` : ''}
+              <span style="font-size: 0.74rem; color: var(--text-muted);">Giá tham khảo:</span>
+              <span class="price-current">${formatPriceDisplay(prod.price)}</span>
+              ${prod.oldPrice && prod.oldPrice > prod.price ? `<span class="price-old">${formatPriceDisplay(prod.oldPrice)}</span>` : ''}
             </div>
-            <button class="btn btn-primary btn-sm" data-addcart="${prod.id}">+ Giỏ hàng</button>
+            <a href="${detailUrl}" class="btn btn-primary btn-sm">Xem Chi Tiết →</a>
           </div>
         </div>
       </article>
     `;
   }).join('');
-
-  grid.querySelectorAll('[data-addcart]').forEach(btn => {
-    btn.addEventListener('click', () => addToCart(btn.dataset.addcart));
-  });
-}
-
-function addToCart(productId) {
-  const prod = (storeData.products || []).find(p => p.id === productId);
-  if (!prod) return;
-
-  const existing = cart.find(item => item.id === productId);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ id: prod.id, name: prod.name, price: prod.price, image: prod.image, qty: 1 });
-  }
-  saveCart();
-  renderCart();
-  showToast(`🛒 Đã thêm "${prod.name}" vào giỏ hàng!`);
-}
-
-function renderCart() {
-  const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
-  const totalPrice = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-
-  document.getElementById('cartCount').textContent = totalCount;
-  document.getElementById('cartTotalPrice').textContent = formatVND(totalPrice);
-
-  const listEl = document.getElementById('cartItemsList');
-  if (cart.length === 0) {
-    listEl.innerHTML = `<p style="text-align: center; color: var(--text-secondary); padding: 40px 0;">Giỏ hàng của bạn đang trống.</p>`;
-    document.getElementById('checkoutForm').style.display = 'none';
-    document.getElementById('proceedCheckoutBtn').style.display = 'none';
-    return;
-  }
-
-  document.getElementById('proceedCheckoutBtn').style.display = 'block';
-  listEl.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <img src="${item.image}" alt="${item.name}" />
-      <div class="cart-item-info">
-        <div class="cart-item-title">${item.name}</div>
-        <div style="color: var(--accent-primary); font-weight: 600; font-size: 0.9rem;">${formatVND(item.price)}</div>
-        <div class="cart-qty-controls">
-          <button type="button" data-qty="${item.id}" data-delta="-1">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-qty="${item.id}" data-delta="1">+</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  listEl.querySelectorAll('[data-qty]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.qty;
-      const delta = Number(btn.dataset.delta);
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.qty += delta;
-        if (item.qty <= 0) {
-          cart = cart.filter(i => i.id !== id);
-        }
-        saveCart();
-        renderCart();
-      }
-    });
-  });
-}
-
-function closeAllOverlays() {
-  document.getElementById('backdrop').classList.remove('open');
-  document.getElementById('cartDrawer').classList.remove('open');
-  const qv = document.getElementById('quickViewModal');
-  if (qv) qv.classList.remove('open');
 }
 
 if (syncChannel) {
@@ -479,15 +382,11 @@ window.addEventListener('storage', e => {
       renderCategories();
       renderProducts();
     } catch (err) {}
-  } else if (e.key === CART_KEY) {
-    cart = loadCart();
-    renderCart();
   }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   initStoreData();
-  renderCart();
 
   document.getElementById('searchInput').addEventListener('input', e => {
     searchQuery = e.target.value;
@@ -507,63 +406,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.getElementById('openCartBtn').addEventListener('click', () => {
-    document.getElementById('backdrop').classList.add('open');
-    document.getElementById('cartDrawer').classList.add('open');
-  });
-
-  document.getElementById('closeCartBtn').addEventListener('click', closeAllOverlays);
-  document.getElementById('backdrop').addEventListener('click', closeAllOverlays);
-
-  document.getElementById('proceedCheckoutBtn').addEventListener('click', () => {
-    const form = document.getElementById('checkoutForm');
-    form.style.display = 'block';
-    form.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  document.getElementById('checkoutForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const name = document.getElementById('orderName').value.trim();
-    const phone = document.getElementById('orderPhone').value.trim();
-    const address = document.getElementById('orderAddress').value.trim();
-    const note = document.getElementById('orderNote').value.trim();
-    const itemsSummary = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
-    const total = formatVND(cart.reduce((s, i) => s + i.price * i.qty, 0));
-
-    saveCustomerOrder({
-      type: 'order',
-      status: 'Chờ xử lý',
-      name,
-      phone,
-      time: new Date().toLocaleString('vi-VN'),
-      details: `Giao tới: ${address} | SP: ${itemsSummary} | Tổng: ${total} ${note ? '| Ghi chú: ' + note : ''}`
-    });
-
-    cart = [];
-    saveCart();
-    renderCart();
-    e.target.reset();
-    closeAllOverlays();
-    showToast('🎉 Đặt hàng thành công! Cửa hàng sẽ liên hệ xác nhận ngay.');
-  });
-
   document.getElementById('consultationForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('inqName').value.trim();
     const phone = document.getElementById('inqPhone').value.trim();
+    const area = document.getElementById('inqEmail').value.trim();
     const service = document.getElementById('inqService').value;
     const msg = document.getElementById('inqMessage').value.trim();
 
-    saveCustomerOrder({
+    saveCustomerInquiry({
       type: 'inquiry',
-      status: 'Chờ xử lý',
+      status: 'Chờ tư vấn',
       name,
       phone,
       time: new Date().toLocaleString('vi-VN'),
-      details: `Nhu cầu: ${service} | Lời nhắn: ${msg || 'Cần tư vấn báo giá'}`
+      details: `Hạng mục: ${service} ${area ? '| Khu vực: ' + area : ''} | Yêu cầu: ${msg || 'Cần khảo sát đo đạc & báo giá'}`
     });
 
     e.target.reset();
-    showToast('✅ Đã gửi yêu cầu tư vấn! Chúng tôi sẽ gọi lại cho bạn sớm nhất.');
+    showToast('✅ Đã gửi yêu cầu báo giá! Kỹ thuật viên sẽ liên hệ với bạn sớm nhất.');
   });
 });
