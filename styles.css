@@ -1474,13 +1474,101 @@ img {
   display: flex;
 }
 
-.lightbox-top {
+.lightbox-top,
+.lightbox-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 14px 20px;
   color: #fff;
+  background: rgba(10, 18, 24, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   z-index: 10;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lightbox-counter {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #E4F0F4;
+}
+
+.lightbox-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Dedicated External Zoom Bar below Main Image */
+.gallery-zoom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.zoom-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.zoom-bar-btn:hover {
+  background: var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-primary);
+}
+
+.zoom-bar-btn:active {
+  transform: scale(0.95);
+}
+
+.zoom-bar-btn.primary-zoom {
+  background: var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-primary);
+}
+
+.zoom-bar-btn.primary-zoom:hover {
+  background: var(--accent-hover);
+}
+
+.zoom-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.zoom-range-slider {
+  flex: 1;
+  accent-color: var(--accent-primary);
+  height: 6px;
+  cursor: pointer;
 }
 
 .lightbox-stage {

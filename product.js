@@ -366,6 +366,8 @@ function renderCurrentProduct() {
 function applyInlineZoomTransform() {
   const mainImg = document.getElementById('mainGalleryImg');
   const resetBtn = document.getElementById('zoomResetBtn');
+  const barResetBtn = document.getElementById('barZoomResetBtn');
+  const zoomSlider = document.getElementById('zoomRangeSlider');
   const wrap = document.getElementById('galleryMainWrap');
   if (!mainImg) return;
 
@@ -374,10 +376,11 @@ function applyInlineZoomTransform() {
     panY = 0;
   }
 
+  const pct = Math.round(zoomScale * 100);
   mainImg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
-  if (resetBtn) {
-    resetBtn.textContent = `${Math.round(zoomScale * 100)}%`;
-  }
+  if (resetBtn) resetBtn.textContent = `${pct}%`;
+  if (barResetBtn) barResetBtn.textContent = `${pct}%`;
+  if (zoomSlider) zoomSlider.value = String(pct);
   if (wrap) {
     wrap.style.cursor = zoomScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in';
   }
@@ -657,38 +660,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const zoomOutBtn = document.getElementById('zoomOutBtn');
   const zoomResetBtn = document.getElementById('zoomResetBtn');
   const openLightboxBtn = document.getElementById('openLightboxBtn');
+  const barZoomInBtn = document.getElementById('barZoomInBtn');
+  const barZoomOutBtn = document.getElementById('barZoomOutBtn');
+  const barZoomResetBtn = document.getElementById('barZoomResetBtn');
+  const barLightboxBtn = document.getElementById('barLightboxBtn');
+  const zoomRangeSlider = document.getElementById('zoomRangeSlider');
   const galleryWrap = document.getElementById('galleryMainWrap');
   const mainImg = document.getElementById('mainGalleryImg');
 
-  if (zoomInBtn) {
-    zoomInBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      setInlineZoom(zoomScale + ZOOM_STEP);
-    });
-  }
-  if (zoomOutBtn) {
-    zoomOutBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      setInlineZoom(zoomScale - ZOOM_STEP);
-    });
-  }
-  if (zoomResetBtn) {
-    zoomResetBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      zoomScale = 1;
-      panX = 0;
-      panY = 0;
-      applyInlineZoomTransform();
-    });
-  }
-  if (openLightboxBtn) {
-    openLightboxBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      openLightbox();
+  const handleZoomIn = e => {
+    e.stopPropagation();
+    setInlineZoom(zoomScale + ZOOM_STEP);
+  };
+  const handleZoomOut = e => {
+    e.stopPropagation();
+    setInlineZoom(zoomScale - ZOOM_STEP);
+  };
+  const handleZoomReset = e => {
+    e.stopPropagation();
+    zoomScale = 1;
+    panX = 0;
+    panY = 0;
+    applyInlineZoomTransform();
+  };
+  const handleOpenLightbox = e => {
+    e.stopPropagation();
+    openLightbox();
+  };
+
+  if (zoomInBtn) zoomInBtn.addEventListener('click', handleZoomIn);
+  if (zoomOutBtn) zoomOutBtn.addEventListener('click', handleZoomOut);
+  if (zoomResetBtn) zoomResetBtn.addEventListener('click', handleZoomReset);
+  if (openLightboxBtn) openLightboxBtn.addEventListener('click', handleOpenLightbox);
+
+  if (barZoomInBtn) barZoomInBtn.addEventListener('click', handleZoomIn);
+  if (barZoomOutBtn) barZoomOutBtn.addEventListener('click', handleZoomOut);
+  if (barZoomResetBtn) barZoomResetBtn.addEventListener('click', handleZoomReset);
+  if (barLightboxBtn) barLightboxBtn.addEventListener('click', handleOpenLightbox);
+
+  if (zoomRangeSlider) {
+    zoomRangeSlider.addEventListener('input', e => {
+      const val = Number(e.target.value) || 100;
+      setInlineZoom(val / 100);
     });
   }
 
   if (galleryWrap && mainImg) {
+    let pointerMoved = false;
+
     // Mouse wheel zoom
     galleryWrap.addEventListener('wheel', e => {
       e.preventDefault();
@@ -696,22 +715,26 @@ document.addEventListener('DOMContentLoaded', () => {
       setInlineZoom(zoomScale + delta);
     }, { passive: false });
 
-    // Double-click to toggle 100% <-> 200%
-    galleryWrap.addEventListener('dblclick', e => {
-      if (e.target.closest('button')) return;
-      if (zoomScale !== 1) {
+    // Click on image (without dragging) cycles zoom: 100% -> 175% -> 250% -> 100%
+    galleryWrap.addEventListener('click', e => {
+      if (e.target.closest('button') || pointerMoved) return;
+      if (zoomScale < 1.5) {
+        setInlineZoom(1.75);
+      } else if (zoomScale < 2.25) {
+        setInlineZoom(2.5);
+      } else {
         zoomScale = 1;
         panX = 0;
         panY = 0;
-      } else {
-        zoomScale = 2;
+        applyInlineZoomTransform();
       }
-      applyInlineZoomTransform();
     });
 
     // Mouse drag panning when zoomed in
     galleryWrap.addEventListener('mousedown', e => {
-      if (e.target.closest('button') || zoomScale <= 1) return;
+      if (e.target.closest('button')) return;
+      pointerMoved = false;
+      if (zoomScale <= 1) return;
       isDragging = true;
       dragStartX = e.clientX - panX;
       dragStartY = e.clientY - panY;
@@ -721,6 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('mousemove', e => {
       if (!isDragging) return;
+      pointerMoved = true;
       panX = e.clientX - dragStartX;
       panY = e.clientY - dragStartY;
       applyInlineZoomTransform();

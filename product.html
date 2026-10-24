@@ -7,7 +7,188 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261024_zoom3" />
+  <style>
+    /* Critical Inline Styles for Product Image Zoom In / Zoom Out (Cache-Proof) */
+    .gallery-main-wrap {
+      position: relative !important;
+      overflow: hidden !important;
+      background: #14222B !important;
+      height: 520px;
+      user-select: none;
+      touch-action: none;
+      cursor: zoom-in;
+    }
+    @media (max-width: 920px) {
+      .gallery-main-wrap { height: 380px; }
+    }
+    .gallery-main-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      transform-origin: center center !important;
+      transition: transform 0.16s cubic-bezier(0.2, 0, 0.2, 1);
+      will-change: transform;
+      pointer-events: none;
+    }
+    .gallery-main-img.is-dragging {
+      transition: none !important;
+    }
+    .gallery-zoom-hint {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(20, 34, 43, 0.8);
+      color: #fff;
+      font-size: 0.74rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 999px;
+      z-index: 6;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+    .gallery-zoom-controls {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(20, 34, 43, 0.88);
+      backdrop-filter: blur(8px);
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      z-index: 6;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+    .zoom-ctrl-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .zoom-ctrl-btn:hover { background: var(--accent-primary, #2C5E6E); }
+    .zoom-level-btn {
+      background: rgba(255, 255, 255, 0.16);
+      border: none;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-width: 54px;
+      text-align: center;
+    }
+    .gallery-zoom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid var(--border-color, #DCE4EC);
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(26, 36, 45, 0.05);
+      flex-wrap: wrap;
+    }
+    .zoom-bar-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: #ECF1F6;
+      color: #1A242D;
+      border: 1px solid #DCE4EC;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .zoom-bar-btn:hover, .zoom-bar-btn.primary-zoom {
+      background: var(--accent-primary, #2C5E6E);
+      color: #fff;
+      border-color: var(--accent-primary, #2C5E6E);
+    }
+    .zoom-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 130px;
+    }
+    .zoom-range-slider {
+      flex: 1;
+      accent-color: var(--accent-primary, #2C5E6E);
+      height: 6px;
+      cursor: pointer;
+    }
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 18, 24, 0.96);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .lightbox-modal.open { display: flex !important; }
+    .lightbox-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      color: #fff;
+      background: rgba(10, 18, 24, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      z-index: 10;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .lightbox-toolbar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .lightbox-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      cursor: grab;
+    }
+    .lightbox-stage img {
+      max-width: 92vw;
+      max-height: 82vh;
+      object-fit: contain;
+      transform-origin: center center;
+      transition: transform 0.16s cubic-bezier(0.2, 0, 0.2, 1);
+      pointer-events: none;
+    }
+    .lightbox-stage img.is-dragging { transition: none !important; }
+  </style>
 </head>
 <body>
 
@@ -85,7 +266,7 @@
         <!-- Left: 4-5 Image Gallery -->
         <div class="gallery-container">
           <div class="gallery-main-wrap" id="galleryMainWrap">
-            <div class="gallery-zoom-hint">🔍 Lăn chuột / chạm 2 ngón hoặc bấm +/- để phóng to, thu nhỏ</div>
+            <div class="gallery-zoom-hint">🔍 Chạm / Lăn chuột / Kéo thanh trượt bên dưới để Zoom to, nhỏ</div>
             <button type="button" class="gallery-nav-btn prev" id="prevImgBtn" title="Ảnh trước">‹</button>
             <img id="mainGalleryImg" class="gallery-main-img" src="" alt="Ảnh sản phẩm" draggable="false" />
             <button type="button" class="gallery-nav-btn next" id="nextImgBtn" title="Ảnh tiếp theo">›</button>
@@ -98,6 +279,17 @@
             </div>
 
             <div class="gallery-counter" id="galleryCounter">Ảnh 1 / 5</div>
+          </div>
+
+          <!-- Dedicated Prominent Zoom Control Bar with Slider -->
+          <div class="gallery-zoom-bar">
+            <button type="button" class="zoom-bar-btn" id="barZoomOutBtn" title="Thu nhỏ hình ảnh">🔍− Thu nhỏ</button>
+            <div class="zoom-slider-wrap">
+              <input type="range" id="zoomRangeSlider" class="zoom-range-slider" min="50" max="400" step="10" value="100" title="Kéo để thu nhỏ (50%) hoặc phóng to (400%)" />
+              <button type="button" class="zoom-bar-btn" id="barZoomResetBtn" title="Đặt về 100%" style="min-width: 60px;">100%</button>
+            </div>
+            <button type="button" class="zoom-bar-btn primary-zoom" id="barZoomInBtn" title="Phóng to hình ảnh">🔍+ Phóng to</button>
+            <button type="button" class="zoom-bar-btn" id="barLightboxBtn" title="Mở chế độ phóng to toàn màn hình">⛶ Toàn màn hình</button>
           </div>
 
           <!-- 4-5 Thumbnail Images -->
@@ -294,6 +486,76 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast">Thông báo</div>
 
-  <script src="product.js"></script>
+  <script src="product.js?v=20261024_zoom3"></script>
+  <script>
+    // Self-contained fallback zoom initializer (in case browser cached an older product.js)
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof window.setInlineZoom === 'function') return;
+
+      let zScale = 1, pX = 0, pY = 0, dragging = false, startX = 0, startY = 0, moved = false;
+      const mainImg = document.getElementById('mainGalleryImg');
+      const wrap = document.getElementById('galleryMainWrap');
+      const resetBtn = document.getElementById('zoomResetBtn');
+      const barResetBtn = document.getElementById('barZoomResetBtn');
+      const slider = document.getElementById('zoomRangeSlider');
+
+      function updateZoomUI() {
+        if (!mainImg) return;
+        if (zScale <= 1) { pX = 0; pY = 0; }
+        const pct = Math.round(zScale * 100);
+        mainImg.style.transform = `translate(${pX}px, ${pY}px) scale(${zScale})`;
+        if (resetBtn) resetBtn.textContent = pct + '%';
+        if (barResetBtn) barResetBtn.textContent = pct + '%';
+        if (slider) slider.value = String(pct);
+      }
+
+      function setZ(val) {
+        zScale = Math.min(4, Math.max(0.5, Math.round(val * 100) / 100));
+        updateZoomUI();
+      }
+
+      ['zoomInBtn', 'barZoomInBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', e => { e.stopPropagation(); setZ(zScale + 0.25); });
+      });
+      ['zoomOutBtn', 'barZoomOutBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', e => { e.stopPropagation(); setZ(zScale - 0.25); });
+      });
+      ['zoomResetBtn', 'barZoomResetBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', e => { e.stopPropagation(); zScale = 1; pX = 0; pY = 0; updateZoomUI(); });
+      });
+      if (slider) {
+        slider.addEventListener('input', e => setZ((Number(e.target.value) || 100) / 100));
+      }
+      if (wrap && mainImg) {
+        wrap.addEventListener('wheel', e => {
+          e.preventDefault();
+          setZ(zScale + (e.deltaY < 0 ? 0.25 : -0.25));
+        }, { passive: false });
+        wrap.addEventListener('click', e => {
+          if (e.target.closest('button') || moved) return;
+          setZ(zScale < 1.5 ? 1.75 : (zScale < 2.25 ? 2.5 : 1));
+        });
+        wrap.addEventListener('mousedown', e => {
+          if (e.target.closest('button')) return;
+          moved = false;
+          if (zScale <= 1) return;
+          dragging = true;
+          startX = e.clientX - pX;
+          startY = e.clientY - pY;
+        });
+        window.addEventListener('mousemove', e => {
+          if (!dragging) return;
+          moved = true;
+          pX = e.clientX - startX;
+          pY = e.clientY - startY;
+          updateZoomUI();
+        });
+        window.addEventListener('mouseup', () => { dragging = false; });
+      }
+    });
+  </script>
 </body>
 </html>
