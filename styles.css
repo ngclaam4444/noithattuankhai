@@ -1921,11 +1921,11 @@ img {
 }
 
 /* ==========================================================================
-   DELUXE GLAMOROUS SHOWROOM BACKGROUND & LUXURY FX (60FPS GPU ACCELERATED)
+   ARCHITECTURAL LUXURY SHOWROOM ANIMATIONS (ITALIAN INTERIOR STYLE - 60FPS)
    ========================================================================== */
 body {
   position: relative;
-  background-color: #EBF3F8;
+  background-color: #F5F7F9;
 }
 
 .ambient-bg-wrapper {
@@ -1935,13 +1935,13 @@ body {
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 18%, rgba(28, 128, 158, 0.28), transparent 45%),
-    radial-gradient(circle at 88% 22%, rgba(226, 168, 86, 0.32), transparent 48%),
-    radial-gradient(circle at 22% 82%, rgba(212, 138, 62, 0.24), transparent 50%),
-    radial-gradient(circle at 82% 78%, rgba(22, 148, 168, 0.28), transparent 52%),
-    linear-gradient(135deg, #E3F0F7 0%, #F7EFE2 35%, #DFF0F5 70%, #F5E8D5 100%);
+    radial-gradient(circle at 15% 15%, rgba(44, 94, 110, 0.12), transparent 50%),
+    radial-gradient(circle at 85% 20%, rgba(200, 155, 101, 0.15), transparent 52%),
+    radial-gradient(circle at 20% 85%, rgba(200, 155, 101, 0.11), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(44, 94, 110, 0.12), transparent 55%),
+    linear-gradient(135deg, #F6F8FA 0%, #F9F5EE 48%, #EEF4F7 100%);
   background-size: 200% 200%;
-  animation: luxuryBgGradientFlow 16s ease-in-out infinite alternate;
+  animation: luxuryBgGradientFlow 22s ease-in-out infinite alternate;
 }
 
 @keyframes luxuryBgGradientFlow {
@@ -1950,53 +1950,51 @@ body {
   100% { background-position: 50% 100%; }
 }
 
-/* Moving Architectural 3D Perspective Blueprint Grid */
+/* Subtle Architectural Perspective Grid */
 .ambient-grid-pattern {
   position: absolute;
   inset: -120px;
   background-image:
-    linear-gradient(to right, rgba(44, 94, 110, 0.085) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(200, 155, 101, 0.085) 1px, transparent 1px);
-  background-size: 54px 54px;
-  animation: ambientGridPan 18s linear infinite;
+    linear-gradient(to right, rgba(44, 94, 110, 0.038) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 155, 101, 0.038) 1px, transparent 1px);
+  background-size: 72px 72px;
+  animation: ambientGridPan 32s linear infinite;
   will-change: transform;
 }
 
 @keyframes ambientGridPan {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(54px, 54px, 0); }
+  100% { transform: translate3d(72px, 72px, 0); }
 }
 
-/* Volumetric Showroom Light Beams (Tia sáng sân khấu chiếu xiên) */
+/* Warm Architectural Window Sunlight Beams */
 .ambient-light-beams {
   position: absolute;
   inset: -30%;
   background:
     repeating-linear-gradient(
-      118deg,
+      115deg,
       transparent 0%,
-      rgba(255, 223, 158, 0.14) 6%,
-      rgba(255, 255, 255, 0.22) 9%,
-      rgba(82, 198, 224, 0.14) 12%,
-      transparent 20%
+      rgba(255, 244, 224, 0.25) 7%,
+      rgba(200, 155, 101, 0.07) 11%,
+      transparent 22%
     );
-  filter: blur(22px);
-  animation: sweepLightBeams 14s ease-in-out infinite alternate;
+  filter: blur(32px);
+  animation: sweepLightBeams 18s ease-in-out infinite alternate;
   will-change: transform;
 }
 
 @keyframes sweepLightBeams {
-  0% { transform: translateX(-8%) rotate(-3deg) scale(1.05); opacity: 0.7; }
-  50% { transform: translateX(6%) rotate(2deg) scale(1.12); opacity: 1; }
-  100% { transform: translateX(-4%) rotate(-1deg) scale(1.08); opacity: 0.8; }
+  0% { transform: translateX(-6%) rotate(-2deg) scale(1.04); opacity: 0.65; }
+  50% { transform: translateX(5%) rotate(1deg) scale(1.08); opacity: 0.95; }
+  100% { transform: translateX(-3%) rotate(-1deg) scale(1.05); opacity: 0.75; }
 }
 
-/* Rotating 3D Golden Luxury Rings */
+/* Minimalist Architectural Concentric Rings */
 .luxury-3d-ring {
   position: absolute;
   border-radius: 50%;
-  border: 2px dashed rgba(200, 155, 101, 0.35);
-  box-shadow: 0 0 40px rgba(200, 155, 101, 0.2), inset 0 0 40px rgba(44, 94, 110, 0.15);
+  border: 1px solid rgba(200, 155, 101, 0.22);
   pointer-events: none;
   will-change: transform;
 }
@@ -2004,100 +2002,100 @@ body {
 .luxury-3d-ring::before {
   content: '';
   position: absolute;
-  inset: 24px;
+  inset: 36px;
   border-radius: 50%;
-  border: 1.5px solid rgba(44, 94, 110, 0.28);
+  border: 1px solid rgba(44, 94, 110, 0.14);
 }
 
 .luxury-3d-ring.ring-1 {
-  width: 560px;
-  height: 560px;
-  top: 8%;
-  right: -140px;
-  animation: spinRing3D 36s linear infinite;
+  width: 640px;
+  height: 640px;
+  top: 4%;
+  right: -180px;
+  animation: spinRing3D 60s linear infinite;
 }
 
 .luxury-3d-ring.ring-2 {
-  width: 480px;
-  height: 480px;
-  bottom: 6%;
-  left: -140px;
-  animation: spinRing3DReverse 42s linear infinite;
+  width: 540px;
+  height: 540px;
+  bottom: 4%;
+  left: -180px;
+  animation: spinRing3DReverse 70s linear infinite;
 }
 
 @keyframes spinRing3D {
   0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.08); }
+  50% { transform: rotate(180deg) scale(1.04); }
   100% { transform: rotate(360deg) scale(1); }
 }
 
 @keyframes spinRing3DReverse {
   0% { transform: rotate(360deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.08); }
+  50% { transform: rotate(180deg) scale(1.04); }
   100% { transform: rotate(0deg) scale(1); }
 }
 
-/* Vivid Floating Glowing Aurora Orbs */
+/* Soft Warm Ambient Showroom Orbs */
 .ambient-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(55px);
-  opacity: 0.85;
+  filter: blur(80px);
+  opacity: 0.65;
   will-change: transform;
 }
 
 .ambient-orb.orb-1 {
-  width: 540px;
-  height: 540px;
-  top: -8%;
+  width: 560px;
+  height: 560px;
+  top: -10%;
   left: -6%;
-  background: radial-gradient(circle, rgba(24, 142, 178, 0.62) 0%, rgba(24, 142, 178, 0) 70%);
-  animation: floatOrb1 14s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(44, 94, 110, 0.32) 0%, rgba(44, 94, 110, 0) 70%);
+  animation: floatOrb1 22s ease-in-out infinite alternate;
 }
 
 .ambient-orb.orb-2 {
-  width: 600px;
-  height: 600px;
-  top: 24%;
+  width: 620px;
+  height: 620px;
+  top: 25%;
   right: -10%;
-  background: radial-gradient(circle, rgba(235, 168, 68, 0.60) 0%, rgba(235, 168, 68, 0) 70%);
-  animation: floatOrb2 16s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(200, 155, 101, 0.34) 0%, rgba(200, 155, 101, 0) 70%);
+  animation: floatOrb2 25s ease-in-out infinite alternate;
 }
 
 .ambient-orb.orb-3 {
-  width: 520px;
-  height: 520px;
+  width: 540px;
+  height: 540px;
   bottom: -10%;
   left: 18%;
-  background: radial-gradient(circle, rgba(32, 178, 170, 0.52) 0%, rgba(32, 178, 170, 0) 70%);
-  animation: floatOrb3 15s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(58, 128, 145, 0.28) 0%, rgba(58, 128, 145, 0) 70%);
+  animation: floatOrb3 24s ease-in-out infinite alternate;
 }
 
 .ambient-orb.orb-4 {
-  width: 450px;
-  height: 450px;
-  top: 55%;
-  left: 42%;
-  background: radial-gradient(circle, rgba(240, 185, 95, 0.48) 0%, rgba(240, 185, 95, 0) 70%);
-  animation: floatOrb1 18s ease-in-out infinite alternate-reverse;
+  width: 480px;
+  height: 480px;
+  top: 52%;
+  left: 40%;
+  background: radial-gradient(circle, rgba(215, 175, 125, 0.26) 0%, rgba(215, 175, 125, 0) 70%);
+  animation: floatOrb1 28s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes floatOrb1 {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(160px, 100px, 0) scale(1.22); }
-  100% { transform: translate3d(60px, 190px, 0) scale(0.92); }
+  50% { transform: translate3d(110px, 70px, 0) scale(1.12); }
+  100% { transform: translate3d(40px, 140px, 0) scale(0.95); }
 }
 
 @keyframes floatOrb2 {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-170px, 110px, 0) scale(1.2); }
-  100% { transform: translate3d(-80px, -110px, 0) scale(0.9); }
+  50% { transform: translate3d(-120px, 80px, 0) scale(1.1); }
+  100% { transform: translate3d(-60px, -80px, 0) scale(0.94); }
 }
 
 @keyframes floatOrb3 {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(140px, -130px, 0) scale(1.24); }
-  100% { transform: translate3d(-110px, -60px, 0) scale(0.94); }
+  50% { transform: translate3d(100px, -90px, 0) scale(1.14); }
+  100% { transform: translate3d(-80px, -40px, 0) scale(0.96); }
 }
 
 #ambientParticleCanvas, #heroParticleCanvas {
@@ -2117,7 +2115,7 @@ body {
   z-index: 2;
 }
 
-/* Keep page sections above ambient background and allow background glow to shine through */
+/* Keep page sections above ambient background */
 .topbar, .header, .hero, .features-strip, .section, .footer {
   position: relative;
   z-index: 1;
@@ -2128,49 +2126,49 @@ body {
 }
 
 .section-alt {
-  background: rgba(255, 255, 255, 0.46) !important;
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(200, 155, 101, 0.25);
-  border-bottom: 1px solid rgba(200, 155, 101, 0.25);
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(200, 155, 101, 0.18);
+  border-bottom: 1px solid rgba(200, 155, 101, 0.18);
 }
 
 .features-strip {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(200, 155, 101, 0.3);
+  background: rgba(255, 255, 255, 0.84) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(200, 155, 101, 0.22);
 }
 
-/* Liquid Gold Shimmering Hero Title & Floating Badge */
+/* Refined Champagne Ivory Hero Title & Badge */
 .hero h1 {
-  background: linear-gradient(90deg, #FFFFFF 0%, #FFE4A8 28%, #FFD166 50%, #FFFFFF 75%, #CBEFF8 100%);
-  background-size: 220% auto;
+  background: linear-gradient(90deg, #FFFFFF 0%, #F9E8C9 45%, #FFFFFF 90%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: liquidGoldText 6s linear infinite;
-  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.35));
+  animation: champagneTextSheen 9s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.28));
 }
 
-@keyframes liquidGoldText {
+@keyframes champagneTextSheen {
   0% { background-position: 0% center; }
-  100% { background-position: 220% center; }
+  100% { background-position: 100% center; }
 }
 
 .hero-badge {
-  animation: badgeFloat 3s ease-in-out infinite;
-  box-shadow: 0 0 28px rgba(235, 180, 90, 0.65);
-  border: 1px solid rgba(255, 220, 150, 0.85) !important;
+  animation: badgeFloat 4.5s ease-in-out infinite;
+  box-shadow: 0 6px 24px rgba(200, 155, 101, 0.35);
+  border: 1px solid rgba(235, 200, 145, 0.65) !important;
 }
 
 @keyframes badgeFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.03); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
-/* Shimmer Sweep & Glowing Aura on Primary Buttons */
+/* Subtle Warm Champagne Shimmer on Primary Buttons */
 .btn-primary {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(44, 94, 110, 0.32), 0 0 18px rgba(200, 155, 101, 0.35);
+  box-shadow: 0 8px 22px rgba(44, 94, 110, 0.22);
 }
 
 .btn-primary::after {
@@ -2178,37 +2176,37 @@ body {
   position: absolute;
   top: 0;
   left: -120%;
-  width: 70%;
+  width: 60%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 240, 195, 0.55),
+    rgba(255, 248, 235, 0.32),
     transparent
   );
   transform: skewX(-22deg);
-  animation: btnShimmerSweep 3.2s infinite;
+  animation: btnShimmerSweep 5.5s infinite;
   pointer-events: none;
 }
 
 @keyframes btnShimmerSweep {
   0% { left: -120%; }
-  35%, 100% { left: 160%; }
+  28%, 100% { left: 160%; }
 }
 
-/* Luxury Glassmorphic Card Glow, Glare Sweep & 3D Hover Lift */
+/* High-End Showroom Card Elevation & Glass Sheen */
 .product-card,
 .feature-box,
 .detail-info-box,
 .contact-info-card,
 .contact-form-card {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(200, 155, 101, 0.32) !important;
-  box-shadow: 0 10px 30px rgba(28, 65, 82, 0.09), 0 0 18px rgba(200, 155, 101, 0.10) !important;
-  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.38s ease !important;
+  border: 1px solid rgba(200, 155, 101, 0.22) !important;
+  box-shadow: 0 10px 30px rgba(26, 36, 45, 0.06) !important;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s ease !important;
 }
 
 .product-card .product-media::after {
@@ -2216,11 +2214,11 @@ body {
   position: absolute;
   top: 0;
   left: -130%;
-  width: 65%;
+  width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
   transform: skewX(-25deg);
-  transition: left 0.65s ease;
+  transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
@@ -2229,15 +2227,15 @@ body {
 }
 
 .product-card:hover {
-  transform: translateY(-10px) scale(1.015) !important;
-  border-color: rgba(225, 168, 75, 0.9) !important;
-  box-shadow: 0 24px 52px rgba(28, 72, 90, 0.22),
-              0 0 32px rgba(230, 175, 85, 0.38) !important;
+  transform: translateY(-7px) !important;
+  border-color: rgba(200, 155, 101, 0.72) !important;
+  box-shadow: 0 22px 46px rgba(28, 56, 70, 0.14),
+              0 0 20px rgba(200, 155, 101, 0.16) !important;
 }
 
 .feature-box:hover {
-  transform: translateY(-6px);
-  border-color: rgba(225, 168, 75, 0.85) !important;
-  box-shadow: 0 16px 36px rgba(44, 94, 110, 0.18), 0 0 24px rgba(230, 175, 85, 0.28) !important;
+  transform: translateY(-4px);
+  border-color: rgba(200, 155, 101, 0.65) !important;
+  box-shadow: 0 16px 34px rgba(44, 94, 110, 0.11) !important;
 }
 
