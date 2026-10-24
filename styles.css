@@ -1356,21 +1356,168 @@ img {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--bg-secondary);
+  background: #14222B;
   border: 1px solid var(--border-color);
-  height: 490px;
+  height: 520px;
   box-shadow: var(--shadow-md);
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.gallery-main-wrap.is-dragging {
+  cursor: grabbing;
 }
 
 .gallery-main-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: opacity 0.25s ease, transform 0.5s ease;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform 0.18s cubic-bezier(0.2, 0, 0.2, 1);
+  will-change: transform;
+  pointer-events: none;
 }
 
-.gallery-main-wrap:hover .gallery-main-img {
-  transform: scale(1.03);
+.gallery-main-wrap.is-dragging .gallery-main-img {
+  transition: none;
+}
+
+/* Floating Zoom Toolbar on Product Detail Image */
+.gallery-zoom-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(20, 34, 43, 0.86);
+  backdrop-filter: blur(8px);
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 6;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.zoom-ctrl-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.zoom-ctrl-btn:hover {
+  background: var(--accent-primary);
+}
+
+.zoom-ctrl-btn:active {
+  transform: scale(0.92);
+}
+
+.zoom-level-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 54px;
+  text-align: center;
+}
+
+.zoom-level-btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.gallery-zoom-hint {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  background: rgba(20, 34, 43, 0.72);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.74rem;
+  font-weight: 500;
+  padding: 4px 11px;
+  border-radius: 999px;
+  z-index: 5;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+/* Fullscreen Lightbox Zoom Modal */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 18, 24, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.lightbox-modal.open {
+  display: flex;
+}
+
+.lightbox-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  color: #fff;
+  z-index: 10;
+}
+
+.lightbox-stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  cursor: grab;
+}
+
+.lightbox-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.lightbox-stage img {
+  max-width: 92vw;
+  max-height: 80vh;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform 0.18s cubic-bezier(0.2, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.lightbox-stage.is-dragging img {
+  transition: none;
+}
+
+.lightbox-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  z-index: 10;
 }
 
 .gallery-nav-btn {
