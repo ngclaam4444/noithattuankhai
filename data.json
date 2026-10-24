@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1792826310286,
+  "updatedAt": 1792826443159,
   "adminAuth": {
     "username": "admin",
     "password": "123456"
@@ -29,38 +29,6 @@
     "instagram": "https://instagram.com"
   },
   "products": [
-    {
-      "id": "p1",
-      "name": "Tủ Quần Áo Nhựa Ecoplast Kịch Trần Cánh Kính Phối Đèn LED",
-      "category": "Tủ quần áo",
-      "material": "Nhựa Ecoplast Cao Cấp + Cánh Kính Khung Nhôm | May đo theo phòng",
-      "badge": "Mẫu Hot 2026",
-      "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80"
-      ],
-      "description": "Mẫu tủ quần áo kịch trần tối ưu diện tích lưu trữ, thi công từ tấm nhựa nội thất Ecoplast cốt đặc dày dặn chống ẩm mốc tuyệt đối. Kết hợp khoang trưng bày túi xách cánh kính cường lực và hệ đèn LED cảm biến sang trọng."
-    },
-    {
-      "id": "p2",
-      "name": "Tủ Bếp Nhựa Đặc Picomat Phủ Acrylic Bóng Gương Chữ L",
-      "category": "Tủ bếp",
-      "material": "Thùng Nhựa Đặc Picomat Chống Nước 100% + Cánh Acrylic | Thiết kế theo bếp",
-      "badge": "Chống nước 100%",
-      "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=1000&q=80"
-      ],
-      "description": "Giải pháp hoàn hảo nhất cho phòng bếp: Thùng tủ bếp dưới bằng nhựa đặc Picomat/Ecoplast ngâm nước không trương nở, triệt tiêu 100% nỗi lo mối mọt và ẩm mốc. Bề mặt cánh phủ Acrylic bóng gương dễ dàng lau sạch dầu mỡ."
-    },
     {
       "id": "p3",
       "name": "Giường Ngủ Nhựa Ecoplast Cao Cấp Tích Hợp Ngăn Kéo Đa Năng",
