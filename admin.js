@@ -41,7 +41,14 @@ const DEFAULT_DATA = {
       oldPrice: 32000000,
       material: 'Gỗ Óc Chó & Da Bò Ý | 230x88x78cm',
       badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Thiết kế tinh giản lấy cảm hứng từ phong cách Japandi, khung gỗ óc chó Bắc Mỹ nguyên khối kết hợp đệm bọc da bò thật mềm mại, nâng đỡ cột sống tối ưu.'
     },
     {
@@ -52,7 +59,14 @@ const DEFAULT_DATA = {
       oldPrice: 23500000,
       material: 'Gỗ Sồi Nga Tự Nhiên | 180x90x75cm',
       badge: '-15%',
-      image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Bộ bàn ăn 6 ghế bo góc mềm mại, an toàn cho gia đình có trẻ nhỏ. Bề mặt phủ dầu lau thực vật giữ nguyên vân gỗ tự nhiên và chống thấm nước.'
     },
     {
@@ -63,7 +77,14 @@ const DEFAULT_DATA = {
       oldPrice: 18900000,
       material: 'Khung Gỗ Tần Bì & Vải Linen Bỉ | 180x200cm',
       badge: 'Mới 2026',
-      image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Tựa đầu giường êm ái như mây, bọc vải Linen Bỉ thoáng khí, kháng khuẩn. Kết cấu giạt giường gỗ tự nhiên chịu lực lên tới 500kg.'
     },
     {
@@ -74,7 +95,14 @@ const DEFAULT_DATA = {
       oldPrice: 9200000,
       material: 'Gỗ Tần Bì Uốn Cong & Da Microfiber | 78x82x80cm',
       badge: 'Yêu thích',
-      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Chiếc ghế thư giãn hoàn hảo cho góc đọc sách hoặc phòng khách hiện đại. Độ nghiêng lưng 105 độ chuẩn công thái học giúp thả lỏng cơ thể.'
     },
     {
@@ -85,7 +113,14 @@ const DEFAULT_DATA = {
       oldPrice: 0,
       material: 'Gỗ Óc Chó & Chân Đồng Thau | 150x70x75cm',
       badge: 'Cao cấp',
-      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Tích hợp hộc kéo ẩn và khe đi dây điện thông minh, mang lại không gian làm việc gọn gàng, truyền cảm hứng sáng tạo mỗi ngày.'
     },
     {
@@ -96,7 +131,13 @@ const DEFAULT_DATA = {
       oldPrice: 4100000,
       material: 'Thân Gỗ Sồi & Chụp Lụa Tự Nhiên | Cao 165cm',
       badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Ánh sáng vàng ấm 2700K dịu nhẹ lan toả qua lớp chụp lụa dệt tay, tạo điểm nhấn ấm cúng cho góc sofa hoặc phòng ngủ.'
     }
   ],
@@ -112,8 +153,8 @@ function loadGhConfig() {
     if (raw) return JSON.parse(raw);
   } catch (e) {}
 
-  let autoOwner = '';
-  let autoRepo = '';
+  let autoOwner = 'ngclaam4444';
+  let autoRepo = 'noithattuankhai';
   if (location.hostname.endsWith('.github.io')) {
     autoOwner = location.hostname.replace('.github.io', '');
     const parts = location.pathname.split('/').filter(Boolean);
@@ -124,11 +165,28 @@ function loadGhConfig() {
   return { owner: autoOwner, repo: autoRepo, branch: 'main', token: '' };
 }
 
+function getProductImages(prod) {
+  if (Array.isArray(prod.images) && prod.images.filter(Boolean).length > 0) {
+    return prod.images.filter(Boolean);
+  }
+  return [prod.image].filter(Boolean);
+}
+
 async function initAdminData() {
   const localRaw = localStorage.getItem(STORAGE_KEY);
   if (localRaw) {
     try {
-      storeData = { ...DEFAULT_DATA, ...JSON.parse(localRaw) };
+      const parsed = JSON.parse(localRaw);
+      if (Array.isArray(parsed.products)) {
+        parsed.products = parsed.products.map(p => {
+          const defProd = DEFAULT_DATA.products.find(d => d.id === p.id);
+          if ((!p.images || p.images.length <= 1) && defProd && defProd.images) {
+            return { ...p, images: defProd.images };
+          }
+          return p;
+        });
+      }
+      storeData = { ...DEFAULT_DATA, ...parsed };
     } catch (e) {}
   }
 
@@ -345,27 +403,34 @@ function renderProductsTable() {
     return;
   }
 
-  tbody.innerHTML = list.map(p => `
-    <tr>
-      <td>
-        <div class="prod-cell">
-          <img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80'" />
-          <div>
-            <strong style="display: block; font-size: 0.95rem;">${p.name}</strong>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">${p.material || ''}</span>
+  tbody.innerHTML = list.map(p => {
+    const imgs = getProductImages(p);
+    return `
+      <tr>
+        <td>
+          <div class="prod-cell">
+            <img src="${imgs[0] || p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80'" />
+            <div>
+              <strong style="display: block; font-size: 0.95rem;">${p.name}</strong>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">${p.material || ''}</span>
+              <div style="margin-top: 4px;">
+                <span style="background: #EBF7F0; color: var(--success); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 600;">📷 ${imgs.length} ảnh góc chụp</span>
+                <a href="product.html?id=${encodeURIComponent(p.id)}" target="_blank" style="font-size: 0.75rem; color: var(--accent); margin-left: 8px; font-weight: 600;">Xem trang SP ↗</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </td>
-      <td><span style="background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">${p.category}</span></td>
-      <td><strong style="color: var(--accent);">${formatVND(p.price)}</strong></td>
-      <td style="color: var(--text-muted); text-decoration: line-through;">${p.oldPrice > p.price ? formatVND(p.oldPrice) : '—'}</td>
-      <td>${p.badge ? `<span style="background:#1E1610; color:#fff; padding: 3px 9px; border-radius:999px; font-size:0.75rem;">${p.badge}</span>` : '—'}</td>
-      <td style="text-align: right; white-space: nowrap;">
-        <button class="btn btn-secondary btn-sm" data-edit="${p.id}">✏️ Sửa</button>
-        <button class="btn btn-danger btn-sm" data-del="${p.id}">🗑️ Xoá</button>
-      </td>
-    </tr>
-  `).join('');
+        </td>
+        <td><span style="background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">${p.category}</span></td>
+        <td><strong style="color: var(--accent);">${formatVND(p.price)}</strong></td>
+        <td style="color: var(--text-muted); text-decoration: line-through;">${p.oldPrice > p.price ? formatVND(p.oldPrice) : '—'}</td>
+        <td>${p.badge ? `<span style="background:#1E1610; color:#fff; padding: 3px 9px; border-radius:999px; font-size:0.75rem;">${p.badge}</span>` : '—'}</td>
+        <td style="text-align: right; white-space: nowrap;">
+          <button class="btn btn-secondary btn-sm" data-edit="${p.id}">✏️ Sửa (${imgs.length} ảnh)</button>
+          <button class="btn btn-danger btn-sm" data-del="${p.id}">🗑️ Xoá</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
 
   tbody.querySelectorAll('[data-edit]').forEach(btn => {
     btn.addEventListener('click', () => openProductModal(btn.dataset.edit));
@@ -440,9 +505,13 @@ function openProductModal(productId = null) {
   const form = document.getElementById('prodForm');
   form.reset();
 
+  const placeholderImg = 'https://placehold.co/160x120/EFE6DD/8C583A?text=Trong';
+
   if (productId) {
     const p = storeData.products.find(x => x.id === productId);
     if (!p) return;
+    const imgs = getProductImages(p);
+
     document.getElementById('prodModalTitle').textContent = `✏️ Sửa Sản Phẩm: ${p.name}`;
     document.getElementById('prodId').value = p.id;
     document.getElementById('prodName').value = p.name;
@@ -451,13 +520,20 @@ function openProductModal(productId = null) {
     document.getElementById('prodOldPrice').value = p.oldPrice || '';
     document.getElementById('prodMaterial').value = p.material || '';
     document.getElementById('prodBadge').value = p.badge || '';
-    document.getElementById('prodImage').value = p.image;
-    document.getElementById('prevProdImg').src = p.image;
     document.getElementById('prodDesc').value = p.description || '';
+
+    for (let i = 1; i <= 5; i++) {
+      const val = imgs[i - 1] || '';
+      document.getElementById(`prodImage${i}`).value = val;
+      document.getElementById(`prevProdImg${i}`).src = val || placeholderImg;
+    }
   } else {
-    document.getElementById('prodModalTitle').textContent = '➕ Thêm Sản Phẩm Mới';
+    document.getElementById('prodModalTitle').textContent = '➕ Thêm Sản Phẩm Mới (Hỗ trợ 4–5 ảnh)';
     document.getElementById('prodId').value = '';
-    document.getElementById('prevProdImg').src = 'https://placehold.co/200x150/EFE6DD/8C583A?text=Chon+Anh';
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById(`prodImage${i}`).value = '';
+      document.getElementById(`prevProdImg${i}`).src = placeholderImg;
+    }
   }
 
   modal.classList.add('open');
@@ -467,25 +543,14 @@ function closeProductModal() {
   document.getElementById('prodModal').classList.remove('open');
 }
 
-function bindImagePicker(fileInputId, textInputId, previewImgId) {
-  const fileEl = document.getElementById(fileInputId);
-  const textEl = document.getElementById(textInputId);
-  const prevEl = document.getElementById(previewImgId);
-
-  textEl.addEventListener('input', () => {
-    if (prevEl) prevEl.src = textEl.value.trim();
-    markUnsaved();
-  });
-
-  fileEl.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
+function compressImageFile(file) {
+  return new Promise(resolve => {
     const reader = new FileReader();
     reader.onload = ev => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_W = 1100;
+        const MAX_W = 1000;
         let w = img.width;
         let h = img.height;
         if (w > MAX_W) {
@@ -495,15 +560,33 @@ function bindImagePicker(fileInputId, textInputId, previewImgId) {
         canvas.width = w;
         canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
-        textEl.value = dataUrl;
-        if (prevEl) prevEl.src = dataUrl;
-        markUnsaved();
-        showToast('📸 Đã nạp ảnh! Bấm Lưu để áp dụng.');
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
       };
       img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
+  });
+}
+
+function bindImagePicker(fileInputId, textInputId, previewImgId) {
+  const fileEl = document.getElementById(fileInputId);
+  const textEl = document.getElementById(textInputId);
+  const prevEl = document.getElementById(previewImgId);
+  if (!fileEl || !textEl) return;
+
+  textEl.addEventListener('input', () => {
+    if (prevEl) prevEl.src = textEl.value.trim() || 'https://placehold.co/160x120/EFE6DD/8C583A?text=Trong';
+    markUnsaved();
+  });
+
+  fileEl.addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const dataUrl = await compressImageFile(file);
+    textEl.value = dataUrl;
+    if (prevEl) prevEl.src = dataUrl;
+    markUnsaved();
+    showToast('📸 Đã nạp ảnh! Bấm Lưu để áp dụng.');
   });
 }
 
@@ -562,10 +645,31 @@ document.addEventListener('DOMContentLoaded', () => {
     inp.addEventListener('input', markUnsaved);
   });
 
+  // Brand & Story Image Pickers
   bindImagePicker('fileLogo', 'cfgLogoUrl', 'prevLogo');
   bindImagePicker('fileHeroBg', 'cfgHeroBg', 'prevHeroBg');
   bindImagePicker('fileStoryImg', 'cfgStoryImg', 'prevStoryImg');
-  bindImagePicker('fileProdImg', 'prodImage', 'prevProdImg');
+
+  // 5 Product Image Slots Pickers
+  for (let i = 1; i <= 5; i++) {
+    bindImagePicker(`fileProdImg${i}`, `prodImage${i}`, `prevProdImg${i}`);
+  }
+
+  // Multi-file picker (select 4-5 images at once!)
+  const multiInput = document.getElementById('multiProdFiles');
+  if (multiInput) {
+    multiInput.addEventListener('change', async e => {
+      const files = Array.from(e.target.files || []).slice(0, 5);
+      if (files.length === 0) return;
+      for (let i = 0; i < files.length; i++) {
+        const dataUrl = await compressImageFile(files[i]);
+        const slotIdx = i + 1;
+        document.getElementById(`prodImage${slotIdx}`).value = dataUrl;
+        document.getElementById(`prevProdImg${slotIdx}`).src = dataUrl;
+      }
+      showToast(`📸 Đã nạp nhanh ${files.length} ảnh vào các khung!`);
+    });
+  }
 
   document.getElementById('clearLogoBtn').addEventListener('click', () => {
     document.getElementById('cfgLogoUrl').value = '';
@@ -580,6 +684,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('prodForm').addEventListener('submit', e => {
     e.preventDefault();
     const id = document.getElementById('prodId').value;
+    const collectedImages = [];
+    for (let i = 1; i <= 5; i++) {
+      const val = document.getElementById(`prodImage${i}`).value.trim();
+      if (val) collectedImages.push(val);
+    }
+
     const item = {
       id: id || 'p_' + Date.now(),
       name: document.getElementById('prodName').value.trim(),
@@ -588,7 +698,8 @@ document.addEventListener('DOMContentLoaded', () => {
       oldPrice: Number(document.getElementById('prodOldPrice').value) || 0,
       material: document.getElementById('prodMaterial').value.trim(),
       badge: document.getElementById('prodBadge').value.trim(),
-      image: document.getElementById('prodImage').value.trim(),
+      image: collectedImages[0] || '',
+      images: collectedImages,
       description: document.getElementById('prodDesc').value.trim()
     };
 
@@ -600,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     closeProductModal();
-    saveAndPublishAll('✅ Đã lưu sản phẩm và cập nhật ngay lên trang bán hàng!');
+    saveAndPublishAll(`✅ Đã lưu sản phẩm (${collectedImages.length} ảnh) và cập nhật lên web!`);
   });
 
   document.getElementById('saveGhConfigBtn').addEventListener('click', () => {

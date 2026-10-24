@@ -855,15 +855,64 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Hình ảnh sản phẩm (Dán link ảnh hoặc Chọn ảnh từ máy tính) *</label>
-          <input type="text" id="prodImage" required placeholder="https://..." />
-          <div class="img-preview-row">
-            <img id="prevProdImg" class="img-preview-thumb" src="" alt="Preview" />
-            <label class="btn btn-secondary btn-sm">
-              📁 Chọn ảnh từ máy tính
-              <input type="file" id="fileProdImg" accept="image/*" style="display: none;" />
+        <div class="form-group" style="background: #FAF8F5; padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <label style="margin-bottom: 0; font-size: 0.92rem; color: var(--accent);">📸 Bộ 4 – 5 Ảnh Sản Phẩm (Đa góc chụp & Chi tiết) *</label>
+            <label class="btn btn-primary btn-sm" style="cursor: pointer;">
+              📁 Chọn nhanh 4–5 ảnh cùng lúc từ máy
+              <input type="file" id="multiProdFiles" accept="image/*" multiple style="display: none;" />
             </label>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+            Bạn có thể chọn 4–5 ảnh một lần bằng nút trên, hoặc dán link / chọn từng ảnh ở 5 khung bên dưới. Ảnh 1 sẽ làm ảnh đại diện chính.
+          </p>
+
+          <!-- 5 Image Slots -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="prevProdImg1" class="img-preview-thumb" style="width: 64px; height: 50px;" src="" alt="Ảnh 1" />
+              <input type="text" id="prodImage1" required placeholder="Ảnh 1 (Ảnh đại diện chính) *" style="flex: 1;" />
+              <label class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                📁 Ảnh 1
+                <input type="file" id="fileProdImg1" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="prevProdImg2" class="img-preview-thumb" style="width: 64px; height: 50px;" src="" alt="Ảnh 2" />
+              <input type="text" id="prodImage2" placeholder="Ảnh 2 (Góc nghiêng / Toàn cảnh)" style="flex: 1;" />
+              <label class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                📁 Ảnh 2
+                <input type="file" id="fileProdImg2" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="prevProdImg3" class="img-preview-thumb" style="width: 64px; height: 50px;" src="" alt="Ảnh 3" />
+              <input type="text" id="prodImage3" placeholder="Ảnh 3 (Chi tiết vân gỗ / Bề mặt da, vải)" style="flex: 1;" />
+              <label class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                📁 Ảnh 3
+                <input type="file" id="fileProdImg3" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="prevProdImg4" class="img-preview-thumb" style="width: 64px; height: 50px;" src="" alt="Ảnh 4" />
+              <input type="text" id="prodImage4" placeholder="Ảnh 4 (Phối cảnh trong phòng)" style="flex: 1;" />
+              <label class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                📁 Ảnh 4
+                <input type="file" id="fileProdImg4" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="prevProdImg5" class="img-preview-thumb" style="width: 64px; height: 50px;" src="" alt="Ảnh 5" />
+              <input type="text" id="prodImage5" placeholder="Ảnh 5 (Góc chụp bổ sung / Kích thước)" style="flex: 1;" />
+              <label class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                📁 Ảnh 5
+                <input type="file" id="fileProdImg5" accept="image/*" style="display: none;" />
+              </label>
+            </div>
           </div>
         </div>
 

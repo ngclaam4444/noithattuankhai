@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'MOC_AN_SHARED_DATA_V2';
+const CART_KEY = 'MOC_AN_CART_V2';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
 const FALLBACK_DATA = {
@@ -35,7 +36,14 @@ const FALLBACK_DATA = {
       oldPrice: 32000000,
       material: 'Gỗ Óc Chó & Da Bò Ý | 230x88x78cm',
       badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Thiết kế tinh giản lấy cảm hứng từ phong cách Japandi, khung gỗ óc chó Bắc Mỹ nguyên khối kết hợp đệm bọc da bò thật mềm mại, nâng đỡ cột sống tối ưu.'
     },
     {
@@ -46,7 +54,14 @@ const FALLBACK_DATA = {
       oldPrice: 23500000,
       material: 'Gỗ Sồi Nga Tự Nhiên | 180x90x75cm',
       badge: '-15%',
-      image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Bộ bàn ăn 6 ghế bo góc mềm mại, an toàn cho gia đình có trẻ nhỏ. Bề mặt phủ dầu lau thực vật giữ nguyên vân gỗ tự nhiên và chống thấm nước.'
     },
     {
@@ -57,7 +72,14 @@ const FALLBACK_DATA = {
       oldPrice: 18900000,
       material: 'Khung Gỗ Tần Bì & Vải Linen Bỉ | 180x200cm',
       badge: 'Mới 2026',
-      image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Tựa đầu giường êm ái như mây, bọc vải Linen Bỉ thoáng khí, kháng khuẩn. Kết cấu giạt giường gỗ tự nhiên chịu lực lên tới 500kg.'
     },
     {
@@ -68,7 +90,14 @@ const FALLBACK_DATA = {
       oldPrice: 9200000,
       material: 'Gỗ Tần Bì Uốn Cong & Da Microfiber | 78x82x80cm',
       badge: 'Yêu thích',
-      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Chiếc ghế thư giãn hoàn hảo cho góc đọc sách hoặc phòng khách hiện đại. Độ nghiêng lưng 105 độ chuẩn công thái học giúp thả lỏng cơ thể.'
     },
     {
@@ -79,7 +108,14 @@ const FALLBACK_DATA = {
       oldPrice: 0,
       material: 'Gỗ Óc Chó & Chân Đồng Thau | 150x70x75cm',
       badge: 'Cao cấp',
-      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Tích hợp hộc kéo ẩn và khe đi dây điện thông minh, mang lại không gian làm việc gọn gàng, truyền cảm hứng sáng tạo mỗi ngày.'
     },
     {
@@ -90,7 +126,13 @@ const FALLBACK_DATA = {
       oldPrice: 4100000,
       material: 'Thân Gỗ Sồi & Chụp Lụa Tự Nhiên | Cao 165cm',
       badge: 'Bán chạy',
-      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80',
+      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
+      images: [
+        'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=1000&q=80',
+        'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=1000&q=80'
+      ],
       description: 'Ánh sáng vàng ấm 2700K dịu nhẹ lan toả qua lớp chụp lụa dệt tay, tạo điểm nhấn ấm cúng cho góc sofa hoặc phòng ngủ.'
     }
   ],
@@ -98,27 +140,53 @@ const FALLBACK_DATA = {
 };
 
 let storeData = structuredClone(FALLBACK_DATA);
-let cart = [];
+let cart = loadCart();
 let activeCategory = 'Tất cả';
 let searchQuery = '';
 let sortMode = 'featured';
 
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCart() {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+function getProductImages(prod) {
+  if (Array.isArray(prod.images) && prod.images.filter(Boolean).length > 0) {
+    return prod.images.filter(Boolean);
+  }
+  return [prod.image].filter(Boolean);
+}
+
 async function initStoreData() {
-  // 1. Check localStorage first for instant rendering
   const localRaw = localStorage.getItem(STORAGE_KEY);
   if (localRaw) {
     try {
       const parsed = JSON.parse(localRaw);
+      if (Array.isArray(parsed.products)) {
+        parsed.products = parsed.products.map(p => {
+          const defProd = FALLBACK_DATA.products.find(d => d.id === p.id);
+          if ((!p.images || p.images.length <= 1) && defProd && defProd.images) {
+            return { ...p, images: defProd.images };
+          }
+          return p;
+        });
+      }
       storeData = { ...FALLBACK_DATA, ...parsed };
     } catch (e) {}
   }
 
-  // 2. Also fetch data.json (works on GitHub Pages & local HTTP server)
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
       const remoteData = await res.json();
-      // If remote data has a newer updatedAt timestamp or no local override exists, use remoteData
       const localUpdated = storeData.updatedAt || 0;
       const remoteUpdated = remoteData.updatedAt || 0;
       if (!localRaw || remoteUpdated >= localUpdated) {
@@ -132,9 +200,7 @@ async function initStoreData() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
       }
     }
-  } catch (err) {
-    // Running via file:// protocol, localStorage / FALLBACK_DATA is used seamlessly
-  }
+  } catch (err) {}
 
   renderSiteConfig();
   renderCategories();
@@ -286,76 +352,42 @@ function renderProducts() {
     return;
   }
 
-  grid.innerHTML = list.map(prod => `
-    <article class="product-card">
-      <div class="product-media">
-        ${prod.badge ? `<span class="product-badge ${prod.oldPrice > prod.price ? 'sale' : ''}">${prod.badge}</span>` : ''}
-        <img src="${prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80'" />
-        <div class="product-quick-actions">
-          <button class="quick-btn" data-quickview="${prod.id}">👁️ Xem chi tiết</button>
-        </div>
-      </div>
-
-      <div class="product-body">
-        <span class="product-category">${prod.category}</span>
-        <h3 class="product-title" data-quickview="${prod.id}">${prod.name}</h3>
-        <p class="product-meta">${prod.material || 'Gỗ tự nhiên cao cấp'}</p>
-
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-current">${formatVND(prod.price)}</span>
-            ${prod.oldPrice && prod.oldPrice > prod.price ? `<span class="price-old">${formatVND(prod.oldPrice)}</span>` : ''}
+  grid.innerHTML = list.map(prod => {
+    const imgs = getProductImages(prod);
+    const detailUrl = `product.html?id=${encodeURIComponent(prod.id)}`;
+    return `
+      <article class="product-card">
+        <a href="${detailUrl}" class="product-media">
+          ${prod.badge ? `<span class="product-badge ${prod.oldPrice > prod.price ? 'sale' : ''}">${prod.badge}</span>` : ''}
+          <span class="photo-count-badge">📷 ${imgs.length} ảnh</span>
+          <img src="${imgs[0] || prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80'" />
+          <div class="product-quick-actions">
+            <span class="quick-btn">👁️ Xem chi tiết (${imgs.length} ảnh)</span>
           </div>
-          <button class="btn btn-primary btn-sm" data-addcart="${prod.id}">+ Giỏ hàng</button>
-        </div>
-      </div>
-    </article>
-  `).join('');
+        </a>
 
-  grid.querySelectorAll('[data-quickview]').forEach(el => {
-    el.addEventListener('click', () => openQuickView(el.dataset.quickview));
-  });
+        <div class="product-body">
+          <span class="product-category">${prod.category}</span>
+          <a href="${detailUrl}">
+            <h3 class="product-title">${prod.name}</h3>
+          </a>
+          <p class="product-meta">${prod.material || 'Gỗ tự nhiên cao cấp'}</p>
+
+          <div class="product-footer">
+            <div class="price-wrap">
+              <span class="price-current">${formatVND(prod.price)}</span>
+              ${prod.oldPrice && prod.oldPrice > prod.price ? `<span class="price-old">${formatVND(prod.oldPrice)}</span>` : ''}
+            </div>
+            <button class="btn btn-primary btn-sm" data-addcart="${prod.id}">+ Giỏ hàng</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
 
   grid.querySelectorAll('[data-addcart]').forEach(btn => {
     btn.addEventListener('click', () => addToCart(btn.dataset.addcart));
   });
-}
-
-function openQuickView(productId) {
-  const prod = (storeData.products || []).find(p => p.id === productId);
-  if (!prod) return;
-
-  const modalBody = document.getElementById('quickViewBody');
-  modalBody.innerHTML = `
-    <div>
-      <img class="quickview-img" src="${prod.image}" alt="${prod.name}" />
-    </div>
-    <div class="quickview-details">
-      <span class="section-tag">${prod.category}</span>
-      <h2 style="font-size: 2rem; margin-bottom: 10px;">${prod.name}</h2>
-      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px;">
-        <strong style="font-size: 1.5rem; color: var(--accent-primary);">${formatVND(prod.price)}</strong>
-        ${prod.oldPrice > prod.price ? `<span style="text-decoration: line-through; color: var(--text-muted);">${formatVND(prod.oldPrice)}</span>` : ''}
-      </div>
-      <p style="font-size: 0.9rem; background: var(--bg-primary); padding: 10px 14px; border-radius: 8px; margin-bottom: 16px;">
-        <strong>Thông số / Chất liệu:</strong> ${prod.material || 'Tiêu chuẩn xuất khẩu'}
-      </p>
-      <p style="color: var(--text-secondary); margin-bottom: 24px;">
-        ${prod.description || 'Sản phẩm chế tác tỉ mỉ từ vật liệu chọn lọc, bảo hành kết cấu 5 năm và miễn phí lắp đặt nội thành.'}
-      </p>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <button class="btn btn-primary" id="qvAddCartBtn">🛒 Thêm vào giỏ hàng</button>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('qvAddCartBtn').addEventListener('click', () => {
-    addToCart(prod.id);
-    closeAllOverlays();
-  });
-
-  document.getElementById('backdrop').classList.add('open');
-  document.getElementById('quickViewModal').classList.add('open');
 }
 
 function addToCart(productId) {
@@ -368,6 +400,7 @@ function addToCart(productId) {
   } else {
     cart.push({ id: prod.id, name: prod.name, price: prod.price, image: prod.image, qty: 1 });
   }
+  saveCart();
   renderCart();
   showToast(`🛒 Đã thêm "${prod.name}" vào giỏ hàng!`);
 }
@@ -413,6 +446,7 @@ function renderCart() {
         if (item.qty <= 0) {
           cart = cart.filter(i => i.id !== id);
         }
+        saveCart();
         renderCart();
       }
     });
@@ -422,10 +456,10 @@ function renderCart() {
 function closeAllOverlays() {
   document.getElementById('backdrop').classList.remove('open');
   document.getElementById('cartDrawer').classList.remove('open');
-  document.getElementById('quickViewModal').classList.remove('open');
+  const qv = document.getElementById('quickViewModal');
+  if (qv) qv.classList.remove('open');
 }
 
-// Listen for real-time updates from admin.html
 if (syncChannel) {
   syncChannel.onmessage = ev => {
     if (ev.data && ev.data.type === 'DATA_UPDATED') {
@@ -445,6 +479,9 @@ window.addEventListener('storage', e => {
       renderCategories();
       renderProducts();
     } catch (err) {}
+  } else if (e.key === CART_KEY) {
+    cart = loadCart();
+    renderCart();
   }
 });
 
@@ -476,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('closeCartBtn').addEventListener('click', closeAllOverlays);
-  document.getElementById('closeQuickViewBtn').addEventListener('click', closeAllOverlays);
   document.getElementById('backdrop').addEventListener('click', closeAllOverlays);
 
   document.getElementById('proceedCheckoutBtn').addEventListener('click', () => {
@@ -504,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cart = [];
+    saveCart();
     renderCart();
     e.target.reset();
     closeAllOverlays();
