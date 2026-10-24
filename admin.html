@@ -1061,6 +1061,30 @@
     </div>
   </div>
 
+  <!-- QUICK GITHUB TOKEN MODAL (Shows if Token is empty when clicking Sync) -->
+  <div class="modal-backdrop" id="ghTokenModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);">
+        <h3 style="font-size: 1.2rem; color: var(--accent);">☁️ Kết Nối Đồng Bộ Vĩnh Viễn Lên GitHub</h3>
+        <button type="button" class="btn btn-secondary btn-sm" id="closeGhModalBtn">✕ Đóng</button>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">
+        Dữ liệu của bạn <strong>đã được lưu trên trình duyệt này</strong>. Tuy nhiên, để lưu vĩnh viễn vào file <code>data.json</code> trên GitHub (không bao giờ bị mất sau vài phút hay khi mở trên điện thoại), bạn hãy dán mã <strong>GitHub Token (<code>ghp_...</code>)</strong> vào ô dưới (chỉ cần dán 1 lần duy nhất):
+      </p>
+      <div class="form-group">
+        <label>Mã GitHub Personal Access Token (<code>ghp_...</code>)</label>
+        <input type="text" id="quickGhTokenInput" placeholder="Dán mã ghp_... của bạn vào đây" style="font-family: monospace;" />
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 18px;">
+        <a href="https://github.com/settings/tokens/new?scopes=repo&description=TuanKhaiCatalogAdmin" target="_blank" class="btn btn-secondary btn-sm">🔑 Lấy mã Token trên GitHub ↗</a>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="skipGhModalBtn">Chỉ lưu trên máy này</button>
+          <button type="button" class="btn btn-primary btn-sm" id="confirmQuickGhBtn">🚀 Lưu & Đẩy Lên GitHub Ngay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast">Đã lưu thay đổi!</div>
 
   <script src="admin.js"></script>

@@ -6,7 +6,7 @@ const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChann
 const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
 
 const DEFAULT_DATA = {
-  updatedAt: 1761280000000,
+  updatedAt: 1000,
   adminAuth: {
     username: 'admin',
     password: '123456'
@@ -219,8 +219,9 @@ async function initAdminData() {
 
   const remoteData = await fetchRemoteCatalogData();
   if (remoteData) {
-    const localUpdated = (localParsed && localParsed.updatedAt) || 0;
-    const remoteUpdated = remoteData.updatedAt || 0;
+    const localUpdated = (localParsed && Number(localParsed.updatedAt)) || 0;
+    const remoteUpdated = Number(remoteData.updatedAt) || 0;
+    // Never overwrite local data unless remote data on GitHub is STRICTLY NEWER than local data
     if (!localParsed || remoteUpdated > localUpdated) {
       storeData = {
         ...DEFAULT_DATA,
@@ -363,7 +364,7 @@ function collectFormIntoStoreData() {
   storeData.updatedAt = Date.now();
 }
 
-async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ngay sang trang Catalog!') {
+async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ngay sang trang Catalog!', askTokenIfMissing = false) {
   collectFormIntoStoreData();
 
   try {
@@ -382,13 +383,16 @@ async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ng
     markSaved('⏳ Đang đẩy dữ liệu lên GitHub...');
     const ok = await pushDataJsonToGitHub();
     if (ok) {
-      markSaved('🟢 Đã đồng bộ lên GitHub (PC & Mobile)');
-      showToast('🚀 Đã lưu và cập nhật trực tiếp lên GitHub cho cả Web & Mobile!');
+      markSaved('🟢 Đã lưu vĩnh viễn lên GitHub (PC & Mobile)');
+      showToast('🚀 Đã lưu vĩnh viễn lên GitHub cho cả Web & Mobile!');
       return;
     }
+  } else if (askTokenIfMissing) {
+    const ghModal = document.getElementById('ghTokenModal');
+    if (ghModal) ghModal.classList.add('open');
   }
 
-  markSaved('🟢 Đã lưu trên trình duyệt này');
+  markSaved('🟢 Đã lưu trên trình duyệt này (Chưa đẩy lên GitHub)');
   showToast(triggerMsg);
 }
 
@@ -663,7 +667,7 @@ function compressImageFile(file, isLogo = false) {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_W = isLogo ? 400 : 1000;
+        const MAX_W = isLogo ? 360 : 800;
         let w = img.width;
         let h = img.height;
         if (w > MAX_W) {
@@ -678,7 +682,7 @@ function compressImageFile(file, isLogo = false) {
         if (isLogo && file.type === 'image/png') {
           resolve(canvas.toDataURL('image/png'));
         } else {
-          resolve(canvas.toDataURL('image/jpeg', 0.82));
+          resolve(canvas.toDataURL('image/jpeg', 0.74));
         }
       };
       img.src = ev.target.result;
@@ -765,7 +769,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('masterSaveBtn').addEventListener('click', () => {
-    saveAndPublishAll();
+    saveAndPublishAll('✅ Đã lưu trên trình duyệt này!', true);
+  });
+
+  const ghModal = document.getElementById('ghTokenModal');
+  const closeGhModal = () => { if (ghModal) ghModal.classList.remove('open'); };
+  document.getElementById('closeGhModalBtn')?.addEventListener('click', closeGhModal);
+  document.getElementById('skipGhModalBtn')?.addEventListener('click', closeGhModal);
+  document.getElementById('confirmQuickGhBtn')?.addEventListener('click', () => {
+    const tok = document.getElementById('quickGhTokenInput').value.trim();
+    if (!tok) {
+      showToast('⚠️ Vui lòng dán mã GitHub Token (ghp_...) vào ô!');
+      return;
+    }
+    ghConfig.token = tok;
+    document.getElementById('ghToken').value = tok;
+    localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(ghConfig));
+    closeGhModal();
+    updateCloudPillStatus();
+    saveAndPublishAll('🚀 Đang đồng bộ vĩnh viễn lên GitHub...', false);
   });
 
   document.getElementById('exportJsonBtn').addEventListener('click', () => {

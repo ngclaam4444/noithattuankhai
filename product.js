@@ -6,7 +6,7 @@ const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChann
 const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
 
 const FALLBACK_DATA = {
-  updatedAt: 1761280000000,
+  updatedAt: 1000,
   brand: {
     name: 'TUẤN KHẢI',
     tagline: 'NỘI THẤT NHỰA CAO CẤP',
@@ -205,10 +205,11 @@ async function initProductPage() {
 
   const remoteData = await fetchRemoteCatalogData();
   if (remoteData) {
-    const localUpdated = (localParsed && localParsed.updatedAt) || 0;
-    const remoteUpdated = remoteData.updatedAt || 0;
+    const localUpdated = (localParsed && Number(localParsed.updatedAt)) || 0;
+    const remoteUpdated = Number(remoteData.updatedAt) || 0;
 
-    if (!localParsed || !isAdminLogged() || remoteUpdated >= localUpdated) {
+    // ONLY overwrite local data if there is no local data yet, OR if remote data on GitHub is STRICTLY NEWER than local data!
+    if (!localParsed || remoteUpdated > localUpdated) {
       storeData = {
         ...FALLBACK_DATA,
         ...remoteData,
