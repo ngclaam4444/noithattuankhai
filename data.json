@@ -1,0 +1,99 @@
+{
+  "adminAuth": {
+    "username": "admin",
+    "password": "123456"
+  },
+  "brand": {
+    "name": "MỘC AN",
+    "tagline": "INTERIOR & LIVING",
+    "logoUrl": "",
+    "accentColor": "#8C583A",
+    "topbarPromo": "✨ Miễn phí vận chuyển & lắp đặt nội thành cho đơn hàng từ 10.000.000đ",
+    "heroBg": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=85",
+    "heroBadge": "BỘ SƯU TẬP MỚI 2026",
+    "heroTitle": "Kiến Tạo Không Gian Sống Đậm Chất Nghệ Thuật",
+    "heroSubtitle": "Sự giao thoa hoàn hảo giữa gỗ tự nhiên tuyển chọn và phong cách thiết kế đương đại ấm cúng, mang lại cảm giác bình yên cho tổ ấm của bạn.",
+    "storyImg": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
+    "storyTitle": "Hành Trình Đưa Sự Ấm Áp Tự Nhiên Vào Từng Ngôi Nhà Việt",
+    "storyP1": "Khởi nguồn từ xưởng mộc thủ công truyền thống, Mộc An Living ra đời với khát vọng tạo nên những sản phẩm nội thất vừa mang nét thanh lịch đương đại, vừa giữ trọn vẹn hơi thở mộc mạc, ấm áp của gỗ tự nhiên.",
+    "storyP2": "Chúng tôi tin rằng ngôi nhà không chỉ là nơi để ở, mà là không gian nuôi dưỡng cảm xúc và gắn kết gia đình. Từng đường vân gỗ, từng mũi khâu da hay lớp đệm êm ái đều được chăm chút tỉ mỉ."
+  },
+  "contact": {
+    "address": "Số 128 Nguyễn Cơ Thạch, Khu đô thị Sala, Quận 2, TP. Hồ Chí Minh",
+    "phone": "0909 888 999",
+    "email": "lienhe@mocanliving.vn",
+    "hours": "08:30 - 21:00 (T2 - CN)",
+    "facebook": "https://facebook.com",
+    "zalo": "https://zalo.me/0909888999",
+    "instagram": "https://instagram.com"
+  },
+  "products": [
+    {
+      "id": "p1",
+      "name": "Sofa Văng Gỗ Óc Chó Bắc Mỹ Kyoto",
+      "category": "Phòng khách",
+      "price": 28500000,
+      "oldPrice": 32000000,
+      "material": "Gỗ Óc Chó & Da Bò Ý | 230x88x78cm",
+      "badge": "Bán chạy",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80",
+      "description": "Thiết kế tinh giản lấy cảm hứng từ phong cách Japandi, khung gỗ óc chó Bắc Mỹ nguyên khối kết hợp đệm bọc da bò thật mềm mại, nâng đỡ cột sống tối ưu."
+    },
+    {
+      "id": "p2",
+      "name": "Bàn Ăn Nguyên Tấm Gỗ Sồi Nga 6 Ghế Oslo",
+      "category": "Phòng ăn",
+      "price": 19800000,
+      "oldPrice": 23500000,
+      "material": "Gỗ Sồi Nga Tự Nhiên | 180x90x75cm",
+      "badge": "-15%",
+      "image": "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=900&q=80",
+      "description": "Bộ bàn ăn 6 ghế bo góc mềm mại, an toàn cho gia đình có trẻ nhỏ. Bề mặt phủ dầu lau thực vật giữ nguyên vân gỗ tự nhiên và chống thấm nước."
+    },
+    {
+      "id": "p3",
+      "name": "Giường Ngủ Bọc Nỉ Linen Cao Cấp Cloud",
+      "category": "Phòng ngủ",
+      "price": 16500000,
+      "oldPrice": 18900000,
+      "material": "Khung Gỗ Tần Bì & Vải Linen Bỉ | 180x200cm",
+      "badge": "Mới 2026",
+      "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+      "description": "Tựa đầu giường êm ái như mây, bọc vải Linen Bỉ thoáng khí, kháng khuẩn. Kết cấu giạt giường gỗ tự nhiên chịu lực lên tới 500kg."
+    },
+    {
+      "id": "p4",
+      "name": "Ghế Thư Giãn Bọc Da Lounge Armchair",
+      "category": "Phòng khách",
+      "price": 7900000,
+      "oldPrice": 9200000,
+      "material": "Gỗ Tần Bì Uốn Cong & Da Microfiber | 78x82x80cm",
+      "badge": "Yêu thích",
+      "image": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=80",
+      "description": "Chiếc ghế thư giãn hoàn hảo cho góc đọc sách hoặc phòng khách hiện đại. Độ nghiêng lưng 105 độ chuẩn công thái học giúp thả lỏng cơ thể."
+    },
+    {
+      "id": "p5",
+      "name": "Bàn Làm Việc Giám Đốc Tại Gia Artisan",
+      "category": "Phòng làm việc",
+      "price": 11200000,
+      "oldPrice": 0,
+      "material": "Gỗ Óc Chó & Chân Đồng Thau | 150x70x75cm",
+      "badge": "Cao cấp",
+      "image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=900&q=80",
+      "description": "Tích hợp hộc kéo ẩn và khe đi dây điện thông minh, mang lại không gian làm việc gọn gàng, truyền cảm hứng sáng tạo mỗi ngày."
+    },
+    {
+      "id": "p6",
+      "name": "Đèn Sàn Nghệ Thuật Chụp Vải Lụa WarmGlow",
+      "category": "Trang trí",
+      "price": 3450000,
+      "oldPrice": 4100000,
+      "material": "Thân Gỗ Sồi & Chụp Lụa Tự Nhiên | Cao 165cm",
+      "badge": "Bán chạy",
+      "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80",
+      "description": "Ánh sáng vàng ấm 2700K dịu nhẹ lan toả qua lớp chụp lụa dệt tay, tạo điểm nhấn ấm cúng cho góc sofa hoặc phòng ngủ."
+    }
+  ],
+  "orders": []
+}
