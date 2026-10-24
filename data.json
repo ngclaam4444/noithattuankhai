@@ -1,5 +1,5 @@
-﻿{
-  "updatedAt": 1792816563092,
+{
+  "updatedAt": 1792826310286,
   "adminAuth": {
     "username": "admin",
     "password": "123456"
@@ -124,5 +124,8 @@
       "description": "Kệ trang trí phòng khách, vách ngăn cầu thang hoặc tủ giày thông minh bằng nhựa cao cấp không bám mùi, dễ dàng lau rửa bằng nước mà không lo bong tróc."
     }
   ],
-  "orders": []
+  "orders": [],
+  "deletedOrderIds": [
+    "inq_1792818580649_7j38"
+  ]
 }
