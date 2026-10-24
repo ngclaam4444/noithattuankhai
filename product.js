@@ -234,20 +234,6 @@ function renderCurrentProduct() {
   }
 
   document.getElementById('detName').textContent = currentProduct.name;
-  document.getElementById('detPrice').textContent = formatPriceDisplay(currentProduct.price);
-
-  const oldPriceEl = document.getElementById('detOldPrice');
-  const discPill = document.getElementById('detDiscountPill');
-  if (currentProduct.oldPrice && currentProduct.oldPrice > currentProduct.price && currentProduct.price > 0) {
-    oldPriceEl.textContent = formatPriceDisplay(currentProduct.oldPrice);
-    const pct = Math.round(((currentProduct.oldPrice - currentProduct.price) / currentProduct.oldPrice) * 100);
-    discPill.textContent = `Ưu đãi ${pct}%`;
-    discPill.style.display = 'inline-block';
-  } else {
-    oldPriceEl.textContent = '';
-    discPill.style.display = 'none';
-  }
-
   document.getElementById('detMaterial').textContent = currentProduct.material || 'Nhựa cao cấp chống nước 100%';
   document.getElementById('detDescription').textContent =
     currentProduct.description ||
@@ -305,10 +291,7 @@ function renderRelatedProducts() {
           <p class="product-meta">${prod.material || 'Nhựa cao cấp chống nước'}</p>
 
           <div class="product-footer">
-            <div class="price-wrap">
-              <span style="font-size: 0.74rem; color: var(--text-muted);">Giá tham khảo:</span>
-              <span class="price-current">${formatPriceDisplay(prod.price)}</span>
-            </div>
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--accent-primary);">📐 Đóng theo kích thước yêu cầu</span>
             <a href="product.html?id=${encodeURIComponent(prod.id)}" class="btn btn-secondary btn-sm">Xem ${imgCount} ảnh →</a>
           </div>
         </div>

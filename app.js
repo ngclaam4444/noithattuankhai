@@ -299,10 +299,8 @@ function renderProducts() {
     );
   }
 
-  if (sortMode === 'price-asc') {
-    list.sort((a, b) => (a.price || 0) - (b.price || 0));
-  } else if (sortMode === 'price-desc') {
-    list.sort((a, b) => (b.price || 0) - (a.price || 0));
+  if (sortMode === 'name-asc') {
+    list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'vi'));
   } else if (sortMode === 'newest') {
     list.reverse();
   }
@@ -334,7 +332,7 @@ function renderProducts() {
     return `
       <article class="product-card">
         <a href="${detailUrl}" class="product-media">
-          ${prod.badge ? `<span class="product-badge ${prod.oldPrice > prod.price ? 'sale' : ''}">${prod.badge}</span>` : ''}
+          ${prod.badge ? `<span class="product-badge">${prod.badge}</span>` : ''}
           <span class="photo-count-badge">📷 ${imgs.length} ảnh thực tế</span>
           <img src="${imgs[0] || prod.image}" alt="${prod.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=80'" />
           <div class="product-quick-actions">
@@ -351,9 +349,7 @@ function renderProducts() {
 
           <div class="product-footer">
             <div class="price-wrap">
-              <span style="font-size: 0.74rem; color: var(--text-muted);">Giá tham khảo:</span>
-              <span class="price-current">${formatPriceDisplay(prod.price)}</span>
-              ${prod.oldPrice && prod.oldPrice > prod.price ? `<span class="price-old">${formatPriceDisplay(prod.oldPrice)}</span>` : ''}
+              <span style="font-size: 0.82rem; font-weight: 600; color: var(--accent-primary);">📐 Đóng theo kích thước yêu cầu</span>
             </div>
             <a href="${detailUrl}" class="btn btn-primary btn-sm">Xem Chi Tiết →</a>
           </div>

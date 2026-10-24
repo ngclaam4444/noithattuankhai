@@ -389,7 +389,7 @@ function renderProductsTable() {
   const list = storeData.products || [];
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 30px; color: var(--text-muted);">Chưa có mẫu sản phẩm nào. Hãy bấm "+ Thêm Sản Phẩm Mới".</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 30px; color: var(--text-muted);">Chưa có mẫu sản phẩm nào. Hãy bấm "+ Thêm Mẫu Mới".</td></tr>`;
     return;
   }
 
@@ -404,15 +404,13 @@ function renderProductsTable() {
               <strong style="display: block; font-size: 0.95rem;">${p.name}</strong>
               <span style="font-size: 0.8rem; color: var(--text-muted);">${p.material || ''}</span>
               <div style="margin-top: 4px;">
-                <span style="background: #EBF7F0; color: var(--success); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 600;">📷 ${imgs.length} ảnh góc chụp</span>
-                <a href="product.html?id=${encodeURIComponent(p.id)}" target="_blank" style="font-size: 0.75rem; color: var(--accent); margin-left: 8px; font-weight: 600;">Xem trang mẫu ↗</a>
+                <a href="product.html?id=${encodeURIComponent(p.id)}" target="_blank" style="font-size: 0.75rem; color: var(--accent); font-weight: 600;">Xem trang mẫu ↗</a>
               </div>
             </div>
           </div>
         </td>
         <td><span style="background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">${p.category}</span></td>
-        <td><strong style="color: var(--accent);">${formatPriceDisplay(p.price)}</strong></td>
-        <td style="color: var(--text-muted); text-decoration: line-through;">${p.oldPrice > p.price && p.price > 0 ? formatPriceDisplay(p.oldPrice) : '—'}</td>
+        <td><span style="background: #EBF7F0; color: var(--success); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">📷 ${imgs.length} ảnh góc chụp</span></td>
         <td>${p.badge ? `<span style="background:#1E1610; color:#fff; padding: 3px 9px; border-radius:999px; font-size:0.75rem;">${p.badge}</span>` : '—'}</td>
         <td style="text-align: right; white-space: nowrap;">
           <button class="btn btn-secondary btn-sm" data-edit="${p.id}">✏️ Sửa (${imgs.length} ảnh)</button>
@@ -506,8 +504,6 @@ function openProductModal(productId = null) {
     document.getElementById('prodId').value = p.id;
     document.getElementById('prodName').value = p.name;
     document.getElementById('prodCategory').value = p.category;
-    document.getElementById('prodPrice').value = p.price || 0;
-    document.getElementById('prodOldPrice').value = p.oldPrice || '';
     document.getElementById('prodMaterial').value = p.material || '';
     document.getElementById('prodBadge').value = p.badge || '';
     document.getElementById('prodDesc').value = p.description || '';
@@ -520,7 +516,6 @@ function openProductModal(productId = null) {
   } else {
     document.getElementById('prodModalTitle').textContent = '➕ Thêm Mẫu Nội Thất Nhựa Mới (4–5 ảnh)';
     document.getElementById('prodId').value = '';
-    document.getElementById('prodPrice').value = 0;
     for (let i = 1; i <= 5; i++) {
       document.getElementById(`prodImage${i}`).value = '';
       document.getElementById(`prevProdImg${i}`).src = placeholderImg;
@@ -682,8 +677,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: id || 'p_' + Date.now(),
       name: document.getElementById('prodName').value.trim(),
       category: document.getElementById('prodCategory').value,
-      price: Number(document.getElementById('prodPrice').value) || 0,
-      oldPrice: Number(document.getElementById('prodOldPrice').value) || 0,
       material: document.getElementById('prodMaterial').value.trim(),
       badge: document.getElementById('prodBadge').value.trim(),
       image: collectedImages[0] || '',
