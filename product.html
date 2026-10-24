@@ -194,106 +194,7 @@
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(44, 94, 110, 0.12), transparent 50%),
-        radial-gradient(circle at 85% 20%, rgba(200, 155, 101, 0.15), transparent 52%),
-        radial-gradient(circle at 20% 85%, rgba(200, 155, 101, 0.11), transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(44, 94, 110, 0.12), transparent 55%),
-        linear-gradient(135deg, #F6F8FA 0%, #F9F5EE 48%, #EEF4F7 100%);
-      background-size: 200% 200%;
-      animation: luxuryBgGradientFlow 22s ease-in-out infinite alternate;
-    }
-    @keyframes luxuryBgGradientFlow {
-      0% { background-position: 0% 0%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 50% 100%; }
-    }
-    .ambient-grid-pattern {
-      position: absolute;
-      inset: -120px;
-      background-image:
-        linear-gradient(to right, rgba(44, 94, 110, 0.038) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(200, 155, 101, 0.038) 1px, transparent 1px);
-      background-size: 72px 72px;
-      animation: ambientGridPan 32s linear infinite;
-    }
-    @keyframes ambientGridPan {
-      0% { transform: translate3d(0, 0, 0); }
-      100% { transform: translate3d(72px, 72px, 0); }
-    }
-    .ambient-light-beams {
-      position: absolute;
-      inset: -30%;
-      background: repeating-linear-gradient(
-        115deg,
-        transparent 0%,
-        rgba(255, 244, 224, 0.25) 7%,
-        rgba(200, 155, 101, 0.07) 11%,
-        transparent 22%
-      );
-      filter: blur(32px);
-      animation: sweepLightBeams 18s ease-in-out infinite alternate;
-    }
-    @keyframes sweepLightBeams {
-      0% { transform: translateX(-6%) rotate(-2deg) scale(1.04); opacity: 0.65; }
-      50% { transform: translateX(5%) rotate(1deg) scale(1.08); opacity: 0.95; }
-      100% { transform: translateX(-3%) rotate(-1deg) scale(1.05); opacity: 0.75; }
-    }
-    .luxury-3d-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(200, 155, 101, 0.22);
-      pointer-events: none;
-    }
-    .luxury-3d-ring::before {
-      content: ''; position: absolute; inset: 36px; border-radius: 50%;
-      border: 1px solid rgba(44, 94, 110, 0.14);
-    }
-    .luxury-3d-ring.ring-1 { width: 640px; height: 640px; top: 4%; right: -180px; animation: spinRing3D 60s linear infinite; }
-    .luxury-3d-ring.ring-2 { width: 540px; height: 540px; bottom: 4%; left: -180px; animation: spinRing3DRev 70s linear infinite; }
-    @keyframes spinRing3D { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.04); } 100% { transform: rotate(360deg) scale(1); } }
-    @keyframes spinRing3DRev { 0% { transform: rotate(360deg) scale(1); } 50% { transform: rotate(180deg) scale(1.04); } 100% { transform: rotate(0deg) scale(1); } }
-    .ambient-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.65;
-      will-change: transform;
-    }
-    .ambient-orb.orb-1 {
-      width: 560px; height: 560px; top: -10%; left: -6%;
-      background: radial-gradient(circle, rgba(44, 94, 110, 0.32) 0%, rgba(44, 94, 110, 0) 70%);
-      animation: floatOrb1 22s ease-in-out infinite alternate;
-    }
-    .ambient-orb.orb-2 {
-      width: 620px; height: 620px; top: 25%; right: -10%;
-      background: radial-gradient(circle, rgba(200, 155, 101, 0.34) 0%, rgba(200, 155, 101, 0) 70%);
-      animation: floatOrb2 25s ease-in-out infinite alternate;
-    }
-    .ambient-orb.orb-3 {
-      width: 540px; height: 540px; bottom: -10%; left: 18%;
-      background: radial-gradient(circle, rgba(58, 128, 145, 0.28) 0%, rgba(58, 128, 145, 0) 70%);
-      animation: floatOrb3 24s ease-in-out infinite alternate;
-    }
-    .ambient-orb.orb-4 {
-      width: 480px; height: 480px; top: 52%; left: 40%;
-      background: radial-gradient(circle, rgba(215, 175, 125, 0.26) 0%, rgba(215, 175, 125, 0) 70%);
-      animation: floatOrb1 28s ease-in-out infinite alternate-reverse;
-    }
-    @keyframes floatOrb1 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(110px, 70px, 0) scale(1.12); }
-      100% { transform: translate3d(40px, 140px, 0) scale(0.95); }
-    }
-    @keyframes floatOrb2 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-120px, 80px, 0) scale(1.1); }
-      100% { transform: translate3d(-60px, -80px, 0) scale(0.94); }
-    }
-    @keyframes floatOrb3 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(100px, -90px, 0) scale(1.14); }
-      100% { transform: translate3d(-80px, -40px, 0) scale(0.96); }
+      background: linear-gradient(180deg, #E8F1F6 0%, #F3EFE6 55%, #E4EEF4 100%);
     }
     #ambientParticleCanvas {
       position: absolute;
@@ -303,22 +204,14 @@
       pointer-events: none;
     }
     .topbar, .header, .section, .footer { position: relative; z-index: 1; }
-    .section { background: transparent !important; }
-    .section-alt { background: rgba(255, 255, 255, 0.55) !important; backdrop-filter: blur(12px); }
+    .section { background: rgba(246, 250, 253, 0.52) !important; backdrop-filter: blur(2px); }
+    .section-alt { background: rgba(255, 255, 255, 0.62) !important; backdrop-filter: blur(4px); }
   </style>
 </head>
 <body>
 
-  <!-- Dynamic Animated Showroom Background -->
+  <!-- Live 2D Animated CNC Plastic Furniture Workshop Background -->
   <div class="ambient-bg-wrapper" aria-hidden="true">
-    <div class="ambient-grid-pattern"></div>
-    <div class="ambient-light-beams"></div>
-    <div class="luxury-3d-ring ring-1"></div>
-    <div class="luxury-3d-ring ring-2"></div>
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
-    <div class="ambient-orb orb-4"></div>
     <canvas id="ambientParticleCanvas"></canvas>
   </div>
 
@@ -687,97 +580,82 @@
       }
     });
 
-    // 60FPS Architectural Silk Ribbon Waves & Warm Showroom Sunlight Bokeh on Product Page
-    (function initProductArchitecturalCanvas() {
+    // 60FPS Live 2D Animated CNC Plastic Furniture Workshop Background on Product Page
+    (function initProductCNCWorkshop2D() {
       const canvas = document.getElementById('ambientParticleCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      let width = 0, height = 0, time = 0;
-      const isMobile = window.innerWidth < 768;
-      const bokehCount = isMobile ? 12 : 22;
-      const bokehList = [];
-      const pointer = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+      let W = 0, H = 0, t = 0;
+      const chips = [];
 
       function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
       }
       resize();
       window.addEventListener('resize', resize);
 
-      window.addEventListener('mousemove', e => {
-        pointer.tx = e.clientX;
-        pointer.ty = e.clientY;
-      });
-
-      for (let i = 0; i < bokehCount; i++) {
-        bokehList.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.22,
-          vy: -Math.random() * 0.24 - 0.08,
-          r: Math.random() * 28 + 12,
-          phase: Math.random() * Math.PI * 2,
-          speed: Math.random() * 0.015 + 0.008,
-          warm: Math.random() > 0.35
-        });
+      function drawWorker2D(x, y, scale, poseTime, isDrilling, flipX) {
+        ctx.save();
+        ctx.translate(x, y);
+        if (flipX) ctx.scale(-scale, scale); else ctx.scale(scale, scale);
+        const bob = Math.sin(poseTime * 4) * 2;
+        ctx.strokeStyle = '#2B4C5E'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(-6, -28); ctx.lineTo(-9, 0); ctx.moveTo(6, -28); ctx.lineTo(9, 0); ctx.stroke();
+        ctx.fillStyle = '#2C5E6E'; ctx.beginPath(); ctx.roundRect(-13, -64 + bob, 26, 38, 6); ctx.fill();
+        ctx.fillStyle = '#E5B46B'; ctx.fillRect(-13, -44 + bob, 26, 4);
+        ctx.fillStyle = '#F3C69F'; ctx.beginPath(); ctx.arc(0, -76 + bob, 9.5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#E9B44C'; ctx.beginPath(); ctx.arc(0, -79 + bob, 10.5, Math.PI, 0); ctx.fill(); ctx.fillRect(-12, -80 + bob, 24, 3);
+        ctx.save();
+        ctx.translate(6, -56 + bob);
+        ctx.rotate(isDrilling ? -0.35 + Math.sin(poseTime * 6) * 0.22 : -0.25 + Math.cos(poseTime * 3) * 0.18);
+        ctx.strokeStyle = '#2C5E6E'; ctx.lineWidth = 6.5;
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(22, 0); ctx.stroke();
+        if (isDrilling) {
+          ctx.fillStyle = '#D9822B'; ctx.fillRect(22, -6, 13, 8);
+        }
+        ctx.restore();
+        ctx.restore();
       }
 
-      const ribbons = [
-        { yRatio: 0.22, amp1: 45, amp2: 24, freq1: 0.0020, freq2: 0.0036, speed: 0.65, spread: 9, alpha: 0.17, color: 'rgba(200, 155, 101, ALPHA)' },
-        { yRatio: 0.52, amp1: 52, amp2: 26, freq1: 0.0018, freq2: 0.0032, speed: 0.55, spread: 10, alpha: 0.14, color: 'rgba(44, 94, 110, ALPHA)' },
-        { yRatio: 0.80, amp1: 38, amp2: 20, freq1: 0.0024, freq2: 0.0040, speed: 0.72, spread: 8, alpha: 0.16, color: 'rgba(200, 155, 101, ALPHA)' }
-      ];
-
       function draw() {
-        ctx.clearRect(0, 0, width, height);
-        time += 0.012;
+        ctx.clearRect(0, 0, W, H);
+        t += 0.022;
+        const scale = Math.max(W / 1400, H / 680);
+        ctx.save();
+        ctx.translate((W - 1400 * scale) * 0.5, (H - 680 * scale) * 0.5);
+        ctx.scale(scale, scale);
+        ctx.globalAlpha = 0.42;
 
-        if (pointer.tx > -1000) {
-          if (pointer.x < -1000) { pointer.x = pointer.tx; pointer.y = pointer.ty; }
-          else { pointer.x += (pointer.tx - pointer.x) * 0.08; pointer.y += (pointer.ty - pointer.y) * 0.08; }
-          const spot = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
-          spot.addColorStop(0, 'rgba(200, 155, 101, 0.13)');
-          spot.addColorStop(0.5, 'rgba(44, 94, 110, 0.04)');
-          spot.addColorStop(1, 'rgba(200, 155, 101, 0)');
-          ctx.fillStyle = spot;
-          ctx.beginPath();
-          ctx.arc(pointer.x, pointer.y, 260, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        const floorY = 535;
+        ctx.fillStyle = '#DFEBF2'; ctx.fillRect(0, 0, 1400, floorY);
+        ctx.fillStyle = '#D2E2EC'; ctx.fillRect(0, floorY, 1400, 200);
 
-        const threads = isMobile ? 5 : 8;
-        for (let w = 0; w < ribbons.length; w++) {
-          const rw = ribbons[w];
-          for (let t = 0; t < threads; t++) {
-            ctx.beginPath();
-            const yBase = height * rw.yRatio + (t - threads / 2) * rw.spread;
-            for (let x = 0; x <= width + 40; x += 36) {
-              const y = yBase + Math.sin(x * rw.freq1 + time * rw.speed + t * 0.14) * rw.amp1 + Math.cos(x * rw.freq2 - time * (rw.speed * 0.7) + w) * rw.amp2;
-              if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            }
-            const alpha = rw.alpha * (1 - Math.abs(t - threads / 2) / (threads * 0.75));
-            ctx.strokeStyle = rw.color.replace('ALPHA', Math.max(0.02, alpha).toFixed(3));
-            ctx.lineWidth = 1.15;
-            ctx.stroke();
-          }
-        }
+        // CNC Machine (Left)
+        const cncBaseX = 120, cncBaseY = 395, cncW = 360;
+        ctx.fillStyle = '#315A6E'; ctx.fillRect(cncBaseX, cncBaseY + 35, cncW, 75);
+        ctx.fillStyle = '#F4F8FA'; ctx.fillRect(cncBaseX + 24, cncBaseY + 6, cncW - 48, 22);
+        const gantryX = cncBaseX + 60 + ((Math.sin(t * 1.3) + 1) * 0.5) * (cncW - 130);
+        ctx.fillStyle = '#C89B65';
+        ctx.fillRect(gantryX - 38, cncBaseY - 82, 12, 112);
+        ctx.fillRect(gantryX + 38, cncBaseY - 82, 12, 112);
+        ctx.fillStyle = '#204254'; ctx.fillRect(gantryX - 44, cncBaseY - 92, 100, 22);
+        const headX = gantryX + Math.cos(t * 2.7) * 20;
+        ctx.fillStyle = '#E2A64B'; ctx.fillRect(headX - 11, cncBaseY - 78, 22, 54);
 
-        for (let i = 0; i < bokehList.length; i++) {
-          const b = bokehList[i];
-          b.x = (b.x + b.vx + width) % width;
-          b.y = (b.y + b.vy + height) % height;
-          b.phase += b.speed;
-          const br = (Math.sin(b.phase) + 1) * 0.5;
-          const rad = b.r * (0.85 + br * 0.3);
-          const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, rad);
-          g.addColorStop(0, b.warm ? `rgba(200, 155, 101, ${(0.14 + br * 0.12).toFixed(3)})` : `rgba(44, 94, 110, ${(0.11 + br * 0.10).toFixed(3)})`);
-          g.addColorStop(1, 'rgba(200, 155, 101, 0)');
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, rad, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        // Conveyor (Center)
+        const convX = 515, convY = 445, convW = 285;
+        ctx.fillStyle = '#356075'; ctx.fillRect(convX, convY, convW, 16);
+        ctx.fillStyle = '#2C5E6E'; ctx.fillRect(convX + 95, convY - 58, 96, 58);
+
+        // Tall Wardrobe Assembly (Right)
+        const cabX = 935, cabY = 185, cabW = 240, cabH = 340;
+        ctx.fillStyle = '#FFFFFF'; ctx.strokeStyle = '#C89B65'; ctx.lineWidth = 3;
+        ctx.fillRect(cabX, cabY, cabW, cabH); ctx.strokeRect(cabX, cabY, cabW, cabH);
+        drawWorker2D(cabX - 36, floorY, 1.35, t, true, false);
+        drawWorker2D(cabX + cabW + 46, floorY, 1.35, t + 1.5, false, true);
+
+        ctx.restore();
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);

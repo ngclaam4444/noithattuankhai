@@ -403,15 +403,14 @@ img {
   color: #fff;
 }
 
-/* Hero Section */
+/* Hero Section with Live 2D CNC Workshop Video Background */
 .hero {
   position: relative;
-  min-height: 620px;
+  min-height: 640px;
   display: flex;
   align-items: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-image: none !important;
+  background-color: #10212B !important;
   color: #fff;
   overflow: hidden;
 }
@@ -419,14 +418,15 @@ img {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(95deg, rgba(25, 17, 12, 0.82) 0%, rgba(25, 17, 12, 0.55) 55%, rgba(25, 17, 12, 0.25) 100%);
-  z-index: 1;
+  background: linear-gradient(90deg, rgba(12, 25, 34, 0.84) 0%, rgba(12, 25, 34, 0.52) 45%, rgba(12, 25, 34, 0.14) 100%);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2;
-  max-width: 680px;
+  z-index: 3;
+  max-width: 650px;
   padding: 80px 0;
 }
 
