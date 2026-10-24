@@ -1,7 +1,12 @@
 const STORAGE_KEY = 'MOC_AN_PLASTIC_CATALOG_V3';
+const ADMIN_AUTH_SESSION = 'MOC_AN_ADMIN_SESSION_V2';
+const GH_CONFIG_KEY = 'MOC_AN_GITHUB_SYNC_CONFIG';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
+const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
+
 const FALLBACK_DATA = {
+  updatedAt: 1761280000000,
   brand: {
     name: 'TUẤN KHẢI',
     tagline: 'NỘI THẤT NHỰA CAO CẤP',
@@ -31,8 +36,6 @@ const FALLBACK_DATA = {
       id: 'p1',
       name: 'Tủ Quần Áo Nhựa Ecoplast Kịch Trần Cánh Kính Phối Đèn LED',
       category: 'Tủ quần áo',
-      price: 12500000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Cao Cấp + Cánh Kính Khung Nhôm | May đo theo phòng',
       badge: 'Mẫu Hot 2026',
       image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80',
@@ -49,8 +52,6 @@ const FALLBACK_DATA = {
       id: 'p2',
       name: 'Tủ Bếp Nhựa Đặc Picomat Phủ Acrylic Bóng Gương Chữ L',
       category: 'Tủ bếp',
-      price: 18500000,
-      oldPrice: 0,
       material: 'Thùng Nhựa Đặc Picomat Chống Nước 100% + Cánh Acrylic | Thiết kế theo bếp',
       badge: 'Chống nước 100%',
       image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80',
@@ -67,8 +68,6 @@ const FALLBACK_DATA = {
       id: 'p3',
       name: 'Giường Ngủ Nhựa Ecoplast Cao Cấp Tích Hợp Ngăn Kéo Đa Năng',
       category: 'Giường ngủ',
-      price: 5800000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Gân Chịu Lực Dày Dặn | Kích thước 1m6x2m / 1m8x2m',
       badge: 'Bền bỉ 15 năm',
       image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
@@ -85,8 +84,6 @@ const FALLBACK_DATA = {
       id: 'p4',
       name: 'Hệ Tủ Tivi Kết Hợp Vách Lam Sóng Nhựa Cao Cấp Phòng Khách',
       category: 'Tủ tivi',
-      price: 6900000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Vân Gỗ Óc Chó & Lam Sóng PVC | Dài 2m0 - 2m6',
       badge: 'Sang trọng',
       image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80',
@@ -103,8 +100,6 @@ const FALLBACK_DATA = {
       id: 'p5',
       name: 'Tủ Quần Áo Nhựa ChinHuei Đài Loan 4 Cánh Mở Kèm Bàn Trang Điểm',
       category: 'Tủ quần áo',
-      price: 8900000,
-      oldPrice: 0,
       material: 'Nhựa ChinHuei Chính Hãng Dày 2 Lớp | 200x240x55cm',
       badge: 'Được ưa chuộng',
       image: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80',
@@ -120,8 +115,6 @@ const FALLBACK_DATA = {
       id: 'p6',
       name: 'Hệ Kệ Trang Trí & Tủ Giày Kịch Trần Nhựa Cao Cấp',
       category: 'Kệ trang trí',
-      price: 4500000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Chống Nước, Dễ Vệ Sinh | Đặt đóng theo kích thước',
       badge: 'Thiết kế thông minh',
       image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80',
@@ -142,6 +135,10 @@ let activeCategory = 'Tất cả';
 let searchQuery = '';
 let sortMode = 'featured';
 
+function isAdminLogged() {
+  return localStorage.getItem(ADMIN_AUTH_SESSION) === 'true';
+}
+
 function getProductImages(prod) {
   if (Array.isArray(prod.images) && prod.images.filter(Boolean).length > 0) {
     return prod.images.filter(Boolean);
@@ -149,53 +146,111 @@ function getProductImages(prod) {
   return [prod.image].filter(Boolean);
 }
 
-async function initStoreData() {
-  const localRaw = localStorage.getItem(STORAGE_KEY);
-  if (localRaw) {
-    try {
-      const parsed = JSON.parse(localRaw);
-      storeData = { ...FALLBACK_DATA, ...parsed };
-    } catch (e) {}
-  }
+async function fetchRemoteCatalogData() {
+  let owner = 'ngclaam4444';
+  let repo = 'noithattuankhai';
+  let branch = 'main';
+  try {
+    const cfg = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || '{}');
+    if (cfg.owner) owner = cfg.owner;
+    if (cfg.repo) repo = cfg.repo;
+    if (cfg.branch) branch = cfg.branch;
+  } catch (e) {}
 
+  // 1. Try GitHub API first for instant real-time sync (0s delay on mobile & desktop)
+  try {
+    const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/vnd.github+json' }
+    });
+    if (apiRes.ok) {
+      const info = await apiRes.json();
+      if (info && info.content) {
+        const cleanB64 = info.content.replace(/\s/g, '');
+        const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
+        return JSON.parse(jsonStr);
+      }
+    }
+  } catch (e) {}
+
+  // 2. Fallback to local/static data.json
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
-      const remoteData = await res.json();
-      const localUpdated = storeData.updatedAt || 0;
-      const remoteUpdated = remoteData.updatedAt || 0;
-      if (!localRaw || remoteUpdated >= localUpdated) {
-        storeData = {
-          ...FALLBACK_DATA,
-          ...remoteData,
-          orders: storeData.orders && storeData.orders.length > (remoteData.orders || []).length
-            ? storeData.orders
-            : (remoteData.orders || [])
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-      }
+      return await res.json();
     }
-  } catch (err) {}
+  } catch (e) {}
 
+  return null;
+}
+
+async function initStoreData() {
+  // Check URL category filter (?cat=...)
+  const params = new URLSearchParams(window.location.search);
+  const urlCat = params.get('cat');
+  if (urlCat) {
+    activeCategory = urlCat;
+  }
+
+  let localParsed = null;
+  const localRaw = localStorage.getItem(STORAGE_KEY);
+  if (localRaw) {
+    try {
+      localParsed = JSON.parse(localRaw);
+      storeData = {
+        ...FALLBACK_DATA,
+        ...localParsed,
+        brand: { ...FALLBACK_DATA.brand, ...(localParsed.brand || {}) },
+        contact: { ...FALLBACK_DATA.contact, ...(localParsed.contact || {}) }
+      };
+    } catch (e) {}
+  }
+
+  renderAdminBar();
   renderSiteConfig();
   renderCategories();
   renderProducts();
+
+  // Fetch latest remote data from GitHub / data.json
+  const remoteData = await fetchRemoteCatalogData();
+  if (remoteData) {
+    const localUpdated = (localParsed && localParsed.updatedAt) || 0;
+    const remoteUpdated = remoteData.updatedAt || 0;
+
+    // On viewer devices (like mobile not logged into Admin) or when remote is newer/equal, apply remoteData
+    if (!localParsed || !isAdminLogged() || remoteUpdated >= localUpdated) {
+      storeData = {
+        ...FALLBACK_DATA,
+        ...remoteData,
+        brand: { ...FALLBACK_DATA.brand, ...(remoteData.brand || {}) },
+        contact: { ...FALLBACK_DATA.contact, ...(remoteData.contact || {}) },
+        orders: (localParsed && Array.isArray(localParsed.orders) && localParsed.orders.length > (remoteData.orders || []).length)
+          ? localParsed.orders
+          : (remoteData.orders || [])
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+      } catch (e) {}
+      renderSiteConfig();
+      renderCategories();
+      renderProducts();
+    }
+  }
+}
+
+function renderAdminBar() {
+  const adminBar = document.getElementById('adminQuickBar');
+  if (!adminBar) return;
+  adminBar.style.display = isAdminLogged() ? 'block' : 'none';
 }
 
 function saveCustomerInquiry(newInquiry) {
   if (!Array.isArray(storeData.orders)) storeData.orders = [];
   storeData.orders.unshift(newInquiry);
-  storeData.updatedAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
   if (syncChannel) {
     syncChannel.postMessage({ type: 'DATA_UPDATED', data: storeData });
   }
-}
-
-function formatPriceDisplay(amount) {
-  const num = Number(amount) || 0;
-  if (num <= 0) return 'Liên hệ báo giá';
-  return num.toLocaleString('vi-VN') + 'đ';
 }
 
 function showToast(msg) {
@@ -218,16 +273,33 @@ function renderSiteConfig() {
   document.getElementById('brandTaglineText').textContent = brand.tagline;
   document.getElementById('topbarPromo').textContent = brand.topbarPromo;
 
+  // Always show Logo on both Desktop & Mobile (Custom Logo if uploaded, otherwise Luxury TK Emblem)
+  const activeLogoSrc = (brand.logoUrl && brand.logoUrl.trim() !== '') ? brand.logoUrl.trim() : DEFAULT_LOGO_SVG;
   const logoImg = document.getElementById('brandLogoImg');
-  if (brand.logoUrl && brand.logoUrl.trim() !== '') {
-    logoImg.src = brand.logoUrl;
+  if (logoImg) {
+    logoImg.src = activeLogoSrc;
     logoImg.style.display = 'block';
-  } else {
-    logoImg.style.display = 'none';
+    if (brand.logoUrl && brand.logoUrl.trim() !== '') {
+      logoImg.classList.add('custom-wide-logo');
+    } else {
+      logoImg.classList.remove('custom-wide-logo');
+    }
+    logoImg.onerror = () => {
+      logoImg.src = DEFAULT_LOGO_SVG;
+      logoImg.classList.remove('custom-wide-logo');
+    };
+  }
+
+  const footerLogoImg = document.getElementById('footerLogoImg');
+  if (footerLogoImg) {
+    footerLogoImg.src = activeLogoSrc;
+    footerLogoImg.onerror = () => {
+      footerLogoImg.src = DEFAULT_LOGO_SVG;
+    };
   }
 
   const heroEl = document.getElementById('home');
-  heroEl.style.backgroundImage = `url('${brand.heroBg}')`;
+  if (heroEl) heroEl.style.backgroundImage = `url('${brand.heroBg}')`;
   document.getElementById('heroBadge').textContent = brand.heroBadge;
   document.getElementById('heroTitle').textContent = brand.heroTitle;
   document.getElementById('heroSubtitle').textContent = brand.heroSubtitle;
@@ -285,6 +357,7 @@ function renderCategories() {
 function renderProducts() {
   const grid = document.getElementById('productsGrid');
   let list = [...(storeData.products || [])];
+  const adminMode = isAdminLogged();
 
   if (activeCategory !== 'Tất cả') {
     list = list.filter(p => p.category === activeCategory);
@@ -341,7 +414,10 @@ function renderProducts() {
         </a>
 
         <div class="product-body">
-          <span class="product-category">${prod.category}</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="product-category" style="margin-bottom: 0;">${prod.category}</span>
+            ${adminMode ? `<a href="admin.html?edit=${encodeURIComponent(prod.id)}" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); background: var(--accent-light); padding: 2px 8px; border-radius: 6px;">✏️ Sửa mẫu</a>` : ''}
+          </div>
           <a href="${detailUrl}">
             <h3 class="product-title">${prod.name}</h3>
           </a>
@@ -359,10 +435,29 @@ function renderProducts() {
   }).join('');
 }
 
+function reloadFromLocalStorage() {
+  renderAdminBar();
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const parsed = JSON.parse(raw);
+    storeData = {
+      ...FALLBACK_DATA,
+      ...parsed,
+      brand: { ...FALLBACK_DATA.brand, ...(parsed.brand || {}) },
+      contact: { ...FALLBACK_DATA.contact, ...(parsed.contact || {}) }
+    };
+    renderSiteConfig();
+    renderCategories();
+    renderProducts();
+  } catch (e) {}
+}
+
 if (syncChannel) {
   syncChannel.onmessage = ev => {
     if (ev.data && ev.data.type === 'DATA_UPDATED') {
       storeData = ev.data.data;
+      renderAdminBar();
       renderSiteConfig();
       renderCategories();
       renderProducts();
@@ -371,14 +466,13 @@ if (syncChannel) {
 }
 
 window.addEventListener('storage', e => {
-  if (e.key === STORAGE_KEY && e.newValue) {
-    try {
-      storeData = JSON.parse(e.newValue);
-      renderSiteConfig();
-      renderCategories();
-      renderProducts();
-    } catch (err) {}
+  if (e.key === STORAGE_KEY || e.key === ADMIN_AUTH_SESSION) {
+    reloadFromLocalStorage();
   }
+});
+
+window.addEventListener('focus', () => {
+  reloadFromLocalStorage();
 });
 
 document.addEventListener('DOMContentLoaded', () => {

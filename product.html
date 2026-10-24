@@ -11,6 +11,21 @@
 </head>
 <body>
 
+  <!-- Admin Quick Control Bar (Visible when logged into Admin on this browser) -->
+  <div class="admin-Control-bar" id="adminQuickBar" style="display: none;">
+    <div class="container admin-bar-inner">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span class="admin-badge-pill">👑 Chế độ Quản Trị Viên</span>
+        <span style="font-size: 0.82rem; color: #D5E3EC;">Đang xem trang chi tiết mẫu nội thất.</span>
+      </div>
+      <div class="admin-bar-actions">
+        <a href="admin.html" id="adminEditCurrentBtn" class="admin-bar-btn primary">✏️ Sửa Mẫu Này Trong Admin</a>
+        <a href="admin.html?action=add" class="admin-bar-btn">➕ Thêm Mẫu Mới</a>
+        <a href="admin.html" class="admin-bar-btn">⚙️ Bảng Điều Khiển Admin</a>
+      </div>
+    </div>
+  </div>
+
   <!-- Top Announcement Bar -->
   <div class="topbar">
     <div class="container topbar-inner">
@@ -26,7 +41,7 @@
   <header class="header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img id="brandLogoImg" src="" alt="Logo" style="display: none;" />
+        <img id="brandLogoImg" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E" alt="Logo TUẤN KHẢI" />
         <div>
           <span id="brandNameText">TUẤN KHẢI</span>
           <span class="brand-subtitle" id="brandTaglineText">NỘI THẤT NHỰA CAO CẤP</span>
@@ -165,7 +180,10 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <h4 id="footerBrandName">TUẤN KHẢI — NỘI THẤT NHỰA CAO CẤP</h4>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+            <img id="footerLogoImg" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E" alt="Logo" style="width: 44px; height: 44px; object-fit: contain; border-radius: 8px; background: #fff; flex-shrink: 0;" />
+            <h4 id="footerBrandName" style="margin-bottom: 0;">TUẤN KHẢI — NỘI THẤT NHỰA CAO CẤP</h4>
+          </div>
           <p style="font-size: 0.9rem; margin-bottom: 16px;">
             Chuyên thiết kế & thi công Tủ quần áo, Tủ bếp, Giường ngủ, Tủ tivi, Kệ trang trí bằng nhựa cao cấp chống nước 100%, không mối mọt, bền đẹp vượt thời gian.
           </p>
@@ -176,11 +194,11 @@
         <div>
           <h4>Danh Mục Sản Phẩm</h4>
           <ul>
-            <li><a href="index.html#products">Tủ quần áo nhựa cao cấp</a></li>
-            <li><a href="index.html#products">Tủ bếp nhựa chống nước</a></li>
-            <li><a href="index.html#products">Giường ngủ nhựa cao cấp</a></li>
-            <li><a href="index.html#products">Tủ tivi & Vách trang trí</a></li>
-            <li><a href="index.html#products">Kệ trang trí & Tủ giày</a></li>
+            <li><a href="index.html?cat=T%E1%BB%A7%20qu%E1%BA%A7n%20%C3%A1o#products">Tủ quần áo nhựa cao cấp</a></li>
+            <li><a href="index.html?cat=T%E1%BB%A7%20b%E1%BA%BFp#products">Tủ bếp nhựa chống nước</a></li>
+            <li><a href="index.html?cat=Gi%C6%B0%E1%BB%9Dng%20ng%E1%BB%A7#products">Giường ngủ nhựa cao cấp</a></li>
+            <li><a href="index.html?cat=T%E1%BB%A7%20tivi#products">Tủ tivi & Vách trang trí</a></li>
+            <li><a href="index.html?cat=K%E1%BB%87%20trang%20tr%C3%AD#products">Kệ trang trí & Tủ giày</a></li>
           </ul>
         </div>
 

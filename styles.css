@@ -208,7 +208,7 @@ img {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-family: var(--font-serif);
   font-size: 1.75rem;
   font-weight: 700;
@@ -225,12 +225,20 @@ img {
 }
 
 .brand-logo img {
-  height: 44px;
-  width: auto;
-  max-width: 130px;
+  display: block !important;
+  height: 46px;
+  width: 46px;
+  max-width: 140px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 10px;
   flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(26, 36, 45, 0.12);
+  background: #fff;
+}
+
+.brand-logo img.custom-wide-logo {
+  width: auto;
+  max-width: 135px;
 }
 
 .brand-subtitle {
@@ -1599,26 +1607,29 @@ img {
     gap: 8px;
   }
   .navbar {
-    min-height: 64px;
+    min-height: 66px;
     padding: 8px 0;
     gap: 8px;
   }
   .brand-logo {
-    font-size: 1.32rem;
-    gap: 8px;
+    font-size: 1.25rem;
+    gap: 9px;
   }
   .brand-logo img {
-    height: 34px;
-    max-width: 84px;
+    display: block !important;
+    height: 38px;
+    width: 38px;
+    max-width: 90px;
+    border-radius: 8px;
   }
   .brand-subtitle {
-    font-size: 0.53rem;
-    letter-spacing: 1px;
+    font-size: 0.52rem;
+    letter-spacing: 0.8px;
     margin-top: 2px;
   }
   .nav-actions .btn {
-    padding: 8px 13px;
-    font-size: 0.76rem;
+    padding: 8px 12px;
+    font-size: 0.74rem;
     white-space: nowrap;
   }
   .hero {

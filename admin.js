@@ -3,7 +3,10 @@ const ADMIN_AUTH_SESSION = 'MOC_AN_ADMIN_SESSION_V2';
 const GH_CONFIG_KEY = 'MOC_AN_GITHUB_SYNC_CONFIG';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
+const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
+
 const DEFAULT_DATA = {
+  updatedAt: 1761280000000,
   adminAuth: {
     username: 'admin',
     password: '123456'
@@ -37,8 +40,6 @@ const DEFAULT_DATA = {
       id: 'p1',
       name: 'Tủ Quần Áo Nhựa Ecoplast Kịch Trần Cánh Kính Phối Đèn LED',
       category: 'Tủ quần áo',
-      price: 12500000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Cao Cấp + Cánh Kính Khung Nhôm | May đo theo phòng',
       badge: 'Mẫu Hot 2026',
       image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80',
@@ -55,8 +56,6 @@ const DEFAULT_DATA = {
       id: 'p2',
       name: 'Tủ Bếp Nhựa Đặc Picomat Phủ Acrylic Bóng Gương Chữ L',
       category: 'Tủ bếp',
-      price: 18500000,
-      oldPrice: 0,
       material: 'Thùng Nhựa Đặc Picomat Chống Nước 100% + Cánh Acrylic | Thiết kế theo bếp',
       badge: 'Chống nước 100%',
       image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1000&q=80',
@@ -73,8 +72,6 @@ const DEFAULT_DATA = {
       id: 'p3',
       name: 'Giường Ngủ Nhựa Ecoplast Cao Cấp Tích Hợp Ngăn Kéo Đa Năng',
       category: 'Giường ngủ',
-      price: 5800000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Gân Chịu Lực Dày Dặn | Kích thước 1m6x2m / 1m8x2m',
       badge: 'Bền bỉ 15 năm',
       image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
@@ -91,8 +88,6 @@ const DEFAULT_DATA = {
       id: 'p4',
       name: 'Hệ Tủ Tivi Kết Hợp Vách Lam Sóng Nhựa Cao Cấp Phòng Khách',
       category: 'Tủ tivi',
-      price: 6900000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Vân Gỗ Óc Chó & Lam Sóng PVC | Dài 2m0 - 2m6',
       badge: 'Sang trọng',
       image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80',
@@ -109,8 +104,6 @@ const DEFAULT_DATA = {
       id: 'p5',
       name: 'Tủ Quần Áo Nhựa ChinHuei Đài Loan 4 Cánh Mở Kèm Bàn Trang Điểm',
       category: 'Tủ quần áo',
-      price: 8900000,
-      oldPrice: 0,
       material: 'Nhựa ChinHuei Chính Hãng Dày 2 Lớp | 200x240x55cm',
       badge: 'Được ưa chuộng',
       image: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80',
@@ -126,8 +119,6 @@ const DEFAULT_DATA = {
       id: 'p6',
       name: 'Hệ Kệ Trang Trí & Tủ Giày Kịch Trần Nhựa Cao Cấp',
       category: 'Kệ trang trí',
-      price: 4500000,
-      oldPrice: 0,
       material: 'Nhựa Ecoplast Chống Nước, Dễ Vệ Sinh | Đặt đóng theo kích thước',
       badge: 'Thiết kế thông minh',
       image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80',
@@ -149,7 +140,15 @@ let ghConfig = loadGhConfig();
 function loadGhConfig() {
   try {
     const raw = localStorage.getItem(GH_CONFIG_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        owner: parsed.owner || 'ngclaam4444',
+        repo: parsed.repo || 'noithattuankhai',
+        branch: parsed.branch || 'main',
+        token: parsed.token || ''
+      };
+    }
   } catch (e) {}
 
   let autoOwner = 'ngclaam4444';
@@ -171,34 +170,101 @@ function getProductImages(prod) {
   return [prod.image].filter(Boolean);
 }
 
-async function initAdminData() {
-  const localRaw = localStorage.getItem(STORAGE_KEY);
-  if (localRaw) {
-    try {
-      storeData = { ...DEFAULT_DATA, ...JSON.parse(localRaw) };
-    } catch (e) {}
-  }
+async function fetchRemoteCatalogData() {
+  const owner = ghConfig.owner || 'ngclaam4444';
+  const repo = ghConfig.repo || 'noithattuankhai';
+  const branch = ghConfig.branch || 'main';
+
+  try {
+    const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/vnd.github+json' }
+    });
+    if (apiRes.ok) {
+      const info = await apiRes.json();
+      if (info && info.content) {
+        const cleanB64 = info.content.replace(/\s/g, '');
+        const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
+        return JSON.parse(jsonStr);
+      }
+    }
+  } catch (e) {}
 
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
-      const remoteData = await res.json();
-      const localUpdated = storeData.updatedAt || 0;
-      const remoteUpdated = remoteData.updatedAt || 0;
-      if (!localRaw || remoteUpdated >= localUpdated) {
-        storeData = { ...DEFAULT_DATA, ...remoteData };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-      }
+      return await res.json();
     }
-  } catch (err) {}
+  } catch (e) {}
 
-  populateAllFields();
+  return null;
 }
 
-function formatPriceDisplay(amount) {
-  const num = Number(amount) || 0;
-  if (num <= 0) return 'Liên hệ báo giá';
-  return num.toLocaleString('vi-VN') + 'đ';
+async function initAdminData() {
+  let localParsed = null;
+  const localRaw = localStorage.getItem(STORAGE_KEY);
+  if (localRaw) {
+    try {
+      localParsed = JSON.parse(localRaw);
+      storeData = {
+        ...DEFAULT_DATA,
+        ...localParsed,
+        brand: { ...DEFAULT_DATA.brand, ...(localParsed.brand || {}) },
+        contact: { ...DEFAULT_DATA.contact, ...(localParsed.contact || {}) }
+      };
+    } catch (e) {}
+  }
+
+  populateAllFields();
+
+  const remoteData = await fetchRemoteCatalogData();
+  if (remoteData) {
+    const localUpdated = (localParsed && localParsed.updatedAt) || 0;
+    const remoteUpdated = remoteData.updatedAt || 0;
+    if (!localParsed || remoteUpdated > localUpdated) {
+      storeData = {
+        ...DEFAULT_DATA,
+        ...remoteData,
+        brand: { ...DEFAULT_DATA.brand, ...(remoteData.brand || {}) },
+        contact: { ...DEFAULT_DATA.contact, ...(remoteData.contact || {}) }
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+      } catch (e) {}
+      populateAllFields();
+    }
+  }
+
+  handleUrlActions();
+}
+
+function handleUrlActions() {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get('tab');
+  const editId = params.get('edit');
+  const action = params.get('action');
+
+  if (tab) {
+    switchTab(tab);
+  }
+  if (editId) {
+    switchTab('pane-products');
+    setTimeout(() => openProductModal(editId), 100);
+  } else if (action === 'add') {
+    switchTab('pane-products');
+    setTimeout(() => openProductModal(null), 100);
+  }
+}
+
+function switchTab(tabId) {
+  const targetPane = document.getElementById(tabId);
+  if (!targetPane) return;
+  document.querySelectorAll('.nav-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === tabId);
+  });
 }
 
 function showToast(msg) {
@@ -208,13 +274,14 @@ function showToast(msg) {
   clearTimeout(window._toastTimer);
   window._toastTimer = setTimeout(() => {
     toast.classList.remove('show');
-  }, 3500);
+  }, 3800);
 }
 
 function markUnsaved() {
   const badge = document.getElementById('syncStatusBadge');
   badge.textContent = '🟡 Có thay đổi chưa bấm Lưu';
   badge.classList.add('unsaved');
+  updateLiveHeaderPreview();
 }
 
 function markSaved(msg = '🟢 Đã đồng bộ dữ liệu') {
@@ -223,11 +290,48 @@ function markSaved(msg = '🟢 Đã đồng bộ dữ liệu') {
   badge.classList.remove('unsaved');
 }
 
-async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và cập nhật ngay lên trang web!') {
+function updateCloudPillStatus() {
+  const pill = document.getElementById('ghStatusPill');
+  if (!pill) return;
+  if (ghConfig.owner && ghConfig.repo && ghConfig.token) {
+    pill.textContent = `☁️ Đã kết nối GitHub (${ghConfig.owner}/${ghConfig.repo})`;
+    pill.classList.add('connected');
+  } else {
+    pill.textContent = '⚠️ Chưa nhập GitHub Token (Bấm để kết nối đồng bộ sang Mobile)';
+    pill.classList.remove('connected');
+  }
+}
+
+function updateLiveHeaderPreview() {
+  const nameVal = document.getElementById('cfgBrandName').value.trim() || 'TUẤN KHẢI';
+  const subVal = document.getElementById('cfgBrandTagline').value.trim() || 'NỘI THẤT NHỰA CAO CẤP';
+  const rawLogo = document.getElementById('cfgLogoUrl').value.trim();
+  const logoSrc = rawLogo !== '' ? rawLogo : DEFAULT_LOGO_SVG;
+  const accentVal = document.getElementById('cfgAccentColor').value || '#2C5E6E';
+
+  document.documentElement.style.setProperty('--accent', accentVal);
+
+  ['prevLogoDesktop', 'prevLogoMobile', 'sidebarLogoImg', 'loginLogoImg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.src = logoSrc;
+      el.onerror = () => { el.src = DEFAULT_LOGO_SVG; };
+    }
+  });
+
+  document.getElementById('prevNameDesktop').textContent = nameVal;
+  document.getElementById('prevSubDesktop').textContent = subVal;
+  document.getElementById('prevNameMobile').textContent = nameVal;
+  document.getElementById('prevSubMobile').textContent = subVal;
+  document.getElementById('sidebarBrandTitle').textContent = nameVal;
+  document.getElementById('sidebarBrandTagline').textContent = subVal;
+}
+
+function collectFormIntoStoreData() {
   storeData.brand = {
     name: document.getElementById('cfgBrandName').value.trim() || 'TUẤN KHẢI',
-    tagline: document.getElementById('cfgBrandTagline').value.trim(),
-    accentColor: document.getElementById('cfgAccentColor').value,
+    tagline: document.getElementById('cfgBrandTagline').value.trim() || 'NỘI THẤT NHỰA CAO CẤP',
+    accentColor: document.getElementById('cfgAccentColor').value || '#2C5E6E',
     topbarPromo: document.getElementById('cfgTopbarPromo').value.trim(),
     logoUrl: document.getElementById('cfgLogoUrl').value.trim(),
     heroBg: document.getElementById('cfgHeroBg').value.trim(),
@@ -257,6 +361,10 @@ async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và cập nhật ng
   }
 
   storeData.updatedAt = Date.now();
+}
+
+async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và đồng bộ ngay sang trang Catalog!') {
+  collectFormIntoStoreData();
 
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
@@ -271,16 +379,16 @@ async function saveAndPublishAll(triggerMsg = '✅ Đã lưu và cập nhật ng
   populateAllFields();
 
   if (ghConfig.owner && ghConfig.repo && ghConfig.token) {
-    markSaved('⏳ Đang đồng bộ lên GitHub...');
+    markSaved('⏳ Đang đẩy dữ liệu lên GitHub...');
     const ok = await pushDataJsonToGitHub();
     if (ok) {
-      markSaved('🟢 Đã lưu & đồng bộ trực tiếp lên GitHub!');
-      showToast('🚀 Đã lưu và đẩy trực tiếp lên GitHub Pages thành công!');
+      markSaved('🟢 Đã đồng bộ lên GitHub (PC & Mobile)');
+      showToast('🚀 Đã lưu và cập nhật trực tiếp lên GitHub cho cả Web & Mobile!');
       return;
     }
   }
 
-  markSaved('🟢 Đã lưu & cập nhật trực tiếp');
+  markSaved('🟢 Đã lưu trên trình duyệt này');
   showToast(triggerMsg);
 }
 
@@ -290,7 +398,8 @@ async function pushDataJsonToGitHub() {
 
   try {
     let sha = undefined;
-    const getRes = await fetch(`${apiUrl}?ref=${branch || 'main'}`, {
+    const getRes = await fetch(`${apiUrl}?ref=${branch || 'main'}&t=${Date.now()}`, {
+      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github+json'
@@ -302,7 +411,12 @@ async function pushDataJsonToGitHub() {
     }
 
     const jsonString = JSON.stringify(storeData, null, 2);
-    const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+    const bytes = new TextEncoder().encode(jsonString);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64Content = btoa(binary);
 
     const putRes = await fetch(apiUrl, {
       method: 'PUT',
@@ -312,7 +426,7 @@ async function pushDataJsonToGitHub() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        message: `Cập nhật Catalog Nội Thất Nhựa từ Admin Portal (${new Date().toLocaleString('vi-VN')})`,
+        message: `Cập nhật Catalog Nội Thất Nhựa từ Admin (${new Date().toLocaleString('vi-VN')})`,
         content: base64Content,
         branch: branch || 'main',
         ...(sha ? { sha } : {})
@@ -321,7 +435,7 @@ async function pushDataJsonToGitHub() {
 
     if (!putRes.ok) {
       const errData = await putRes.json();
-      showToast(`⚠️ Lỗi GitHub API: ${errData.message || 'Kiểm tra lại Token/Repo'}`);
+      showToast(`⚠️ Lỗi GitHub API: ${errData.message || 'Kiểm tra lại mã Token'}`);
       return false;
     }
     return true;
@@ -331,26 +445,37 @@ async function pushDataJsonToGitHub() {
   }
 }
 
+function exportDataJsonFile() {
+  collectFormIntoStoreData();
+  const jsonString = JSON.stringify(storeData, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('📥 Đã tải xuống file data.json mới nhất!');
+}
+
 function populateAllFields() {
   const { brand, contact, adminAuth, products, orders } = storeData;
 
-  document.getElementById('sidebarBrandTitle').textContent = brand.name || 'TUẤN KHẢI';
-
   const orderList = orders || [];
-  const ordersCount = orderList.filter(o => o.type === 'order').length;
-  const inqCount = orderList.filter(o => o.type !== 'order').length;
+  const cats = new Set((products || []).map(p => p.category).filter(Boolean));
 
   document.getElementById('statProducts').textContent = (products || []).length;
-  document.getElementById('statOrders').textContent = ordersCount;
-  document.getElementById('statInquiries').textContent = inqCount;
+  document.getElementById('statCategories').textContent = Math.max(5, cats.size);
+  document.getElementById('statInquiries').textContent = orderList.length;
   document.getElementById('navOrderBadge').textContent = orderList.length;
 
-  document.getElementById('cfgBrandName').value = brand.name || '';
-  document.getElementById('cfgBrandTagline').value = brand.tagline || '';
+  document.getElementById('cfgBrandName').value = brand.name || 'TUẤN KHẢI';
+  document.getElementById('cfgBrandTagline').value = brand.tagline || 'NỘI THẤT NHỰA CAO CẤP';
   document.getElementById('cfgAccentColor').value = brand.accentColor || '#2C5E6E';
   document.getElementById('cfgTopbarPromo').value = brand.topbarPromo || '';
   document.getElementById('cfgLogoUrl').value = brand.logoUrl || '';
-  document.getElementById('prevLogo').src = brand.logoUrl || 'https://placehold.co/200x80/E4F0F4/2C5E6E?text=LOGO+CHU';
 
   document.getElementById('cfgHeroBg').value = brand.heroBg || '';
   document.getElementById('prevHeroBg').src = brand.heroBg || '';
@@ -375,11 +500,13 @@ function populateAllFields() {
   document.getElementById('cfgAdminUser').value = (adminAuth && adminAuth.username) || 'admin';
   document.getElementById('cfgAdminPass').value = (adminAuth && adminAuth.password) || '123456';
 
-  document.getElementById('ghOwner').value = ghConfig.owner || '';
-  document.getElementById('ghRepo').value = ghConfig.repo || '';
+  document.getElementById('ghOwner').value = ghConfig.owner || 'ngclaam4444';
+  document.getElementById('ghRepo').value = ghConfig.repo || 'noithattuankhai';
   document.getElementById('ghBranch').value = ghConfig.branch || 'main';
   document.getElementById('ghToken').value = ghConfig.token || '';
 
+  updateCloudPillStatus();
+  updateLiveHeaderPreview();
   renderProductsTable();
   renderOrdersList();
 }
@@ -404,14 +531,14 @@ function renderProductsTable() {
               <strong style="display: block; font-size: 0.95rem;">${p.name}</strong>
               <span style="font-size: 0.8rem; color: var(--text-muted);">${p.material || ''}</span>
               <div style="margin-top: 4px;">
-                <a href="product.html?id=${encodeURIComponent(p.id)}" target="_blank" style="font-size: 0.75rem; color: var(--accent); font-weight: 600;">Xem trang mẫu ↗</a>
+                <a href="product.html?id=${encodeURIComponent(p.id)}" style="font-size: 0.76rem; color: var(--accent); font-weight: 600;">👁️ Xem trang chi tiết mẫu →</a>
               </div>
             </div>
           </div>
         </td>
         <td><span style="background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">${p.category}</span></td>
         <td><span style="background: #EBF7F0; color: var(--success); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;">📷 ${imgs.length} ảnh góc chụp</span></td>
-        <td>${p.badge ? `<span style="background:#1E1610; color:#fff; padding: 3px 9px; border-radius:999px; font-size:0.75rem;">${p.badge}</span>` : '—'}</td>
+        <td>${p.badge ? `<span style="background:#14252E; color:#fff; padding: 3px 9px; border-radius:999px; font-size:0.75rem;">${p.badge}</span>` : '—'}</td>
         <td style="text-align: right; white-space: nowrap;">
           <button class="btn btn-secondary btn-sm" data-edit="${p.id}">✏️ Sửa (${imgs.length} ảnh)</button>
           <button class="btn btn-danger btn-sm" data-del="${p.id}">🗑️ Xoá</button>
@@ -446,7 +573,7 @@ function renderOrdersList() {
   }
 
   container.innerHTML = orders.map((ord, idx) => `
-    <div style="padding: 16px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; background: #FAF8F5;">
+    <div style="padding: 16px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; background: #F8FAFC;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
         <strong style="font-size: 0.98rem;">
           📐 Yêu cầu báo giá / tư vấn — ${ord.name}
@@ -529,14 +656,14 @@ function closeProductModal() {
   document.getElementById('prodModal').classList.remove('open');
 }
 
-function compressImageFile(file) {
+function compressImageFile(file, isLogo = false) {
   return new Promise(resolve => {
     const reader = new FileReader();
     reader.onload = ev => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_W = 1000;
+        const MAX_W = isLogo ? 400 : 1000;
         let w = img.width;
         let h = img.height;
         if (w > MAX_W) {
@@ -545,8 +672,14 @@ function compressImageFile(file) {
         }
         canvas.width = w;
         canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.8));
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        // Preserve PNG transparency for Logo if PNG
+        if (isLogo && file.type === 'image/png') {
+          resolve(canvas.toDataURL('image/png'));
+        } else {
+          resolve(canvas.toDataURL('image/jpeg', 0.82));
+        }
       };
       img.src = ev.target.result;
     };
@@ -554,7 +687,7 @@ function compressImageFile(file) {
   });
 }
 
-function bindImagePicker(fileInputId, textInputId, previewImgId) {
+function bindImagePicker(fileInputId, textInputId, previewImgId, isLogo = false) {
   const fileEl = document.getElementById(fileInputId);
   const textEl = document.getElementById(textInputId);
   const prevEl = document.getElementById(previewImgId);
@@ -568,11 +701,11 @@ function bindImagePicker(fileInputId, textInputId, previewImgId) {
   fileEl.addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
-    const dataUrl = await compressImageFile(file);
+    const dataUrl = await compressImageFile(file, isLogo);
     textEl.value = dataUrl;
     if (prevEl) prevEl.src = dataUrl;
     markUnsaved();
-    showToast('📸 Đã nạp ảnh! Bấm Lưu để áp dụng.');
+    showToast('📸 Đã nạp ảnh! Bấm Lưu để áp dụng lên web.');
   });
 }
 
@@ -581,10 +714,19 @@ if (syncChannel) {
     if (ev.data && ev.data.type === 'DATA_UPDATED') {
       storeData = ev.data.data;
       populateAllFields();
-      showToast('🔔 Có yêu cầu báo giá / tư vấn mới từ khách hàng!');
+      showToast('🔔 Dữ liệu vừa được cập nhật trực tiếp!');
     }
   };
 }
+
+window.addEventListener('storage', e => {
+  if (e.key === STORAGE_KEY && e.newValue) {
+    try {
+      storeData = JSON.parse(e.newValue);
+      populateAllFields();
+    } catch (err) {}
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   initAdminData();
@@ -603,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (u === validU && p === validP) {
       localStorage.setItem(ADMIN_AUTH_SESSION, 'true');
       document.getElementById('loginScreen').classList.add('hidden');
-      showToast('👑 Chào mừng Quản trị viên!');
+      showToast('👑 Đã đăng nhập hệ thống quản trị TUẤN KHẢI!');
     } else {
       document.getElementById('loginErr').style.display = 'block';
     }
@@ -615,23 +757,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.nav-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  document.getElementById('ghStatusPill').addEventListener('click', () => {
+    switchTab('pane-cloud');
   });
 
   document.getElementById('masterSaveBtn').addEventListener('click', () => {
     saveAndPublishAll();
   });
 
+  document.getElementById('exportJsonBtn').addEventListener('click', () => {
+    exportDataJsonFile();
+  });
+
   document.querySelectorAll('#pane-brand input, #pane-brand textarea, #pane-contact input, #pane-cloud input').forEach(inp => {
     inp.addEventListener('input', markUnsaved);
   });
 
-  bindImagePicker('fileLogo', 'cfgLogoUrl', 'prevLogo');
+  bindImagePicker('fileLogo', 'cfgLogoUrl', null, true);
   bindImagePicker('fileHeroBg', 'cfgHeroBg', 'prevHeroBg');
   bindImagePicker('fileStoryImg', 'cfgStoryImg', 'prevStoryImg');
 
@@ -656,8 +801,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('clearLogoBtn').addEventListener('click', () => {
     document.getElementById('cfgLogoUrl').value = '';
-    document.getElementById('prevLogo').src = 'https://placehold.co/200x80/E4F0F4/2C5E6E?text=LOGO+CHU';
-    saveAndPublishAll('🏷️ Đã chuyển sang dùng Logo chữ!');
+    updateLiveHeaderPreview();
+    saveAndPublishAll('🏷️ Đã áp dụng Logo biểu tượng TK mặc định cho cả PC & Mobile!');
   });
 
   document.getElementById('openAddProdModalBtn').addEventListener('click', () => openProductModal(null));
@@ -697,18 +842,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('saveGhConfigBtn').addEventListener('click', () => {
     ghConfig = {
-      owner: document.getElementById('ghOwner').value.trim(),
-      repo: document.getElementById('ghRepo').value.trim(),
+      owner: document.getElementById('ghOwner').value.trim() || 'ngclaam4444',
+      repo: document.getElementById('ghRepo').value.trim() || 'noithattuankhai',
       branch: document.getElementById('ghBranch').value.trim() || 'main',
       token: document.getElementById('ghToken').value.trim()
     };
     localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(ghConfig));
-    saveAndPublishAll('🔗 Đã lưu kết nối GitHub và đồng bộ dữ liệu!');
+    updateCloudPillStatus();
+    saveAndPublishAll('🔗 Đã lưu kết nối GitHub và đẩy dữ liệu lên Cloud!');
   });
 
   document.getElementById('resetDefaultBtn').addEventListener('click', () => {
     if (!confirm('Bạn có chắc muốn khôi phục toàn bộ mẫu sản phẩm, logo và giao diện về mặc định ban đầu?')) return;
     storeData = structuredClone(DEFAULT_DATA);
+    storeData.updatedAt = Date.now();
     populateAllFields();
     saveAndPublishAll('🔄 Đã khôi phục dữ liệu mặc định!');
   });
