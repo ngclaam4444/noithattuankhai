@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1792816466419,
+  "updatedAt": 1792816498217,
   "adminAuth": {
     "username": "admin",
     "password": "123456"
@@ -21,11 +21,11 @@
   },
   "contact": {
     "address": "Xưởng & Showroom: Liên hệ để nhận vị trí chi tiết và xem mẫu ván nhựa thực tế",
-    "phone": "0909 888 999",
+    "phone": "0379 629 885",
     "email": "lienhe@noithattuankhai.vn",
     "hours": "08:00 - 20:30 (Tất cả các ngày trong tuần)",
     "facebook": "https://facebook.com",
-    "zalo": "https://zalo.me/0909888999",
+    "zalo": "https://zalo.me/0379629885",
     "instagram": "https://instagram.com"
   },
   "products": [
