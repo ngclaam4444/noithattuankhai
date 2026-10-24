@@ -7,69 +7,117 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261024_anim1" />
+  <link rel="stylesheet" href="styles.css?v=20261024_deluxe2" />
   <style>
-    /* Critical Inline Animated Background Styles (Cache-Proof & 60FPS GPU Accelerated) */
+    /* Critical Inline Deluxe Glamorous Showroom Styles (Cache-Proof & 60FPS GPU Accelerated) */
     .ambient-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
-      background: radial-gradient(circle at 15% 15%, rgba(44, 94, 110, 0.12), transparent 45%),
-                  radial-gradient(circle at 85% 25%, rgba(200, 155, 101, 0.14), transparent 50%),
-                  radial-gradient(circle at 50% 85%, rgba(58, 148, 168, 0.12), transparent 55%),
-                  linear-gradient(180deg, #F4F8FB 0%, #E8F1F6 50%, #F6F3EC 100%);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(28, 128, 158, 0.28), transparent 45%),
+        radial-gradient(circle at 88% 22%, rgba(226, 168, 86, 0.32), transparent 48%),
+        radial-gradient(circle at 22% 82%, rgba(212, 138, 62, 0.24), transparent 50%),
+        radial-gradient(circle at 82% 78%, rgba(22, 148, 168, 0.28), transparent 52%),
+        linear-gradient(135deg, #E3F0F7 0%, #F7EFE2 35%, #DFF0F5 70%, #F5E8D5 100%);
+      background-size: 200% 200%;
+      animation: luxuryBgGradientFlow 16s ease-in-out infinite alternate;
+    }
+    @keyframes luxuryBgGradientFlow {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 50% 100%; }
     }
     .ambient-grid-pattern {
       position: absolute;
       inset: -120px;
       background-image:
-        linear-gradient(to right, rgba(44, 94, 110, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(44, 94, 110, 0.06) 1px, transparent 1px);
-      background-size: 56px 56px;
-      animation: ambientGridPan 26s linear infinite;
+        linear-gradient(to right, rgba(44, 94, 110, 0.085) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(200, 155, 101, 0.085) 1px, transparent 1px);
+      background-size: 54px 54px;
+      animation: ambientGridPan 18s linear infinite;
     }
     @keyframes ambientGridPan {
       0% { transform: translate3d(0, 0, 0); }
-      100% { transform: translate3d(56px, 56px, 0); }
+      100% { transform: translate3d(54px, 54px, 0); }
     }
+    .ambient-light-beams {
+      position: absolute;
+      inset: -30%;
+      background: repeating-linear-gradient(
+        118deg,
+        transparent 0%,
+        rgba(255, 223, 158, 0.16) 6%,
+        rgba(255, 255, 255, 0.24) 9%,
+        rgba(82, 198, 224, 0.16) 12%,
+        transparent 20%
+      );
+      filter: blur(20px);
+      animation: sweepLightBeams 13s ease-in-out infinite alternate;
+    }
+    @keyframes sweepLightBeams {
+      0% { transform: translateX(-8%) rotate(-3deg) scale(1.05); opacity: 0.75; }
+      50% { transform: translateX(6%) rotate(2deg) scale(1.12); opacity: 1; }
+      100% { transform: translateX(-4%) rotate(-1deg) scale(1.08); opacity: 0.85; }
+    }
+    .luxury-3d-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px dashed rgba(200, 155, 101, 0.38);
+      box-shadow: 0 0 40px rgba(200, 155, 101, 0.22), inset 0 0 40px rgba(44, 94, 110, 0.16);
+      pointer-events: none;
+    }
+    .luxury-3d-ring::before {
+      content: ''; position: absolute; inset: 24px; border-radius: 50%;
+      border: 1.5px solid rgba(44, 94, 110, 0.3);
+    }
+    .luxury-3d-ring.ring-1 { width: 560px; height: 560px; top: 8%; right: -140px; animation: spinRing3D 34s linear infinite; }
+    .luxury-3d-ring.ring-2 { width: 480px; height: 480px; bottom: 6%; left: -140px; animation: spinRing3DRev 40s linear infinite; }
+    @keyframes spinRing3D { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(360deg) scale(1); } }
+    @keyframes spinRing3DRev { 0% { transform: rotate(360deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(0deg) scale(1); } }
     .ambient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(65px);
-      opacity: 0.6;
+      filter: blur(55px);
+      opacity: 0.85;
       will-change: transform;
     }
     .ambient-orb.orb-1 {
-      width: 480px; height: 480px; top: -8%; left: -6%;
-      background: radial-gradient(circle, rgba(44, 94, 110, 0.45) 0%, rgba(44, 94, 110, 0) 70%);
-      animation: floatOrb1 20s ease-in-out infinite alternate;
+      width: 540px; height: 540px; top: -8%; left: -6%;
+      background: radial-gradient(circle, rgba(24, 142, 178, 0.62) 0%, rgba(24, 142, 178, 0) 70%);
+      animation: floatOrb1 14s ease-in-out infinite alternate;
     }
     .ambient-orb.orb-2 {
-      width: 520px; height: 520px; top: 30%; right: -10%;
-      background: radial-gradient(circle, rgba(200, 155, 101, 0.42) 0%, rgba(200, 155, 101, 0) 70%);
-      animation: floatOrb2 24s ease-in-out infinite alternate;
+      width: 600px; height: 600px; top: 24%; right: -10%;
+      background: radial-gradient(circle, rgba(235, 168, 68, 0.60) 0%, rgba(235, 168, 68, 0) 70%);
+      animation: floatOrb2 16s ease-in-out infinite alternate;
     }
     .ambient-orb.orb-3 {
-      width: 460px; height: 460px; bottom: -10%; left: 22%;
-      background: radial-gradient(circle, rgba(52, 142, 162, 0.38) 0%, rgba(52, 142, 162, 0) 70%);
-      animation: floatOrb3 22s ease-in-out infinite alternate;
+      width: 520px; height: 520px; bottom: -10%; left: 18%;
+      background: radial-gradient(circle, rgba(32, 178, 170, 0.52) 0%, rgba(32, 178, 170, 0) 70%);
+      animation: floatOrb3 15s ease-in-out infinite alternate;
+    }
+    .ambient-orb.orb-4 {
+      width: 450px; height: 450px; top: 55%; left: 42%;
+      background: radial-gradient(circle, rgba(240, 185, 95, 0.48) 0%, rgba(240, 185, 95, 0) 70%);
+      animation: floatOrb1 18s ease-in-out infinite alternate-reverse;
     }
     @keyframes floatOrb1 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(130px, 85px, 0) scale(1.15); }
-      100% { transform: translate3d(45px, 160px, 0) scale(0.95); }
+      50% { transform: translate3d(160px, 100px, 0) scale(1.22); }
+      100% { transform: translate3d(60px, 190px, 0) scale(0.92); }
     }
     @keyframes floatOrb2 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-140px, 95px, 0) scale(1.12); }
-      100% { transform: translate3d(-60px, -90px, 0) scale(0.92); }
+      50% { transform: translate3d(-170px, 110px, 0) scale(1.2); }
+      100% { transform: translate3d(-80px, -110px, 0) scale(0.9); }
     }
     @keyframes floatOrb3 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(110px, -110px, 0) scale(1.18); }
-      100% { transform: translate3d(-90px, -40px, 0) scale(0.96); }
+      50% { transform: translate3d(140px, -130px, 0) scale(1.24); }
+      100% { transform: translate3d(-110px, -60px, 0) scale(0.94); }
     }
     #ambientParticleCanvas, #heroParticleCanvas {
       position: absolute;
@@ -82,17 +130,37 @@
     .hero-content { position: relative; z-index: 2; }
     .topbar, .header, .hero, .features-strip, .section, .footer { position: relative; z-index: 1; }
     .section { background: transparent !important; }
-    .section-alt { background: rgba(235, 243, 249, 0.62) !important; backdrop-filter: blur(6px); }
-    .features-strip { background: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(12px); }
-    .hero-badge { animation: badgeFloat 3.4s ease-in-out infinite; box-shadow: 0 0 22px rgba(200, 155, 101, 0.4); }
-    @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-    .btn-primary { position: relative; overflow: hidden; }
-    .btn-primary::after {
-      content: ''; position: absolute; top: 0; left: -120%; width: 65%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
-      transform: skewX(-22deg); animation: btnShimmerSweep 4s infinite; pointer-events: none;
+    .section-alt { background: rgba(255, 255, 255, 0.46) !important; backdrop-filter: blur(10px); }
+    .features-strip { background: rgba(255, 255, 255, 0.78) !important; backdrop-filter: blur(14px); }
+    .hero h1 {
+      background: linear-gradient(90deg, #FFFFFF 0%, #FFE4A8 28%, #FFD166 50%, #FFFFFF 75%, #CBEFF8 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: liquidGoldText 6s linear infinite;
+      filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.35));
     }
-    @keyframes btnShimmerSweep { 0% { left: -120%; } 30%, 100% { left: 160%; } }
+    @keyframes liquidGoldText { 0% { background-position: 0% center; } 100% { background-position: 220% center; } }
+    .hero-badge { animation: badgeFloat 3s ease-in-out infinite; box-shadow: 0 0 28px rgba(235, 180, 90, 0.65); }
+    @keyframes badgeFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.03); } }
+    .btn-primary { position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(44, 94, 110, 0.32), 0 0 18px rgba(200, 155, 101, 0.35); }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -120%; width: 70%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 240, 195, 0.55), transparent);
+      transform: skewX(-22deg); animation: btnShimmerSweep 3.2s infinite; pointer-events: none;
+    }
+    @keyframes btnShimmerSweep { 0% { left: -120%; } 35%, 100% { left: 160%; } }
+    .product-card {
+      background: rgba(255, 255, 255, 0.88) !important;
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(200, 155, 101, 0.35) !important;
+      box-shadow: 0 10px 30px rgba(28, 65, 82, 0.1), 0 0 18px rgba(200, 155, 101, 0.12) !important;
+    }
+    .product-card:hover {
+      transform: translateY(-10px) scale(1.015) !important;
+      border-color: rgba(225, 168, 75, 0.95) !important;
+      box-shadow: 0 24px 52px rgba(28, 72, 90, 0.22), 0 0 32px rgba(230, 175, 85, 0.42) !important;
+    }
   </style>
 </head>
 <body>
@@ -100,9 +168,13 @@
   <!-- Dynamic Animated Showroom Background -->
   <div class="ambient-bg-wrapper" aria-hidden="true">
     <div class="ambient-grid-pattern"></div>
+    <div class="ambient-light-beams"></div>
+    <div class="luxury-3d-ring ring-1"></div>
+    <div class="luxury-3d-ring ring-2"></div>
     <div class="ambient-orb orb-1"></div>
     <div class="ambient-orb orb-2"></div>
     <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
     <canvas id="ambientParticleCanvas"></canvas>
   </div>
 
@@ -461,18 +533,40 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast">Thông báo</div>
 
-  <script src="app.js?v=20261024_anim1"></script>
+  <script src="app.js?v=20261024_deluxe2"></script>
   <script>
-    // 60FPS GPU-Friendly Interactive Particle & Light Network Engine
-    (function initShowroomAnimations() {
-      function setupParticleCanvas(canvasId, opts) {
+    // DELUXE 60FPS GLAMOROUS SHOWROOM ENGINE:
+    // Glowing Bokeh Orbs + Twinkling 4-Point Diamond Stars + Shooting Gold Meteors + Interactive Cursor Sparkle Trail
+    (function initDeluxeShowroomFX() {
+      function drawDiamondStar(ctx, x, y, size, rot, color, alpha) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+        ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          ctx.lineTo(0, -size);
+          ctx.quadraticCurveTo(size * 0.18, -size * 0.18, size, 0);
+          ctx.quadraticCurveTo(size * 0.18, size * 0.18, 0, size);
+          ctx.quadraticCurveTo(-size * 0.18, size * 0.18, -size, 0);
+          ctx.quadraticCurveTo(-size * 0.18, -size * 0.18, 0, -size);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function setupDeluxeCanvas(canvasId, opts) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let width = 0, height = 0;
         const isMobile = window.innerWidth < 768;
         const count = isMobile ? opts.mobileCount : opts.desktopCount;
-        const particles = [];
+        const nodes = [];
+        const meteors = [];
+        const sparkles = [];
         const mouse = { x: -9999, y: -9999 };
 
         function resize() {
@@ -483,99 +577,218 @@
         resize();
         window.addEventListener('resize', resize);
 
+        function spawnSparkles(x, y, amount) {
+          if (sparkles.length > 90) return;
+          for (let i = 0; i < amount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const spd = Math.random() * 2.4 + 0.5;
+            sparkles.push({
+              x, y,
+              vx: Math.cos(angle) * spd,
+              vy: Math.sin(angle) * spd - 0.3,
+              size: Math.random() * 6 + 3.5,
+              rot: Math.random() * Math.PI,
+              vRot: (Math.random() - 0.5) * 0.12,
+              life: 1,
+              decay: Math.random() * 0.022 + 0.015,
+              color: Math.random() > 0.3 ? '#FFD166' : '#56E39F'
+            });
+          }
+        }
+
         window.addEventListener('mousemove', e => {
-          if (opts.fixedFullscreen) {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-          } else {
+          let mx = e.clientX, my = e.clientY;
+          if (!opts.fixedFullscreen) {
             const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
+            mx = e.clientX - rect.left;
+            my = e.clientY - rect.top;
+          }
+          mouse.x = mx;
+          mouse.y = my;
+          if (Math.random() > 0.25 && mx >= 0 && mx <= width && my >= 0 && my <= height) {
+            spawnSparkles(mx, my, 2);
           }
         });
 
+        window.addEventListener('touchmove', e => {
+          if (!e.touches[0]) return;
+          let mx = e.touches[0].clientX, my = e.touches[0].clientY;
+          if (!opts.fixedFullscreen) {
+            const rect = canvas.getBoundingClientRect();
+            mx -= rect.left;
+            my -= rect.top;
+          }
+          if (Math.random() > 0.35 && mx >= 0 && mx <= width && my >= 0 && my <= height) {
+            spawnSparkles(mx, my, 2);
+          }
+        }, { passive: true });
+
         for (let i = 0; i < count; i++) {
-          particles.push({
+          const isBokeh = i % 4 === 0;
+          const isStar = i % 3 === 0;
+          nodes.push({
             x: Math.random() * (width || window.innerWidth),
             y: Math.random() * (height || window.innerHeight),
             vx: (Math.random() - 0.5) * opts.speed,
             vy: (Math.random() - 0.5) * opts.speed,
-            r: Math.random() * 2.4 + 1.2,
-            gold: Math.random() > 0.45
+            r: isBokeh ? (Math.random() * 18 + 10) : (Math.random() * 3.2 + 1.6),
+            isBokeh,
+            isStar,
+            phase: Math.random() * Math.PI * 2,
+            pulseSpeed: Math.random() * 0.04 + 0.015,
+            rot: Math.random() * Math.PI,
+            gold: Math.random() > 0.38
           });
+        }
+
+        function maybeSpawnMeteor() {
+          if (meteors.length < 2 && Math.random() < 0.018) {
+            meteors.push({
+              x: Math.random() * width * 0.9,
+              y: Math.random() * height * 0.35,
+              vx: Math.random() * 5 + 6,
+              vy: Math.random() * 2.5 + 3,
+              len: Math.random() * 90 + 70,
+              life: 1,
+              decay: 0.014
+            });
+          }
         }
 
         function draw() {
           ctx.clearRect(0, 0, width, height);
-          for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0) p.x = width;
-            if (p.x > width) p.x = 0;
-            if (p.y < 0) p.y = height;
-            if (p.y > height) p.y = 0;
+          maybeSpawnMeteor();
 
-            // Subtle mouse interaction
-            const dxM = mouse.x - p.x;
-            const dyM = mouse.y - p.y;
-            const distM = Math.hypot(dxM, dyM);
-            if (distM < 130 && distM > 0) {
-              p.x -= (dxM / distM) * 0.45;
-              p.y -= (dyM / distM) * 0.45;
+          // 1. Draw Nodes (Glowing Bokeh + Twinkling Stars + Constellation Network)
+          for (let i = 0; i < nodes.length; i++) {
+            const p = nodes[i];
+            p.x = (p.x + p.vx + width) % width;
+            p.y = (p.y + p.vy + height) % height;
+            p.phase += p.pulseSpeed;
+            p.rot += 0.012;
+            const twinkle = (Math.sin(p.phase) + 1) * 0.5; // 0..1
+
+            if (p.isBokeh) {
+              const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (0.85 + twinkle * 0.3));
+              if (p.gold) {
+                grad.addColorStop(0, `rgba(255, 215, 115, ${(0.32 + twinkle * 0.25).toFixed(2)})`);
+                grad.addColorStop(1, 'rgba(255, 215, 115, 0)');
+              } else {
+                grad.addColorStop(0, `rgba(56, 198, 224, ${(0.28 + twinkle * 0.22).toFixed(2)})`);
+                grad.addColorStop(1, 'rgba(56, 198, 224, 0)');
+              }
+              ctx.fillStyle = grad;
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r * 1.2, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (p.isStar) {
+              drawDiamondStar(
+                ctx,
+                p.x,
+                p.y,
+                p.r * (1.8 + twinkle * 1.4),
+                p.rot,
+                p.gold ? opts.starGold : opts.starTeal,
+                0.45 + twinkle * 0.55
+              );
+            } else {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              ctx.fillStyle = p.gold ? opts.goldColor : opts.tealColor;
+              ctx.fill();
             }
 
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = p.gold ? opts.goldColor : opts.tealColor;
-            ctx.fill();
-
-            // Connect nearby particles with delicate architectural lines
-            for (let j = i + 1; j < particles.length; j++) {
-              const p2 = particles[j];
-              const dx = p.x - p2.x;
-              const dy = p.y - p2.y;
-              const dist = Math.hypot(dx, dy);
-              if (dist < opts.linkDist) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                const alpha = (1 - dist / opts.linkDist) * opts.lineAlpha;
-                ctx.strokeStyle = opts.lineColor.replace('ALPHA', alpha.toFixed(3));
-                ctx.lineWidth = 0.8;
-                ctx.stroke();
+            // Connect non-bokeh nodes with glowing architectural constellation lines
+            if (!p.isBokeh) {
+              for (let j = i + 1; j < nodes.length; j++) {
+                const p2 = nodes[j];
+                if (p2.isBokeh) continue;
+                const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                if (dist < opts.linkDist) {
+                  ctx.beginPath();
+                  ctx.moveTo(p.x, p.y);
+                  ctx.lineTo(p2.x, p2.y);
+                  const alpha = (1 - dist / opts.linkDist) * opts.lineAlpha;
+                  ctx.strokeStyle = opts.lineColor.replace('ALPHA', alpha.toFixed(3));
+                  ctx.lineWidth = 1.0;
+                  ctx.stroke();
+                }
               }
             }
           }
+
+          // 2. Draw Shooting Golden Meteors
+          for (let i = meteors.length - 1; i >= 0; i--) {
+            const m = meteors[i];
+            m.x += m.vx;
+            m.y += m.vy;
+            m.life -= m.decay;
+            if (m.life <= 0 || m.x > width + 150 || m.y > height + 150) {
+              meteors.splice(i, 1);
+              continue;
+            }
+            const tailX = m.x - m.vx * (m.len / 8);
+            const tailY = m.y - m.vy * (m.len / 8);
+            const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+            grad.addColorStop(0, `rgba(255, 232, 165, ${m.life.toFixed(2)})`);
+            grad.addColorStop(0.4, `rgba(235, 175, 80, ${(m.life * 0.6).toFixed(2)})`);
+            grad.addColorStop(1, 'rgba(235, 175, 80, 0)');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 2.4;
+            ctx.beginPath();
+            ctx.moveTo(m.x, m.y);
+            ctx.lineTo(tailX, tailY);
+            ctx.stroke();
+            drawDiamondStar(ctx, m.x, m.y, 7, m.life * 4, '#FFF3C4', m.life);
+          }
+
+          // 3. Draw Interactive Cursor/Touch Sparkles
+          for (let i = sparkles.length - 1; i >= 0; i--) {
+            const s = sparkles[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.rot += s.vRot;
+            s.life -= s.decay;
+            if (s.life <= 0) {
+              sparkles.splice(i, 1);
+              continue;
+            }
+            drawDiamondStar(ctx, s.x, s.y, s.size * s.life, s.rot, s.color, s.life);
+          }
+
           requestAnimationFrame(draw);
         }
         requestAnimationFrame(draw);
       }
 
-      // 1. Hero Banner Glowing Gold & Aqua Constellation
-      setupParticleCanvas('heroParticleCanvas', {
+      // 1. Hero Banner Deluxe Golden & Diamond Stage
+      setupDeluxeCanvas('heroParticleCanvas', {
         fixedFullscreen: false,
-        desktopCount: 38,
-        mobileCount: 18,
-        speed: 0.45,
-        linkDist: 135,
-        lineAlpha: 0.26,
-        goldColor: 'rgba(225, 182, 122, 0.78)',
-        tealColor: 'rgba(130, 215, 235, 0.65)',
-        lineColor: 'rgba(215, 175, 120, ALPHA)'
+        desktopCount: 52,
+        mobileCount: 26,
+        speed: 0.55,
+        linkDist: 145,
+        lineAlpha: 0.34,
+        goldColor: 'rgba(255, 212, 125, 0.9)',
+        tealColor: 'rgba(120, 230, 255, 0.8)',
+        starGold: '#FFE599',
+        starTeal: '#99F3FF',
+        lineColor: 'rgba(245, 195, 115, ALPHA)'
       });
 
-      // 2. Full-Page Ambient Architectural Floating Network
-      setupParticleCanvas('ambientParticleCanvas', {
+      // 2. Full-Page Deluxe Ambient Aurora & Starlight Network
+      setupDeluxeCanvas('ambientParticleCanvas', {
         fixedFullscreen: true,
-        desktopCount: 42,
-        mobileCount: 20,
-        speed: 0.38,
-        linkDist: 145,
-        lineAlpha: 0.18,
-        goldColor: 'rgba(200, 155, 101, 0.55)',
-        tealColor: 'rgba(44, 94, 110, 0.42)',
-        lineColor: 'rgba(44, 94, 110, ALPHA)'
+        desktopCount: 58,
+        mobileCount: 28,
+        speed: 0.48,
+        linkDist: 155,
+        lineAlpha: 0.26,
+        goldColor: 'rgba(218, 155, 65, 0.78)',
+        tealColor: 'rgba(28, 128, 158, 0.65)',
+        starGold: '#E69F38',
+        starTeal: '#1C88A8',
+        lineColor: 'rgba(195, 140, 68, ALPHA)'
       });
     })();
   </script>

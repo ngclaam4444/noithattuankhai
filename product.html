@@ -194,60 +194,108 @@
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
-      background: radial-gradient(circle at 15% 15%, rgba(44, 94, 110, 0.12), transparent 45%),
-                  radial-gradient(circle at 85% 25%, rgba(200, 155, 101, 0.14), transparent 50%),
-                  radial-gradient(circle at 50% 85%, rgba(58, 148, 168, 0.12), transparent 55%),
-                  linear-gradient(180deg, #F4F8FB 0%, #E8F1F6 50%, #F6F3EC 100%);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(28, 128, 158, 0.28), transparent 45%),
+        radial-gradient(circle at 88% 22%, rgba(226, 168, 86, 0.32), transparent 48%),
+        radial-gradient(circle at 22% 82%, rgba(212, 138, 62, 0.24), transparent 50%),
+        radial-gradient(circle at 82% 78%, rgba(22, 148, 168, 0.28), transparent 52%),
+        linear-gradient(135deg, #E3F0F7 0%, #F7EFE2 35%, #DFF0F5 70%, #F5E8D5 100%);
+      background-size: 200% 200%;
+      animation: luxuryBgGradientFlow 16s ease-in-out infinite alternate;
+    }
+    @keyframes luxuryBgGradientFlow {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 50% 100%; }
     }
     .ambient-grid-pattern {
       position: absolute;
       inset: -120px;
       background-image:
-        linear-gradient(to right, rgba(44, 94, 110, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(44, 94, 110, 0.06) 1px, transparent 1px);
-      background-size: 56px 56px;
-      animation: ambientGridPan 26s linear infinite;
+        linear-gradient(to right, rgba(44, 94, 110, 0.085) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(200, 155, 101, 0.085) 1px, transparent 1px);
+      background-size: 54px 54px;
+      animation: ambientGridPan 18s linear infinite;
     }
     @keyframes ambientGridPan {
       0% { transform: translate3d(0, 0, 0); }
-      100% { transform: translate3d(56px, 56px, 0); }
+      100% { transform: translate3d(54px, 54px, 0); }
     }
+    .ambient-light-beams {
+      position: absolute;
+      inset: -30%;
+      background: repeating-linear-gradient(
+        118deg,
+        transparent 0%,
+        rgba(255, 223, 158, 0.16) 6%,
+        rgba(255, 255, 255, 0.24) 9%,
+        rgba(82, 198, 224, 0.16) 12%,
+        transparent 20%
+      );
+      filter: blur(20px);
+      animation: sweepLightBeams 13s ease-in-out infinite alternate;
+    }
+    @keyframes sweepLightBeams {
+      0% { transform: translateX(-8%) rotate(-3deg) scale(1.05); opacity: 0.75; }
+      50% { transform: translateX(6%) rotate(2deg) scale(1.12); opacity: 1; }
+      100% { transform: translateX(-4%) rotate(-1deg) scale(1.08); opacity: 0.85; }
+    }
+    .luxury-3d-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px dashed rgba(200, 155, 101, 0.38);
+      box-shadow: 0 0 40px rgba(200, 155, 101, 0.22), inset 0 0 40px rgba(44, 94, 110, 0.16);
+      pointer-events: none;
+    }
+    .luxury-3d-ring::before {
+      content: ''; position: absolute; inset: 24px; border-radius: 50%;
+      border: 1.5px solid rgba(44, 94, 110, 0.3);
+    }
+    .luxury-3d-ring.ring-1 { width: 560px; height: 560px; top: 8%; right: -140px; animation: spinRing3D 34s linear infinite; }
+    .luxury-3d-ring.ring-2 { width: 480px; height: 480px; bottom: 6%; left: -140px; animation: spinRing3DRev 40s linear infinite; }
+    @keyframes spinRing3D { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(360deg) scale(1); } }
+    @keyframes spinRing3DRev { 0% { transform: rotate(360deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(0deg) scale(1); } }
     .ambient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(65px);
-      opacity: 0.6;
+      filter: blur(55px);
+      opacity: 0.85;
       will-change: transform;
     }
     .ambient-orb.orb-1 {
-      width: 480px; height: 480px; top: -8%; left: -6%;
-      background: radial-gradient(circle, rgba(44, 94, 110, 0.45) 0%, rgba(44, 94, 110, 0) 70%);
-      animation: floatOrb1 20s ease-in-out infinite alternate;
+      width: 540px; height: 540px; top: -8%; left: -6%;
+      background: radial-gradient(circle, rgba(24, 142, 178, 0.62) 0%, rgba(24, 142, 178, 0) 70%);
+      animation: floatOrb1 14s ease-in-out infinite alternate;
     }
     .ambient-orb.orb-2 {
-      width: 520px; height: 520px; top: 30%; right: -10%;
-      background: radial-gradient(circle, rgba(200, 155, 101, 0.42) 0%, rgba(200, 155, 101, 0) 70%);
-      animation: floatOrb2 24s ease-in-out infinite alternate;
+      width: 600px; height: 600px; top: 24%; right: -10%;
+      background: radial-gradient(circle, rgba(235, 168, 68, 0.60) 0%, rgba(235, 168, 68, 0) 70%);
+      animation: floatOrb2 16s ease-in-out infinite alternate;
     }
     .ambient-orb.orb-3 {
-      width: 460px; height: 460px; bottom: -10%; left: 22%;
-      background: radial-gradient(circle, rgba(52, 142, 162, 0.38) 0%, rgba(52, 142, 162, 0) 70%);
-      animation: floatOrb3 22s ease-in-out infinite alternate;
+      width: 520px; height: 520px; bottom: -10%; left: 18%;
+      background: radial-gradient(circle, rgba(32, 178, 170, 0.52) 0%, rgba(32, 178, 170, 0) 70%);
+      animation: floatOrb3 15s ease-in-out infinite alternate;
+    }
+    .ambient-orb.orb-4 {
+      width: 450px; height: 450px; top: 55%; left: 42%;
+      background: radial-gradient(circle, rgba(240, 185, 95, 0.48) 0%, rgba(240, 185, 95, 0) 70%);
+      animation: floatOrb1 18s ease-in-out infinite alternate-reverse;
     }
     @keyframes floatOrb1 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(130px, 85px, 0) scale(1.15); }
-      100% { transform: translate3d(45px, 160px, 0) scale(0.95); }
+      50% { transform: translate3d(160px, 100px, 0) scale(1.22); }
+      100% { transform: translate3d(60px, 190px, 0) scale(0.92); }
     }
     @keyframes floatOrb2 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-140px, 95px, 0) scale(1.12); }
-      100% { transform: translate3d(-60px, -90px, 0) scale(0.92); }
+      50% { transform: translate3d(-170px, 110px, 0) scale(1.2); }
+      100% { transform: translate3d(-80px, -110px, 0) scale(0.9); }
     }
     @keyframes floatOrb3 {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(110px, -110px, 0) scale(1.18); }
-      100% { transform: translate3d(-90px, -40px, 0) scale(0.96); }
+      50% { transform: translate3d(140px, -130px, 0) scale(1.24); }
+      100% { transform: translate3d(-110px, -60px, 0) scale(0.94); }
     }
     #ambientParticleCanvas {
       position: absolute;
@@ -258,7 +306,7 @@
     }
     .topbar, .header, .section, .footer { position: relative; z-index: 1; }
     .section { background: transparent !important; }
-    .section-alt { background: rgba(235, 243, 249, 0.62) !important; backdrop-filter: blur(6px); }
+    .section-alt { background: rgba(255, 255, 255, 0.46) !important; backdrop-filter: blur(10px); }
   </style>
 </head>
 <body>
@@ -266,9 +314,13 @@
   <!-- Dynamic Animated Showroom Background -->
   <div class="ambient-bg-wrapper" aria-hidden="true">
     <div class="ambient-grid-pattern"></div>
+    <div class="ambient-light-beams"></div>
+    <div class="luxury-3d-ring ring-1"></div>
+    <div class="luxury-3d-ring ring-2"></div>
     <div class="ambient-orb orb-1"></div>
     <div class="ambient-orb orb-2"></div>
     <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
     <canvas id="ambientParticleCanvas"></canvas>
   </div>
 
@@ -637,52 +689,141 @@
       }
     });
 
-    // 60FPS Ambient Architectural Particle Network on Product Page
-    (function initProductAmbientCanvas() {
+    // 60FPS Deluxe Ambient Bokeh, Diamond Stars, Shooting Meteors & Cursor Sparkles on Product Page
+    (function initProductDeluxeCanvas() {
       const canvas = document.getElementById('ambientParticleCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let width = 0, height = 0;
-      const count = window.innerWidth < 768 ? 18 : 38;
-      const particles = [];
+      const count = window.innerWidth < 768 ? 26 : 54;
+      const nodes = [];
+      const meteors = [];
+      const sparkles = [];
+
+      function drawDiamondStar(x, y, size, rot, color, alpha) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+        ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          ctx.lineTo(0, -size);
+          ctx.quadraticCurveTo(size * 0.18, -size * 0.18, size, 0);
+          ctx.quadraticCurveTo(size * 0.18, size * 0.18, 0, size);
+          ctx.quadraticCurveTo(-size * 0.18, size * 0.18, -size, 0);
+          ctx.quadraticCurveTo(-size * 0.18, -size * 0.18, 0, -size);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
       function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
       }
       resize();
       window.addEventListener('resize', resize);
+
+      window.addEventListener('mousemove', e => {
+        if (sparkles.length < 80 && Math.random() > 0.3) {
+          for (let i = 0; i < 2; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const spd = Math.random() * 2.2 + 0.5;
+            sparkles.push({
+              x: e.clientX, y: e.clientY,
+              vx: Math.cos(angle) * spd, vy: Math.sin(angle) * spd - 0.3,
+              size: Math.random() * 6 + 3.5, rot: Math.random() * Math.PI,
+              life: 1, decay: 0.022,
+              color: Math.random() > 0.3 ? '#E69F38' : '#1C88A8'
+            });
+          }
+        }
+      });
+
       for (let i = 0; i < count; i++) {
-        particles.push({
+        const isBokeh = i % 4 === 0;
+        const isStar = i % 3 === 0;
+        nodes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.36,
-          vy: (Math.random() - 0.5) * 0.36,
-          r: Math.random() * 2.2 + 1.1,
-          gold: Math.random() > 0.45
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          r: isBokeh ? (Math.random() * 18 + 10) : (Math.random() * 3.0 + 1.5),
+          isBokeh, isStar,
+          phase: Math.random() * Math.PI * 2,
+          pulseSpeed: Math.random() * 0.04 + 0.015,
+          rot: Math.random() * Math.PI,
+          gold: Math.random() > 0.38
         });
       }
+
       function draw() {
         ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
+        if (meteors.length < 2 && Math.random() < 0.015) {
+          meteors.push({
+            x: Math.random() * width * 0.85, y: Math.random() * height * 0.35,
+            vx: Math.random() * 5 + 6, vy: Math.random() * 2.5 + 3,
+            len: 85, life: 1, decay: 0.015
+          });
+        }
+        for (let i = 0; i < nodes.length; i++) {
+          const p = nodes[i];
           p.x = (p.x + p.vx + width) % width;
           p.y = (p.y + p.vy + height) % height;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = p.gold ? 'rgba(200, 155, 101, 0.52)' : 'rgba(44, 94, 110, 0.40)';
-          ctx.fill();
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (dist < 140) {
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.strokeStyle = `rgba(44, 94, 110, ${((1 - dist / 140) * 0.16).toFixed(3)})`;
-              ctx.lineWidth = 0.8;
-              ctx.stroke();
+          p.phase += p.pulseSpeed;
+          p.rot += 0.012;
+          const tw = (Math.sin(p.phase) + 1) * 0.5;
+          if (p.isBokeh) {
+            const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (0.85 + tw * 0.3));
+            g.addColorStop(0, p.gold ? `rgba(255, 210, 105, ${(0.32 + tw * 0.22).toFixed(2)})` : `rgba(56, 198, 224, ${(0.28 + tw * 0.2).toFixed(2)})`);
+            g.addColorStop(1, 'rgba(255, 210, 105, 0)');
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 1.2, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (p.isStar) {
+            drawDiamondStar(p.x, p.y, p.r * (1.8 + tw * 1.3), p.rot, p.gold ? '#E69F38' : '#1C88A8', 0.45 + tw * 0.55);
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.gold ? 'rgba(218, 155, 65, 0.78)' : 'rgba(28, 128, 158, 0.65)';
+            ctx.fill();
+          }
+          if (!p.isBokeh) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              const p2 = nodes[j];
+              if (p2.isBokeh) continue;
+              const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+              if (dist < 150) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(195, 140, 68, ${((1 - dist / 150) * 0.24).toFixed(3)})`;
+                ctx.lineWidth = 0.9;
+                ctx.stroke();
+              }
             }
           }
+        }
+        for (let i = meteors.length - 1; i >= 0; i--) {
+          const m = meteors[i];
+          m.x += m.vx; m.y += m.vy; m.life -= m.decay;
+          if (m.life <= 0) { meteors.splice(i, 1); continue; }
+          const tx = m.x - m.vx * 10, ty = m.y - m.vy * 10;
+          const g = ctx.createLinearGradient(m.x, m.y, tx, ty);
+          g.addColorStop(0, `rgba(245, 185, 75, ${m.life.toFixed(2)})`);
+          g.addColorStop(1, 'rgba(245, 185, 75, 0)');
+          ctx.strokeStyle = g; ctx.lineWidth = 2.2;
+          ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
+          drawDiamondStar(m.x, m.y, 6.5, m.life * 4, '#E69F38', m.life);
+        }
+        for (let i = sparkles.length - 1; i >= 0; i--) {
+          const s = sparkles[i];
+          s.x += s.vx; s.y += s.vy; s.rot += 0.08; s.life -= s.decay;
+          if (s.life <= 0) { sparkles.splice(i, 1); continue; }
+          drawDiamondStar(s.x, s.y, s.size * s.life, s.rot, s.color, s.life);
         }
         requestAnimationFrame(draw);
       }
