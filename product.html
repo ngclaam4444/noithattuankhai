@@ -194,7 +194,7 @@
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
-      background: linear-gradient(180deg, #E8F1F6 0%, #F3EFE6 55%, #E4EEF4 100%);
+      background: #0B161E;
     }
     #ambientParticleCanvas {
       position: absolute;
@@ -204,13 +204,13 @@
       pointer-events: none;
     }
     .topbar, .header, .section, .footer { position: relative; z-index: 1; }
-    .section { background: rgba(246, 250, 253, 0.52) !important; backdrop-filter: blur(2px); }
-    .section-alt { background: rgba(255, 255, 255, 0.62) !important; backdrop-filter: blur(4px); }
+    .section { background: rgba(246, 250, 253, 0.86) !important; backdrop-filter: blur(8px); }
+    .section-alt { background: rgba(255, 255, 255, 0.90) !important; backdrop-filter: blur(10px); }
   </style>
 </head>
 <body>
 
-  <!-- Live 2D Animated CNC Plastic Furniture Workshop Background -->
+  <!-- Live 3D WebGL Animated CNC Plastic Furniture Workshop Background -->
   <div class="ambient-bg-wrapper" aria-hidden="true">
     <canvas id="ambientParticleCanvas"></canvas>
   </div>
@@ -579,86 +579,184 @@
         window.addEventListener('mouseup', () => { dragging = false; });
       }
     });
-
-    // 60FPS Live 2D Animated CNC Plastic Furniture Workshop Background on Product Page
-    (function initProductCNCWorkshop2D() {
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // =========================================================================
+    // 60FPS REAL-TIME 3D WEBGL (THREE.JS) CNC PLASTIC FURNITURE FACTORY SCENE
+    // =========================================================================
+    (function initCNCWorkshop3DWebGL() {
       const canvas = document.getElementById('ambientParticleCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let W = 0, H = 0, t = 0;
-      const chips = [];
+      if (!canvas || typeof THREE === 'undefined') return;
 
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0B161E);
+      scene.fog = new THREE.FogExp2(0x0B161E, 0.015);
+
+      const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 160);
+      camera.position.set(1.2, 5.2, 16.5);
+
+      scene.add(new THREE.AmbientLight(0x90B8D8, 0.72));
+      scene.add(new THREE.HemisphereLight(0xD6EEFF, 0x1E2D38, 0.65));
+
+      const mainSpot = new THREE.DirectionalLight(0xFFF3DE, 1.35);
+      mainSpot.position.set(7, 16, 11);
+      mainSpot.castShadow = true;
+      mainSpot.shadow.mapSize.width = 1024;
+      mainSpot.shadow.mapSize.height = 1024;
+      scene.add(mainSpot);
+
+      const cncSpindleLight = new THREE.PointLight(0xFFAA33, 2.2, 9);
+      cncSpindleLight.position.set(-5.5, 2.2, 0.5);
+      scene.add(cncSpindleLight);
+
+      const matDarkTeal = new THREE.MeshStandardMaterial({ color: 0x1B3B4B, roughness: 0.35, metalness: 0.65 });
+      const matSteel = new THREE.MeshStandardMaterial({ color: 0x8CA0AE, roughness: 0.25, metalness: 0.85 });
+      const matChrome = new THREE.MeshStandardMaterial({ color: 0xE2EEF5, roughness: 0.12, metalness: 0.95 });
+      const matGoldMetal = new THREE.MeshStandardMaterial({ color: 0xD49B4B, roughness: 0.28, metalness: 0.78 });
+      const matWhitePlastic = new THREE.MeshStandardMaterial({ color: 0xF5F9FC, roughness: 0.16, metalness: 0.08 });
+      const matOakWood = new THREE.MeshStandardMaterial({ color: 0xC6935A, roughness: 0.42, metalness: 0.08 });
+      const matWalnut = new THREE.MeshStandardMaterial({ color: 0x5D3E24, roughness: 0.48, metalness: 0.1 });
+      const matDarkBed = new THREE.MeshStandardMaterial({ color: 0x121B22, roughness: 0.7, metalness: 0.3 });
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(70, 50),
+        new THREE.MeshStandardMaterial({ color: 0x13222D, roughness: 0.24, metalness: 0.32 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.receiveShadow = true;
+      scene.add(floor);
+
+      const gridHelper = new THREE.GridHelper(56, 56, 0x2F5C73, 0x1B3646);
+      gridHelper.position.y = 0.01;
+      scene.add(gridHelper);
+
+      // Station 1: 3D CNC Router (Left)
+      const cncGroup = new THREE.Group();
+      cncGroup.position.set(-5.6, 0, 0.4);
+      scene.add(cncGroup);
+
+      const bedChassis = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.75, 6.2), matDarkTeal);
+      bedChassis.position.y = 0.62;
+      bedChassis.castShadow = true;
+      cncGroup.add(bedChassis);
+
+      const vacTable = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.1, 5.6), matDarkBed);
+      vacTable.position.y = 1.05;
+      cncGroup.add(vacTable);
+
+      const pvcSheet = new THREE.Mesh(new THREE.BoxGeometry(3.5, 0.09, 4.8), matWhitePlastic);
+      pvcSheet.position.y = 1.14;
+      cncGroup.add(pvcSheet);
+
+      const gantryBridge = new THREE.Group();
+      cncGroup.add(gantryBridge);
+      [-2.35, 2.35].forEach(gx => {
+        const up = new THREE.Mesh(new THREE.BoxGeometry(0.24, 1.45, 0.55), matGoldMetal);
+        up.position.set(gx, 1.65, 0);
+        gantryBridge.add(up);
+      });
+      const xBeam = new THREE.Mesh(new THREE.BoxGeometry(5.1, 0.38, 0.42), matDarkTeal);
+      xBeam.position.set(0, 2.25, 0);
+      gantryBridge.add(xBeam);
+
+      const spindleCarriage = new THREE.Group();
+      spindleCarriage.position.set(0, 2.25, 0);
+      gantryBridge.add(spindleCarriage);
+      const carriageBox = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.65, 0.34), matGoldMetal);
+      carriageBox.position.set(0, 0, 0.28);
+      spindleCarriage.add(carriageBox);
+
+      const zHeadGroup = new THREE.Group();
+      spindleCarriage.add(zHeadGroup);
+      const motorBody = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.72, 20), matChrome);
+      motorBody.position.set(0, -0.1, 0.44);
+      zHeadGroup.add(motorBody);
+      const routerBit = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.32, 12), matGoldMetal);
+      routerBit.rotation.x = Math.PI;
+      routerBit.position.set(0, -0.68, 0.44);
+      zHeadGroup.add(routerBit);
+
+      // Station 2: 3D Edge Banding Conveyor (Center)
+      const convGroup = new THREE.Group();
+      convGroup.position.set(0.3, 0, 0.2);
+      scene.add(convGroup);
+      const convTable = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.22, 1.7), matDarkTeal);
+      convTable.position.y = 1.05;
+      convGroup.add(convTable);
+      const banderHood = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.95, 1.82), matDarkTeal);
+      banderHood.position.set(0, 1.62, 0);
+      convGroup.add(banderHood);
+
+      const movingPanels = [];
+      for (let i = 0; i < 2; i++) {
+        const p = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.08, 0.95), i === 0 ? matWhitePlastic : matOakWood);
+        p.position.set(-1.5 + i * 2.2, 1.24, 0);
+        convGroup.add(p);
+        movingPanels.push(p);
       }
-      resize();
-      window.addEventListener('resize', resize);
 
-      function drawWorker2D(x, y, scale, poseTime, isDrilling, flipX) {
-        ctx.save();
-        ctx.translate(x, y);
-        if (flipX) ctx.scale(-scale, scale); else ctx.scale(scale, scale);
-        const bob = Math.sin(poseTime * 4) * 2;
-        ctx.strokeStyle = '#2B4C5E'; ctx.lineWidth = 7; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(-6, -28); ctx.lineTo(-9, 0); ctx.moveTo(6, -28); ctx.lineTo(9, 0); ctx.stroke();
-        ctx.fillStyle = '#2C5E6E'; ctx.beginPath(); ctx.roundRect(-13, -64 + bob, 26, 38, 6); ctx.fill();
-        ctx.fillStyle = '#E5B46B'; ctx.fillRect(-13, -44 + bob, 26, 4);
-        ctx.fillStyle = '#F3C69F'; ctx.beginPath(); ctx.arc(0, -76 + bob, 9.5, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#E9B44C'; ctx.beginPath(); ctx.arc(0, -79 + bob, 10.5, Math.PI, 0); ctx.fill(); ctx.fillRect(-12, -80 + bob, 24, 3);
-        ctx.save();
-        ctx.translate(6, -56 + bob);
-        ctx.rotate(isDrilling ? -0.35 + Math.sin(poseTime * 6) * 0.22 : -0.25 + Math.cos(poseTime * 3) * 0.18);
-        ctx.strokeStyle = '#2C5E6E'; ctx.lineWidth = 6.5;
-        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(22, 0); ctx.stroke();
-        if (isDrilling) {
-          ctx.fillStyle = '#D9822B'; ctx.fillRect(22, -6, 13, 8);
-        }
-        ctx.restore();
-        ctx.restore();
+      // Station 3: 3D Tall Wardrobe Cabinet (Right)
+      const cabGroup = new THREE.Group();
+      cabGroup.position.set(6.2, 0, -0.3);
+      scene.add(cabGroup);
+      const cabBack = new THREE.Mesh(new THREE.BoxGeometry(4.2, 4.5, 0.08), matWhitePlastic);
+      cabBack.position.set(0, 2.43, -0.66);
+      cabGroup.add(cabBack);
+      [-2.06, -0.68, 0.68, 2.06].forEach(vx => {
+        const wall = new THREE.Mesh(new THREE.BoxGeometry(0.08, 4.5, 1.4), matWhitePlastic);
+        wall.position.set(vx, 2.43, 0);
+        cabGroup.add(wall);
+      });
+      [0.22, 1.35, 2.45, 3.65, 4.65].forEach(sy => {
+        const shelf = new THREE.Mesh(new THREE.BoxGeometry(4.12, 0.07, 1.36), matOakWood);
+        shelf.position.set(0, sy, 0);
+        cabGroup.add(shelf);
+      });
+
+      const swingDoorPivot = new THREE.Group();
+      swingDoorPivot.position.set(0.68, 1.9, 0.70);
+      cabGroup.add(swingDoorPivot);
+      const swingDoor = new THREE.Mesh(new THREE.BoxGeometry(1.32, 3.3, 0.06), matOakWood);
+      swingDoor.position.set(0.66, 0, 0);
+      swingDoorPivot.add(swingDoor);
+
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+        const gZ = Math.sin(t * 1.15) * 1.85;
+        const cX = Math.cos(t * 2.3) * 1.25;
+        gantryBridge.position.z = gZ;
+        spindleCarriage.position.x = cX;
+        zHeadGroup.position.y = -0.18 + Math.sin(t * 6.5) * 0.05;
+        cncSpindleLight.position.set(-5.6 + cX, 1.45, 0.4 + gZ + 0.44);
+
+        movingPanels.forEach((p, idx) => {
+          const cycle = ((t * 0.55 + idx * 0.5) % 1);
+          p.position.x = -1.9 + cycle * 3.8;
+        });
+        swingDoorPivot.rotation.y = 0.25 + (Math.sin(t * 1.2) + 1) * 0.35;
+
+        camera.position.x = 1.2 + Math.sin(t * 0.25) * 0.6;
+        camera.lookAt(0.4, 2.1, -0.4);
+        renderer.render(scene, camera);
       }
+      animate();
 
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        t += 0.022;
-        const scale = Math.max(W / 1400, H / 680);
-        ctx.save();
-        ctx.translate((W - 1400 * scale) * 0.5, (H - 680 * scale) * 0.5);
-        ctx.scale(scale, scale);
-        ctx.globalAlpha = 0.42;
-
-        const floorY = 535;
-        ctx.fillStyle = '#DFEBF2'; ctx.fillRect(0, 0, 1400, floorY);
-        ctx.fillStyle = '#D2E2EC'; ctx.fillRect(0, floorY, 1400, 200);
-
-        // CNC Machine (Left)
-        const cncBaseX = 120, cncBaseY = 395, cncW = 360;
-        ctx.fillStyle = '#315A6E'; ctx.fillRect(cncBaseX, cncBaseY + 35, cncW, 75);
-        ctx.fillStyle = '#F4F8FA'; ctx.fillRect(cncBaseX + 24, cncBaseY + 6, cncW - 48, 22);
-        const gantryX = cncBaseX + 60 + ((Math.sin(t * 1.3) + 1) * 0.5) * (cncW - 130);
-        ctx.fillStyle = '#C89B65';
-        ctx.fillRect(gantryX - 38, cncBaseY - 82, 12, 112);
-        ctx.fillRect(gantryX + 38, cncBaseY - 82, 12, 112);
-        ctx.fillStyle = '#204254'; ctx.fillRect(gantryX - 44, cncBaseY - 92, 100, 22);
-        const headX = gantryX + Math.cos(t * 2.7) * 20;
-        ctx.fillStyle = '#E2A64B'; ctx.fillRect(headX - 11, cncBaseY - 78, 22, 54);
-
-        // Conveyor (Center)
-        const convX = 515, convY = 445, convW = 285;
-        ctx.fillStyle = '#356075'; ctx.fillRect(convX, convY, convW, 16);
-        ctx.fillStyle = '#2C5E6E'; ctx.fillRect(convX + 95, convY - 58, 96, 58);
-
-        // Tall Wardrobe Assembly (Right)
-        const cabX = 935, cabY = 185, cabW = 240, cabH = 340;
-        ctx.fillStyle = '#FFFFFF'; ctx.strokeStyle = '#C89B65'; ctx.lineWidth = 3;
-        ctx.fillRect(cabX, cabY, cabW, cabH); ctx.strokeRect(cabX, cabY, cabW, cabH);
-        drawWorker2D(cabX - 36, floorY, 1.35, t, true, false);
-        drawWorker2D(cabX + cabW + 46, floorY, 1.35, t + 1.5, false, true);
-
-        ctx.restore();
-        requestAnimationFrame(draw);
-      }
-      requestAnimationFrame(draw);
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
     })();
   </script>
 </body>

@@ -403,14 +403,14 @@ img {
   color: #fff;
 }
 
-/* Hero Section with Live 2D CNC Workshop Video Background */
+/* Hero Section with Live 3D WebGL CNC Workshop Video Simulation */
 .hero {
   position: relative;
-  min-height: 640px;
+  min-height: 660px;
   display: flex;
   align-items: center;
   background-image: none !important;
-  background-color: #10212B !important;
+  background-color: transparent !important;
   color: #fff;
   overflow: hidden;
 }
@@ -418,7 +418,7 @@ img {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(12, 25, 34, 0.84) 0%, rgba(12, 25, 34, 0.52) 45%, rgba(12, 25, 34, 0.14) 100%);
+  background: linear-gradient(90deg, rgba(8, 18, 26, 0.84) 0%, rgba(8, 18, 26, 0.44) 44%, rgba(8, 18, 26, 0.08) 100%);
   z-index: 2;
   pointer-events: none;
 }
