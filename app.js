@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'MOC_AN_PLASTIC_CATALOG_V3';
 const ADMIN_AUTH_SESSION = 'MOC_AN_ADMIN_SESSION_V2';
 const GH_CONFIG_KEY = 'MOC_AN_GITHUB_SYNC_CONFIG';
+const INQUIRY_CLOUD_TOPIC = 'tuankhai_noithat_orders_sync_v3';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
 const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
@@ -127,7 +128,8 @@ const FALLBACK_DATA = {
       description: 'Kệ trang trí phòng khách, vách ngăn cầu thang hoặc tủ giày thông minh bằng nhựa cao cấp không bám mùi, dễ dàng lau rửa bằng nước mà không lo bong tróc.'
     }
   ],
-  orders: []
+  orders: [],
+  deletedOrderIds: []
 };
 
 let storeData = structuredClone(FALLBACK_DATA);
@@ -146,34 +148,65 @@ function getProductImages(prod) {
   return [prod.image].filter(Boolean);
 }
 
+function mergeOrders(localOrders = [], remoteOrders = [], deletedIds = []) {
+  const delSet = new Set(deletedIds || []);
+  const map = new Map();
+  [...(localOrders || []), ...(remoteOrders || [])].forEach(o => {
+    if (!o) return;
+    const key = o.id || `${o.phone}_${o.time}`;
+    if (delSet.has(key)) return;
+    if (!map.has(key)) {
+      map.set(key, { ...o, id: key });
+    }
+  });
+  return Array.from(map.values());
+}
+
 async function fetchRemoteCatalogData() {
   let owner = 'ngclaam4444';
   let repo = 'noithattuankhai';
   let branch = 'main';
+  let token = '';
   try {
     const cfg = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || '{}');
     if (cfg.owner) owner = cfg.owner;
     if (cfg.repo) repo = cfg.repo;
     if (cfg.branch) branch = cfg.branch;
+    if (cfg.token) token = cfg.token;
   } catch (e) {}
 
-  // 1. Try GitHub API first for instant real-time sync (0s delay on mobile & desktop)
-  try {
-    const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
-      cache: 'no-store',
-      headers: { Accept: 'application/vnd.github+json' }
-    });
-    if (apiRes.ok) {
-      const info = await apiRes.json();
-      if (info && info.content) {
-        const cleanB64 = info.content.replace(/\s/g, '');
-        const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
-        return JSON.parse(jsonStr);
+  // 1. If token is available locally, use authenticated GitHub API (5000 req/hr, 0s delay)
+  if (token) {
+    try {
+      const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github+json'
+        }
+      });
+      if (apiRes.ok) {
+        const info = await apiRes.json();
+        if (info && info.content) {
+          const cleanB64 = info.content.replace(/\s/g, '');
+          const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
+          return JSON.parse(jsonStr);
+        }
       }
+    } catch (e) {}
+  }
+
+  // 2. Fetch from raw.githubusercontent.com (no 60-req/hr API limit)
+  try {
+    const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data.json?t=${Date.now()}`, {
+      cache: 'no-store'
+    });
+    if (rawRes.ok) {
+      return await rawRes.json();
     }
   } catch (e) {}
 
-  // 2. Fallback to local/static data.json
+  // 3. Fallback to local/static data.json
   try {
     const res = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
@@ -185,7 +218,6 @@ async function fetchRemoteCatalogData() {
 }
 
 async function initStoreData() {
-  // Check URL category filter (?cat=...)
   const params = new URLSearchParams(window.location.search);
   const urlCat = params.get('cat');
   if (urlCat) {
@@ -211,30 +243,34 @@ async function initStoreData() {
   renderCategories();
   renderProducts();
 
-  // Fetch latest remote data from GitHub / data.json
   const remoteData = await fetchRemoteCatalogData();
   if (remoteData) {
     const localUpdated = (localParsed && Number(localParsed.updatedAt)) || 0;
     const remoteUpdated = Number(remoteData.updatedAt) || 0;
+    const mergedDeleted = [...new Set([...(localParsed?.deletedOrderIds || []), ...(remoteData.deletedOrderIds || [])])];
+    const combinedOrders = mergeOrders(localParsed?.orders, remoteData.orders, mergedDeleted);
 
-    // ONLY overwrite local data if there is no local data yet, OR if remote data on GitHub is STRICTLY NEWER than local data!
     if (!localParsed || remoteUpdated > localUpdated) {
       storeData = {
         ...FALLBACK_DATA,
         ...remoteData,
         brand: { ...FALLBACK_DATA.brand, ...(remoteData.brand || {}) },
         contact: { ...FALLBACK_DATA.contact, ...(remoteData.contact || {}) },
-        orders: (localParsed && Array.isArray(localParsed.orders) && localParsed.orders.length > (remoteData.orders || []).length)
-          ? localParsed.orders
-          : (remoteData.orders || [])
+        orders: combinedOrders,
+        deletedOrderIds: mergedDeleted
       };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-      } catch (e) {}
-      renderSiteConfig();
-      renderCategories();
-      renderProducts();
+    } else {
+      storeData.orders = combinedOrders;
+      storeData.deletedOrderIds = mergedDeleted;
     }
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+    } catch (e) {}
+    renderAdminBar();
+    renderSiteConfig();
+    renderCategories();
+    renderProducts();
   }
 }
 
@@ -242,15 +278,96 @@ function renderAdminBar() {
   const adminBar = document.getElementById('adminQuickBar');
   if (!adminBar) return;
   adminBar.style.display = isAdminLogged() ? 'block' : 'none';
+  const countEl = document.getElementById('adminBarOrderCount');
+  if (countEl) {
+    countEl.textContent = (storeData.orders || []).length;
+  }
 }
 
-function saveCustomerInquiry(newInquiry) {
+async function pushStoreDataToGitHubIfConfigured() {
+  try {
+    const cfg = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || '{}');
+    if (!cfg.owner || !cfg.repo || !cfg.token) return;
+    const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/data.json`;
+    const branch = cfg.branch || 'main';
+
+    let sha = undefined;
+    const getRes = await fetch(`${apiUrl}?ref=${branch}&t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${cfg.token}`,
+        Accept: 'application/vnd.github+json'
+      }
+    });
+    if (getRes.ok) {
+      const info = await getRes.json();
+      sha = info.sha;
+    }
+
+    const jsonString = JSON.stringify(storeData, null, 2);
+    const bytes = new TextEncoder().encode(jsonString);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64Content = btoa(binary);
+
+    await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${cfg.token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Khách gửi yêu cầu báo giá mới (${new Date().toLocaleString('vi-VN')})`,
+        content: base64Content,
+        branch,
+        ...(sha ? { sha } : {})
+      })
+    });
+  } catch (e) {}
+}
+
+async function saveCustomerInquiry(newInquiry) {
+  const inquiryWithId = {
+    id: 'inq_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    ...newInquiry
+  };
+
+  // Read freshest localStorage first so we never lose existing data
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      storeData = { ...storeData, ...parsed };
+    }
+  } catch (e) {}
+
   if (!Array.isArray(storeData.orders)) storeData.orders = [];
-  storeData.orders.unshift(newInquiry);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+  storeData.orders.unshift(inquiryWithId);
+  storeData.updatedAt = Date.now();
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+  } catch (e) {}
+
+  renderAdminBar();
+
   if (syncChannel) {
     syncChannel.postMessage({ type: 'DATA_UPDATED', data: storeData });
   }
+
+  // Send to public cloud relay so Admin receives inquiries from ANY customer phone/PC
+  try {
+    fetch(`https://ntfy.sh/${INQUIRY_CLOUD_TOPIC}`, {
+      method: 'POST',
+      body: JSON.stringify(inquiryWithId)
+    }).catch(() => {});
+  } catch (e) {}
+
+  // Also push directly to GitHub if Admin Token is configured on this browser
+  pushStoreDataToGitHubIfConfigured();
 }
 
 function showToast(msg) {
@@ -273,7 +390,6 @@ function renderSiteConfig() {
   document.getElementById('brandTaglineText').textContent = brand.tagline;
   document.getElementById('topbarPromo').textContent = brand.topbarPromo;
 
-  // Always show Logo on both Desktop & Mobile (Custom Logo if uploaded, otherwise Luxury TK Emblem)
   const activeLogoSrc = (brand.logoUrl && brand.logoUrl.trim() !== '') ? brand.logoUrl.trim() : DEFAULT_LOGO_SVG;
   const logoImg = document.getElementById('brandLogoImg');
   if (logoImg) {
@@ -447,6 +563,7 @@ function reloadFromLocalStorage() {
       brand: { ...FALLBACK_DATA.brand, ...(parsed.brand || {}) },
       contact: { ...FALLBACK_DATA.contact, ...(parsed.contact || {}) }
     };
+    renderAdminBar();
     renderSiteConfig();
     renderCategories();
     renderProducts();
@@ -514,6 +631,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     e.target.reset();
-    showToast('✅ Đã gửi yêu cầu báo giá! Kỹ thuật viên sẽ liên hệ với bạn sớm nhất.');
+    showToast('✅ Đã gửi yêu cầu báo giá! Đã chuyển về hệ thống Quản trị.');
   });
 });

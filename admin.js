@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'MOC_AN_PLASTIC_CATALOG_V3';
 const ADMIN_AUTH_SESSION = 'MOC_AN_ADMIN_SESSION_V2';
 const GH_CONFIG_KEY = 'MOC_AN_GITHUB_SYNC_CONFIG';
+const INQUIRY_CLOUD_TOPIC = 'tuankhai_noithat_orders_sync_v3';
 const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('moc_an_live_sync') : null;
 
 const DEFAULT_LOGO_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232C5E6E'/%3E%3Cstop offset='100%25' stop-color='%2316323B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Crect x='7' y='7' width='106' height='106' rx='20' fill='none' stroke='%23C89B65' stroke-width='2.5' stroke-opacity='0.75'/%3E%3Ctext x='60' y='73' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='1'%3ETK%3C/text%3E%3Cline x1='34' y1='88' x2='86' y2='88' stroke='%23C89B65' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E";
@@ -131,7 +132,8 @@ const DEFAULT_DATA = {
       description: 'Kệ trang trí phòng khách, vách ngăn cầu thang hoặc tủ giày thông minh bằng nhựa cao cấp không bám mùi, dễ dàng lau rửa bằng nước mà không lo bong tróc.'
     }
   ],
-  orders: []
+  orders: [],
+  deletedOrderIds: []
 };
 
 let storeData = structuredClone(DEFAULT_DATA);
@@ -170,23 +172,102 @@ function getProductImages(prod) {
   return [prod.image].filter(Boolean);
 }
 
+function mergeOrders(localOrders = [], remoteOrders = [], deletedIds = []) {
+  const delSet = new Set(deletedIds || []);
+  const map = new Map();
+  [...(localOrders || []), ...(remoteOrders || [])].forEach(o => {
+    if (!o) return;
+    const key = o.id || `${o.phone}_${o.time}`;
+    if (delSet.has(key)) return;
+    if (!map.has(key)) {
+      map.set(key, { ...o, id: key });
+    }
+  });
+  return Array.from(map.values());
+}
+
+async function fetchCloudInquiries() {
+  try {
+    const res = await fetch(`https://ntfy.sh/${INQUIRY_CLOUD_TOPIC}/json?poll=1&since=all`, {
+      cache: 'no-store'
+    });
+    if (!res.ok) return [];
+    const text = await res.text();
+    const lines = text.split('\n').filter(Boolean);
+    const list = [];
+    for (const line of lines) {
+      try {
+        const ev = JSON.parse(line);
+        if (ev.event === 'message' && ev.message) {
+          const inq = JSON.parse(ev.message);
+          if (inq && inq.name && inq.phone) {
+            list.unshift(inq);
+          }
+        }
+      } catch (e) {}
+    }
+    return list;
+  } catch (e) {
+    return [];
+  }
+}
+
+function startLiveInquiryStream() {
+  if (typeof EventSource === 'undefined') return;
+  try {
+    const es = new EventSource(`https://ntfy.sh/${INQUIRY_CLOUD_TOPIC}/sse`);
+    es.onmessage = ev => {
+      try {
+        const payload = JSON.parse(ev.data);
+        if (payload && payload.message) {
+          const inq = JSON.parse(payload.message);
+          if (inq && inq.name && inq.phone) {
+            const merged = mergeOrders([inq], storeData.orders, storeData.deletedOrderIds);
+            if (merged.length > (storeData.orders || []).length) {
+              storeData.orders = merged;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+              populateAllFields();
+              showToast(`🔔 Khách hàng ${inq.name} (${inq.phone}) vừa gửi yêu cầu báo giá mới!`);
+            }
+          }
+        }
+      } catch (e) {}
+    };
+  } catch (e) {}
+}
+
 async function fetchRemoteCatalogData() {
   const owner = ghConfig.owner || 'ngclaam4444';
   const repo = ghConfig.repo || 'noithattuankhai';
   const branch = ghConfig.branch || 'main';
+  const token = ghConfig.token || '';
+
+  if (token) {
+    try {
+      const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github+json'
+        }
+      });
+      if (apiRes.ok) {
+        const info = await apiRes.json();
+        if (info && info.content) {
+          const cleanB64 = info.content.replace(/\s/g, '');
+          const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
+          return JSON.parse(jsonStr);
+        }
+      }
+    } catch (e) {}
+  }
 
   try {
-    const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?ref=${branch}&t=${Date.now()}`, {
-      cache: 'no-store',
-      headers: { Accept: 'application/vnd.github+json' }
+    const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data.json?t=${Date.now()}`, {
+      cache: 'no-store'
     });
-    if (apiRes.ok) {
-      const info = await apiRes.json();
-      if (info && info.content) {
-        const cleanB64 = info.content.replace(/\s/g, '');
-        const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(cleanB64), c => c.charCodeAt(0)));
-        return JSON.parse(jsonStr);
-      }
+    if (rawRes.ok) {
+      return await rawRes.json();
     }
   } catch (e) {}
 
@@ -216,27 +297,79 @@ async function initAdminData() {
   }
 
   populateAllFields();
+  handleUrlActions();
 
-  const remoteData = await fetchRemoteCatalogData();
+  // Pull both GitHub data.json AND Cloud Inquiry Relay in parallel
+  const [remoteData, cloudInquiries] = await Promise.all([
+    fetchRemoteCatalogData(),
+    fetchCloudInquiries()
+  ]);
+
+  const mergedDeleted = [...new Set([
+    ...(storeData.deletedOrderIds || []),
+    ...(localParsed?.deletedOrderIds || []),
+    ...(remoteData?.deletedOrderIds || [])
+  ])];
+
+  let combinedOrders = mergeOrders(storeData.orders, localParsed?.orders, mergedDeleted);
+  if (remoteData && Array.isArray(remoteData.orders)) {
+    combinedOrders = mergeOrders(combinedOrders, remoteData.orders, mergedDeleted);
+  }
+  if (Array.isArray(cloudInquiries) && cloudInquiries.length > 0) {
+    combinedOrders = mergeOrders(cloudInquiries, combinedOrders, mergedDeleted);
+  }
+
   if (remoteData) {
     const localUpdated = (localParsed && Number(localParsed.updatedAt)) || 0;
     const remoteUpdated = Number(remoteData.updatedAt) || 0;
-    // Never overwrite local data unless remote data on GitHub is STRICTLY NEWER than local data
     if (!localParsed || remoteUpdated > localUpdated) {
       storeData = {
         ...DEFAULT_DATA,
         ...remoteData,
         brand: { ...DEFAULT_DATA.brand, ...(remoteData.brand || {}) },
-        contact: { ...DEFAULT_DATA.contact, ...(remoteData.contact || {}) }
+        contact: { ...DEFAULT_DATA.contact, ...(remoteData.contact || {}) },
+        orders: combinedOrders,
+        deletedOrderIds: mergedDeleted
       };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
-      } catch (e) {}
-      populateAllFields();
+    } else {
+      storeData.orders = combinedOrders;
+      storeData.deletedOrderIds = mergedDeleted;
     }
+  } else {
+    storeData.orders = combinedOrders;
+    storeData.deletedOrderIds = mergedDeleted;
   }
 
-  handleUrlActions();
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+  } catch (e) {}
+
+  populateAllFields();
+  startLiveInquiryStream();
+}
+
+async function refreshInquiriesOnFocus() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const mergedDeleted = [...new Set([...(storeData.deletedOrderIds || []), ...(parsed.deletedOrderIds || [])])];
+      storeData.deletedOrderIds = mergedDeleted;
+      storeData.orders = mergeOrders(parsed.orders, storeData.orders, mergedDeleted);
+    }
+  } catch (e) {}
+
+  const cloudInquiries = await fetchCloudInquiries();
+  if (cloudInquiries.length > 0) {
+    storeData.orders = mergeOrders(cloudInquiries, storeData.orders, storeData.deletedOrderIds);
+  }
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storeData));
+  } catch (e) {}
+
+  renderOrdersList();
+  updateOrderBadgesAndBanner();
 }
 
 function handleUrlActions() {
@@ -329,6 +462,17 @@ function updateLiveHeaderPreview() {
 }
 
 function collectFormIntoStoreData() {
+  // Always merge latest orders from localStorage first so we never lose customer inquiries
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const mergedDeleted = [...new Set([...(storeData.deletedOrderIds || []), ...(parsed.deletedOrderIds || [])])];
+      storeData.deletedOrderIds = mergedDeleted;
+      storeData.orders = mergeOrders(parsed.orders, storeData.orders, mergedDeleted);
+    }
+  } catch (e) {}
+
   storeData.brand = {
     name: document.getElementById('cfgBrandName').value.trim() || 'TUẤN KHẢI',
     tagline: document.getElementById('cfgBrandTagline').value.trim() || 'NỘI THẤT NHỰA CAO CẤP',
@@ -464,16 +608,32 @@ function exportDataJsonFile() {
   showToast('📥 Đã tải xuống file data.json mới nhất!');
 }
 
-function populateAllFields() {
-  const { brand, contact, adminAuth, products, orders } = storeData;
+function updateOrderBadgesAndBanner() {
+  const orderList = storeData.orders || [];
+  document.getElementById('statInquiries').textContent = orderList.length;
+  document.getElementById('navOrderBadge').textContent = orderList.length;
 
-  const orderList = orders || [];
+  const banner = document.getElementById('recentInquiriesBanner');
+  if (banner) {
+    if (orderList.length > 0) {
+      const latest = orderList[0];
+      banner.style.display = 'flex';
+      document.getElementById('recentInqTitle').textContent = `🔔 Có ${orderList.length} yêu cầu báo giá từ khách hàng! (Mới nhất: ${latest.name} — ${latest.phone})`;
+      document.getElementById('recentInqSummary').textContent = `${latest.details || ''} (${latest.time || ''})`;
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+}
+
+function populateAllFields() {
+  const { brand, contact, adminAuth, products } = storeData;
+
   const cats = new Set((products || []).map(p => p.category).filter(Boolean));
 
   document.getElementById('statProducts').textContent = (products || []).length;
   document.getElementById('statCategories').textContent = Math.max(5, cats.size);
-  document.getElementById('statInquiries').textContent = orderList.length;
-  document.getElementById('navOrderBadge').textContent = orderList.length;
+  updateOrderBadgesAndBanner();
 
   document.getElementById('cfgBrandName').value = brand.name || 'TUẤN KHẢI';
   document.getElementById('cfgBrandTagline').value = brand.tagline || 'NỘI THẤT NHỰA CAO CẤP';
@@ -613,6 +773,12 @@ function renderOrdersList() {
   container.querySelectorAll('[data-ord-del]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = Number(btn.dataset.ordDel);
+      const removed = storeData.orders[idx];
+      if (removed) {
+        const key = removed.id || `${removed.phone}_${removed.time}`;
+        if (!Array.isArray(storeData.deletedOrderIds)) storeData.deletedOrderIds = [];
+        storeData.deletedOrderIds.push(key);
+      }
       storeData.orders.splice(idx, 1);
       saveAndPublishAll('🗑️ Đã xoá yêu cầu!');
     });
@@ -678,7 +844,6 @@ function compressImageFile(file, isLogo = false) {
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, w, h);
-        // Preserve PNG transparency for Logo if PNG
         if (isLogo && file.type === 'image/png') {
           resolve(canvas.toDataURL('image/png'));
         } else {
@@ -718,7 +883,7 @@ if (syncChannel) {
     if (ev.data && ev.data.type === 'DATA_UPDATED') {
       storeData = ev.data.data;
       populateAllFields();
-      showToast('🔔 Dữ liệu vừa được cập nhật trực tiếp!');
+      showToast('🔔 Có yêu cầu báo giá / dữ liệu mới vừa cập nhật!');
     }
   };
 }
@@ -730,6 +895,10 @@ window.addEventListener('storage', e => {
       populateAllFields();
     } catch (err) {}
   }
+});
+
+window.addEventListener('focus', () => {
+  refreshInquiriesOnFocus();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -763,6 +932,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nav-item').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
+
+  document.getElementById('kpiProductsCard')?.addEventListener('click', () => switchTab('pane-products'));
+  document.getElementById('kpiInquiriesCard')?.addEventListener('click', () => switchTab('pane-orders'));
+  document.getElementById('jumpToInquiriesBtn')?.addEventListener('click', () => switchTab('pane-orders'));
 
   document.getElementById('ghStatusPill').addEventListener('click', () => {
     switchTab('pane-cloud');
