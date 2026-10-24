@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1792826445932,
+  "updatedAt": 1792826448991,
   "adminAuth": {
     "username": "admin",
     "password": "123456"
@@ -28,38 +28,7 @@
     "zalo": "https://zalo.me/0379629885",
     "instagram": "https://instagram.com"
   },
-  "products": [
-    {
-      "id": "p5",
-      "name": "Tủ Quần Áo Nhựa ChinHuei Đài Loan 4 Cánh Mở Kèm Bàn Trang Điểm",
-      "category": "Tủ quần áo",
-      "material": "Nhựa ChinHuei Chính Hãng Dày 2 Lớp | 200x240x55cm",
-      "badge": "Được ưa chuộng",
-      "image": "https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80"
-      ],
-      "description": "Thiết kế thông minh 2 trong 1 vừa làm tủ quần áo kịch trần vừa tích hợp bàn trang điểm gọn đẹp. Màu trắng kem phối vân gỗ sồi hiện đại, bản lề giảm chấn inox 304 đóng mở êm ái."
-    },
-    {
-      "id": "p6",
-      "name": "Hệ Kệ Trang Trí & Tủ Giày Kịch Trần Nhựa Cao Cấp",
-      "category": "Kệ trang trí",
-      "material": "Nhựa Ecoplast Chống Nước, Dễ Vệ Sinh | Đặt đóng theo kích thước",
-      "badge": "Thiết kế thông minh",
-      "image": "https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1591129841117-3adfd313e34f?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1000&q=80"
-      ],
-      "description": "Kệ trang trí phòng khách, vách ngăn cầu thang hoặc tủ giày thông minh bằng nhựa cao cấp không bám mùi, dễ dàng lau rửa bằng nước mà không lo bong tróc."
-    }
-  ],
+  "products": [],
   "orders": [],
   "deletedOrderIds": [
     "inq_1792818580649_7j38"
